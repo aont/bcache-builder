@@ -1,7 +1,16 @@
 # bcache-builder
 
-Build `bcache.ko` as an external module for the standard Rocky Linux 9
-x86_64 kernel without rebuilding the kernel itself.
+> [!WARNING]
+> It is currently not possible to build `bcache.ko` independently for the
+> standard Rocky Linux 9 kernel with the approach in this repository. The
+> kernel's `CONFIG_BCACHE=n` configuration creates an incompatible
+> `task_struct` layout, and the remaining bcache source is incompatible with
+> backported EL9 block-layer APIs. See [error_analysis.md](error_analysis.md)
+> for the detailed investigation and possible alternatives.
+
+The intended goal of this project is to build `bcache.ko` as an external
+module for the standard Rocky Linux 9 x86_64 kernel without rebuilding the
+kernel itself.
 
 Rocky Linux 9's standard kernel may be configured with BCACHE disabled while
 CRC64 is built in:
@@ -17,9 +26,13 @@ package to build only `bcache.ko`. The module relies on the kernel's exported
 
 ## Automated build
 
-The **Build and release bcache.ko** GitHub Actions workflow builds a module for
-a specified Rocky Linux 9 kernel release and publishes it in a new GitHub
-release.
+The workflow described below documents the attempted build process, but it
+cannot currently produce a usable module because of the incompatibilities
+described above.
+
+The **Build and release bcache.ko** GitHub Actions workflow is designed to
+build a module for a specified Rocky Linux 9 kernel release and publish it in
+a new GitHub release.
 
 1. Open the repository's **Actions** tab.
 2. Select **Build and release bcache.ko**.
