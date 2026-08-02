@@ -40,7 +40,7 @@ jobs:
         run: |
           set -euo pipefail
           dnf install -y dnf-plugins-core rocky-repos rpm-build gcc make \
-            elfutils-libelf-devel binutils findutils git kmod python3
+            elfutils-libelf-devel binutils findutils git kmod python3-devel
           dnf install -y "kernel-devel-$KREL" "kernel-core-$KREL"
           dnf config-manager --set-enabled baseos-source
 

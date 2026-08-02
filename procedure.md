@@ -154,6 +154,7 @@ sudo dnf install -y \
     elfutils-libelf-devel \
     binutils \
     rpm-build \
+    python3-devel \
     dnf-plugins-core
 ```
 
@@ -340,7 +341,9 @@ rpmbuild -bp \
 
 This does not compile the kernel. It only extracts the source and applies the patches.
 
-If `rpmbuild -bp` fails because of missing commands or BuildRequires dependencies, install the build dependencies.
+The kernel SPEC uses `pathfix.py` during `%prep`. This command is provided by the `python3-devel` package installed above. If `%prep` reports `pathfix.py: command not found`, install `python3-devel` before retrying.
+
+If `rpmbuild -bp` fails because of other missing commands or BuildRequires dependencies, install the build dependencies.
 
 ```bash
 sudo dnf builddep -y "$SPEC"
