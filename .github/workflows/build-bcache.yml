@@ -1,0 +1,172 @@
+name: Build and release bcache.ko
+
+on:
+  workflow_dispatch:
+    inputs:
+      kernel_version:
+        description: Full Rocky Linux 9 x86_64 kernel release (for example, 5.14.0-503.40.1.el9_5.x86_64)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bcache-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: rockylinux:9
+    env:
+      KREL: ${{ inputs.kernel_version }}
+      ARCH: x86_64
+      TOP: /tmp/rpmbuild-bcache
+      WORK: /tmp/bcache-kmod
+
+    steps:
+      - name: Validate kernel release
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$KREL" =~ ^5\.14\.0-[0-9][0-9A-Za-z._+-]*\.el9([_.][0-9A-Za-z._+-]+)?\.x86_64$ ]] || {
+            echo "kernel_version is not a Rocky Linux 9 x86_64 kernel release: $KREL" >&2
+            exit 1
+          }
+
+      - name: Install build tools and matching kernel packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          dnf install -y dnf-plugins-core rocky-repos rpm-build gcc make \
+            elfutils-libelf-devel binutils findutils git kmod python3
+          dnf install -y "kernel-devel-$KREL" "kernel-core-$KREL"
+          dnf config-manager --set-enabled baseos-source
+
+      - name: Check out repository and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download and prepare matching Rocky kernel source
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          KDIR="/usr/src/kernels/$KREL"
+          test -f "$KDIR/Makefile"
+          test -s "$KDIR/Module.symvers"
+          grep -w crc64_be "$KDIR/Module.symvers"
+
+          mkdir -p /tmp/kernel-srpm "$TOP"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+          dnf --enablerepo=baseos-source download --source \
+            --downloaddir /tmp/kernel-srpm "kernel-core-$KREL"
+          SRPM="$(find /tmp/kernel-srpm -maxdepth 1 -name '*.src.rpm' -print -quit)"
+          test -n "$SRPM"
+          rpm -ivh --define "_topdir $TOP" "$SRPM"
+          SPEC="$(find "$TOP/SPECS" -maxdepth 1 -name '*.spec' -print -quit)"
+          test -f "$SPEC"
+          rpmbuild -bp --nodeps --define "_topdir $TOP" --target "$ARCH" "$SPEC"
+
+          BCACHE_MAKEFILE="$(find "$TOP/BUILD" -type f \
+            -path '*/drivers/md/bcache/Makefile' -print -quit)"
+          test -n "$BCACHE_MAKEFILE"
+          KSRC="${BCACHE_MAKEFILE%/drivers/md/bcache/Makefile}"
+          for file in \
+            drivers/md/bcache/Kconfig \
+            drivers/md/bcache/Makefile \
+            include/linux/crc64.h \
+            include/uapi/linux/bcache.h \
+            include/trace/events/bcache.h; do
+            test -f "$KSRC/$file"
+          done
+          echo "ksrc=$KSRC" >> "$GITHUB_OUTPUT"
+
+      - name: Build bcache.ko
+        shell: bash
+        run: |
+          set -euo pipefail
+          KDIR="/usr/src/kernels/$KREL"
+          KSRC="${{ steps.source.outputs.ksrc }}"
+          rm -rf "$WORK"
+          mkdir -p "$WORK/include/linux" "$WORK/include/uapi/linux" \
+            "$WORK/include/trace/events"
+          cp -a "$KSRC/drivers/md/bcache" "$WORK/"
+          cp "$KSRC/include/linux/crc64.h" "$WORK/include/linux/"
+          cp "$KSRC/include/uapi/linux/bcache.h" "$WORK/include/uapi/linux/"
+          cp "$KSRC/include/trace/events/bcache.h" "$WORK/include/trace/events/"
+          cat > "$WORK/Kbuild" <<'EOF'
+          obj-m += bcache/
+          ccflags-y += -I$(src)/include -I$(src)/include/uapi
+          subdir-ccflags-y += -I$(src)/include -I$(src)/include/uapi
+          EOF
+          make -C "$KDIR" M="$WORK" CONFIG_BCACHE=m -j"$(nproc)" modules
+
+          test -f "$WORK/bcache/bcache.ko"
+          test ! -f "$WORK/crc64.ko"
+          nm -u "$WORK/bcache/bcache.ko" | grep -w crc64_be
+          VERMAGIC="$(modinfo -F vermagic "$WORK/bcache/bcache.ko")"
+          [[ "$VERMAGIC" == "$KREL "* ]] || {
+            echo "Unexpected vermagic: $VERMAGIC" >&2
+            exit 1
+          }
+          install -D -m 0644 "$WORK/bcache/bcache.ko" \
+            "dist/bcache-$KREL.ko"
+          sha256sum "dist/bcache-$KREL.ko" > "dist/bcache-$KREL.ko.sha256"
+
+      - name: Select next SemVer tag
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          NEXT="$(python3 - <<'PY'
+          import re
+          import subprocess
+
+          pattern = re.compile(
+              r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+              r"(?:-((?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)"
+              r"(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*))?"
+              r"(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$"
+          )
+
+          def precedence(match):
+              major, minor, patch = map(int, match.group(1, 2, 3))
+              prerelease = match.group(4)
+              if prerelease is None:
+                  pre = ((2, ""),)
+              else:
+                  pre = tuple((0, int(item)) if item.isdigit() else (1, item)
+                              for item in prerelease.split("."))
+              return major, minor, patch, prerelease is None, pre
+
+          tags = subprocess.check_output(
+              ["git", "tag", "--list"], text=True
+          ).splitlines()
+          versions = [(precedence(match), match) for tag in tags
+                      if (match := pattern.fullmatch(tag))]
+          if not versions:
+              print("0.0.1")
+          else:
+              _, highest = max(versions, key=lambda item: item[0])
+              print(f"{int(highest.group(1))}.{int(highest.group(2))}."
+                    f"{int(highest.group(3)) + 1}")
+          PY
+          )"
+          git rev-parse "$NEXT" >/dev/null 2>&1 && {
+            echo "Calculated tag already exists: $NEXT" >&2
+            exit 1
+          }
+          echo "tag=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Next release tag: $NEXT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: bcache.ko for ${{ inputs.kernel_version }}
+          generate_release_notes: true
+          files: |
+            dist/bcache-${{ inputs.kernel_version }}.ko
+            dist/bcache-${{ inputs.kernel_version }}.ko.sha256
