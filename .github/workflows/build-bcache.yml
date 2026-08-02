@@ -41,7 +41,9 @@ jobs:
           set -euo pipefail
           dnf install -y dnf-plugins-core rocky-repos rpm-build gcc make \
             elfutils-libelf-devel binutils findutils git kmod python3-devel
-          dnf install -y "kernel-devel-$KREL" "kernel-core-$KREL"
+          dnf config-manager --set-enabled crb
+          dnf install -y system-sb-certs \
+            "kernel-devel-$KREL" "kernel-core-$KREL"
           dnf config-manager --set-enabled baseos-source
 
       - name: Check out repository and tags

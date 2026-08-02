@@ -147,6 +147,8 @@ The important point is that the provider of `crc64_be` is registered as `vmlinux
 Install the required packages.
 
 ```bash
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --set-enabled crb
 sudo dnf install -y \
     "kernel-devel-$KREL" \
     gcc \
@@ -155,7 +157,7 @@ sudo dnf install -y \
     binutils \
     rpm-build \
     python3-devel \
-    dnf-plugins-core
+    system-sb-certs
 ```
 
 The RHEL 9 external module build procedure also uses `kernel-devel-$(uname -r)`, `gcc`, and `elfutils-libelf-devel` matching the running kernel. ([Red Hat Documentation][1])
@@ -342,6 +344,13 @@ rpmbuild -bp \
 This does not compile the kernel. It only extracts the source and applies the patches.
 
 The kernel SPEC uses `pathfix.py` during `%prep`. This command is provided by the `python3-devel` package installed above. If `%prep` reports `pathfix.py: command not found`, install `python3-devel` before retrying.
+
+The SPEC also converts Rocky Linux Secure Boot certificates from
+`/usr/share/pki/sb-certs` while preparing the source. These files are provided
+by the `system-sb-certs` capability from Rocky Linux's CRB repository, enabled
+and installed above. If `%prep` reports that a certificate such as
+`kernel-dup1-x86_64.der` does not exist, enable CRB and install
+`system-sb-certs` before retrying.
 
 If `rpmbuild -bp` fails because of other missing commands or BuildRequires dependencies, install the build dependencies.
 
