@@ -1,0 +1,2022 @@
+﻿2026-08-02T03:13:33.1329724Z ##[group]Run set -euo pipefail
+2026-08-02T03:13:33.1330140Z [36;1mset -euo pipefail[0m
+2026-08-02T03:13:33.1330469Z [36;1mKDIR="/usr/src/kernels/$KREL"[0m
+2026-08-02T03:13:33.1330827Z [36;1mtest -f "$KDIR/Makefile"[0m
+2026-08-02T03:13:33.1331182Z [36;1mtest -s "$KDIR/Module.symvers"[0m
+2026-08-02T03:13:33.1331604Z [36;1mgrep -w crc64_be "$KDIR/Module.symvers"[0m
+2026-08-02T03:13:33.1331958Z [36;1m[0m
+2026-08-02T03:13:33.1332470Z [36;1mmkdir -p /tmp/kernel-srpm "$TOP"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}[0m
+2026-08-02T03:13:33.1333200Z [36;1mdnf --enablerepo=baseos-source download --source \[0m
+2026-08-02T03:13:33.1333740Z [36;1m  --downloaddir /tmp/kernel-srpm "kernel-core-$KREL"[0m
+2026-08-02T03:13:33.1334354Z [36;1mSRPM="$(find /tmp/kernel-srpm -maxdepth 1 -name '*.src.rpm' -print -quit)"[0m
+2026-08-02T03:13:33.1334868Z [36;1mtest -n "$SRPM"[0m
+2026-08-02T03:13:33.1335198Z [36;1mrpm -ivh --define "_topdir $TOP" "$SRPM"[0m
+2026-08-02T03:13:33.1336190Z [36;1mSPEC="$(find "$TOP/SPECS" -maxdepth 1 -name '*.spec' -print -quit)"[0m
+2026-08-02T03:13:33.1336740Z [36;1mtest -f "$SPEC"[0m
+2026-08-02T03:13:33.1337193Z [36;1mrpmbuild -bp --nodeps --define "_topdir $TOP" --target "$ARCH" "$SPEC"[0m
+2026-08-02T03:13:33.1337666Z [36;1m[0m
+2026-08-02T03:13:33.1338157Z [36;1mBCACHE_MAKEFILE="$(find "$TOP/BUILD" -type f \[0m
+2026-08-02T03:13:33.1338662Z [36;1m  -path '*/drivers/md/bcache/Makefile' -print -quit)"[0m
+2026-08-02T03:13:33.1339111Z [36;1mtest -n "$BCACHE_MAKEFILE"[0m
+2026-08-02T03:13:33.1339550Z [36;1mKSRC="${BCACHE_MAKEFILE%/drivers/md/bcache/Makefile}"[0m
+2026-08-02T03:13:33.1339975Z [36;1mfor file in \[0m
+2026-08-02T03:13:33.1340280Z [36;1m  drivers/md/bcache/Kconfig \[0m
+2026-08-02T03:13:33.1340653Z [36;1m  drivers/md/bcache/Makefile \[0m
+2026-08-02T03:13:33.1341009Z [36;1m  include/linux/crc64.h \[0m
+2026-08-02T03:13:33.1341354Z [36;1m  include/uapi/linux/bcache.h \[0m
+2026-08-02T03:13:33.1341736Z [36;1m  include/trace/events/bcache.h; do[0m
+2026-08-02T03:13:33.1342107Z [36;1m  test -f "$KSRC/$file"[0m
+2026-08-02T03:13:33.1342395Z [36;1mdone[0m
+2026-08-02T03:13:33.1342679Z [36;1mecho "ksrc=$KSRC" >> "$GITHUB_OUTPUT"[0m
+2026-08-02T03:13:33.1343194Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-08-02T03:13:33.1343553Z env:
+2026-08-02T03:13:33.1343776Z   KREL: 5.14.0-687.30.1.el9_8.x86_64
+2026-08-02T03:13:33.1344056Z   ARCH: x86_64
+2026-08-02T03:13:33.1344317Z   TOP: /tmp/rpmbuild-bcache
+2026-08-02T03:13:33.1344623Z   WORK: /tmp/bcache-kmod
+2026-08-02T03:13:33.1344894Z ##[endgroup]
+2026-08-02T03:13:33.1922003Z 0xeaf3cb23	crc64_be	vmlinux	EXPORT_SYMBOL_GPL	
+2026-08-02T03:13:33.3542463Z enabling appstream-source repository
+2026-08-02T03:13:33.3543696Z enabling crb-source repository
+2026-08-02T03:13:33.3546092Z enabling extras-source repository
+2026-08-02T03:13:33.5426749Z Rocky Linux 9 - BaseOS                           32 kB/s | 4.3 kB     00:00    
+2026-08-02T03:13:34.2957170Z Rocky Linux 9 - BaseOS - Source                 515 kB/s | 378 kB     00:00    
+2026-08-02T03:13:34.5925212Z Rocky Linux 9 - AppStream                        21 kB/s | 4.7 kB     00:00    
+2026-08-02T03:13:35.5429245Z Rocky Linux 9 - AppStream - Source              1.0 MB/s | 932 kB     00:00    
+2026-08-02T03:13:35.9062202Z Rocky Linux 9 - CRB                              20 kB/s | 4.7 kB     00:00    
+2026-08-02T03:13:37.1146854Z Rocky Linux 9 - CRB                             3.9 MB/s | 4.8 MB     00:01    
+2026-08-02T03:13:38.1843579Z Rocky Linux 9 - CRB - Source                    492 kB/s | 142 kB     00:00    
+2026-08-02T03:13:38.9593833Z Rocky Linux 9 - Extras Source                    19 kB/s |  14 kB     00:00    
+2026-08-02T03:13:41.9027284Z kernel-5.14.0-687.30.1.el9_8.src.rpm             69 MB/s | 145 MB     00:02    
+2026-08-02T03:13:41.9515021Z Updating / installing...
+2026-08-02T03:13:41.9527538Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9532631Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9535490Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9541787Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9544276Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9549626Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9551890Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9556870Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9559587Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9565360Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9567870Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9572819Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9576331Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9580819Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9583459Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9588694Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9591900Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9596673Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9599125Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9604232Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9607028Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9612151Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9614777Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9619963Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9623019Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9627597Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9630236Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9635287Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9638662Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9643127Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9646014Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9650610Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9653138Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9658037Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9660758Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9665649Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9668716Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9673669Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9676354Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9681348Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9684055Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9689766Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9692334Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9697848Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9700545Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9705819Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9708394Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9713769Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9716053Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9721255Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9724053Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9729537Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9732307Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9737350Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9740379Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9745265Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9748079Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9753386Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9755662Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9760897Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9763617Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9768999Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9771703Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9776719Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9779722Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9784606Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9787652Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9792623Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9795417Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9800703Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9803521Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9808900Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9811531Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9816579Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9819504Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9824403Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9827124Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9832108Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9834869Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9840381Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9842724Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9848130Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9850867Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9856203Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9858701Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9863764Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9866659Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9871656Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9874277Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9879642Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9882278Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9887818Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9890391Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9895457Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9898086Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9903413Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9905631Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9910731Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9913284Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9918560Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9921466Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9926588Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9929405Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9934503Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9937144Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9942556Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9945198Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9950817Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9952757Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9958124Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9960694Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9965800Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9968574Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9973576Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9976160Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9981804Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9984113Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9989238Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9991873Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:41.9997272Z warning: group mock does not exist - using root
+2026-08-02T03:13:41.9999706Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0004761Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.0007659Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0013059Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.0015531Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0020836Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.0023803Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0028419Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.0031116Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0035989Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.0038841Z warning: user mockbuild does not exist - using root
+2026-08-02T03:13:42.0043626Z warning: group mock does not exist - using root
+2026-08-02T03:13:42.4027811Z kernel-5.14.0-687.30.1.el9_8          ########################################
+2026-08-02T03:13:42.6556218Z Building target platforms: x86_64
+2026-08-02T03:13:42.6556868Z Building for target x86_64
+2026-08-02T03:13:42.6557214Z setting SOURCE_DATE_EPOCH=1785110400
+2026-08-02T03:13:42.6574264Z Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.Rp29gB
+2026-08-02T03:13:42.6597514Z + umask 022
+2026-08-02T03:13:42.6598386Z + cd /tmp/rpmbuild-bcache/BUILD
+2026-08-02T03:13:42.6598970Z + patch_command='git apply'
+2026-08-02T03:13:42.6600328Z + cd /tmp/rpmbuild-bcache/BUILD
+2026-08-02T03:13:42.6601252Z + rm -rf kernel-5.14.0-687.30.1.el9_8
+2026-08-02T03:13:42.6617664Z + /usr/bin/mkdir -p kernel-5.14.0-687.30.1.el9_8
+2026-08-02T03:13:42.6633034Z + cd kernel-5.14.0-687.30.1.el9_8
+2026-08-02T03:13:42.6642180Z + /usr/bin/tar -xof -
+2026-08-02T03:13:42.6642951Z + /usr/bin/xz -dc /tmp/rpmbuild-bcache/SOURCES/linux-5.14.0-687.30.1.el9_8.tar.xz
+2026-08-02T03:13:54.6032586Z + STATUS=0
+2026-08-02T03:13:54.6032992Z + '[' 0 -ne 0 ']'
+2026-08-02T03:13:54.6033453Z + /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
+2026-08-02T03:13:55.7631267Z + mv linux-5.14.0-687.30.1.el9_8 linux-5.14.0-687.30.1.el9.x86_64
+2026-08-02T03:13:55.7648885Z + cd linux-5.14.0-687.30.1.el9.x86_64
+2026-08-02T03:13:55.7649537Z + cp -a /tmp/rpmbuild-bcache/SOURCES/Makefile.rhelver .
+2026-08-02T03:13:55.7662883Z + ApplyOptionalPatch patch-5.14-redhat.patch
+2026-08-02T03:13:55.7663681Z + local patch=patch-5.14-redhat.patch
+2026-08-02T03:13:55.7664137Z + shift
+2026-08-02T03:13:55.7664576Z + '[' '!' -f /tmp/rpmbuild-bcache/SOURCES/patch-5.14-redhat.patch ']'
+2026-08-02T03:13:55.7670128Z ++ wc -l /tmp/rpmbuild-bcache/SOURCES/patch-5.14-redhat.patch
+2026-08-02T03:13:55.7671297Z ++ awk '{print $1}'
+2026-08-02T03:13:55.7694402Z + local C=0
+2026-08-02T03:13:55.7694680Z + '[' 0 -gt 9 ']'
+2026-08-02T03:13:55.7694938Z + ApplyOptionalPatch linux-kernel-test.patch
+2026-08-02T03:13:55.7695257Z + local patch=linux-kernel-test.patch
+2026-08-02T03:13:55.7695515Z + shift
+2026-08-02T03:13:55.7696510Z + '[' '!' -f /tmp/rpmbuild-bcache/SOURCES/linux-kernel-test.patch ']'
+2026-08-02T03:13:55.7716986Z ++ wc -l /tmp/rpmbuild-bcache/SOURCES/linux-kernel-test.patch
+2026-08-02T03:13:55.7717594Z ++ awk '{print $1}'
+2026-08-02T03:13:55.7721659Z + local C=0
+2026-08-02T03:13:55.7722534Z + '[' 0 -gt 9 ']'
+2026-08-02T03:13:55.7723124Z + ApplyOptionalPatch 1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7723789Z + local patch=1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7724295Z + shift
+2026-08-02T03:13:55.7724808Z + '[' '!' -f /tmp/rpmbuild-bcache/SOURCES/1000-debrand-some-messages.patch ']'
+2026-08-02T03:13:55.7727768Z ++ wc -l /tmp/rpmbuild-bcache/SOURCES/1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7729680Z ++ awk '{print $1}'
+2026-08-02T03:13:55.7752190Z + local C=108
+2026-08-02T03:13:55.7752701Z + '[' 108 -gt 9 ']'
+2026-08-02T03:13:55.7753156Z + ApplyPatch 1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7753762Z + local patch=1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7754285Z + shift
+2026-08-02T03:13:55.7754916Z + '[' '!' -f /tmp/rpmbuild-bcache/SOURCES/1000-debrand-some-messages.patch ']'
+2026-08-02T03:13:55.7769234Z Patch1000000: 1000-debrand-some-messages.patch
+2026-08-02T03:13:55.7769801Z + case "$patch" in
+2026-08-02T03:13:55.7770491Z + git apply
+2026-08-02T03:13:55.7796754Z + chmod +x scripts/checkpatch.pl
+2026-08-02T03:13:55.7810642Z + mv COPYING COPYING-5.14.0-687.30.1.el9
+2026-08-02T03:13:55.7824767Z + touch .scmversion
+2026-08-02T03:13:55.7840395Z + pathfix.py -i /usr/bin/python3 -p -n tools/kvm/kvm_stat/kvm_stat scripts/show_delta scripts/diffconfig scripts/bloat-o-meter scripts/jobserver-exec tools Documentation scripts/clang-tools
+2026-08-02T03:13:55.8035496Z recursedown('tools')
+2026-08-02T03:13:55.8041383Z recursedown('tools/accounting')
+2026-08-02T03:13:55.8041907Z recursedown('tools/arch')
+2026-08-02T03:13:55.8045906Z recursedown('tools/arch/alpha')
+2026-08-02T03:13:55.8046841Z recursedown('tools/arch/alpha/include')
+2026-08-02T03:13:55.8047529Z recursedown('tools/arch/alpha/include/asm')
+2026-08-02T03:13:55.8048440Z recursedown('tools/arch/alpha/include/uapi')
+2026-08-02T03:13:55.8049346Z recursedown('tools/arch/alpha/include/uapi/asm')
+2026-08-02T03:13:55.8050121Z recursedown('tools/arch/arc')
+2026-08-02T03:13:55.8050829Z recursedown('tools/arch/arc/include')
+2026-08-02T03:13:55.8051589Z recursedown('tools/arch/arc/include/uapi')
+2026-08-02T03:13:55.8052381Z recursedown('tools/arch/arc/include/uapi/asm')
+2026-08-02T03:13:55.8053152Z recursedown('tools/arch/arm')
+2026-08-02T03:13:55.8053842Z recursedown('tools/arch/arm/include')
+2026-08-02T03:13:55.8054559Z recursedown('tools/arch/arm/include/asm')
+2026-08-02T03:13:55.8055312Z recursedown('tools/arch/arm/include/uapi')
+2026-08-02T03:13:55.8056401Z recursedown('tools/arch/arm/include/uapi/asm')
+2026-08-02T03:13:55.8057304Z recursedown('tools/arch/arm64')
+2026-08-02T03:13:55.8057964Z recursedown('tools/arch/arm64/include')
+2026-08-02T03:13:55.8058763Z recursedown('tools/arch/arm64/include/asm')
+2026-08-02T03:13:55.8059570Z recursedown('tools/arch/arm64/include/uapi')
+2026-08-02T03:13:55.8060385Z recursedown('tools/arch/arm64/include/uapi/asm')
+2026-08-02T03:13:55.8061185Z recursedown('tools/arch/arm64/tools')
+2026-08-02T03:13:55.8061898Z recursedown('tools/arch/csky')
+2026-08-02T03:13:55.8062608Z recursedown('tools/arch/csky/include')
+2026-08-02T03:13:55.8063346Z recursedown('tools/arch/csky/include/uapi')
+2026-08-02T03:13:55.8064129Z recursedown('tools/arch/csky/include/uapi/asm')
+2026-08-02T03:13:55.8064939Z recursedown('tools/arch/h8300')
+2026-08-02T03:13:55.8065890Z recursedown('tools/arch/h8300/include')
+2026-08-02T03:13:55.8066655Z recursedown('tools/arch/h8300/include/asm')
+2026-08-02T03:13:55.8067436Z recursedown('tools/arch/h8300/include/uapi')
+2026-08-02T03:13:55.8068240Z recursedown('tools/arch/h8300/include/uapi/asm')
+2026-08-02T03:13:55.8069029Z recursedown('tools/arch/hexagon')
+2026-08-02T03:13:55.8069763Z recursedown('tools/arch/hexagon/include')
+2026-08-02T03:13:55.8070540Z recursedown('tools/arch/hexagon/include/uapi')
+2026-08-02T03:13:55.8071723Z recursedown('tools/arch/hexagon/include/uapi/asm')
+2026-08-02T03:13:55.8072513Z recursedown('tools/arch/ia64')
+2026-08-02T03:13:55.8073188Z recursedown('tools/arch/ia64/include')
+2026-08-02T03:13:55.8073937Z recursedown('tools/arch/ia64/include/asm')
+2026-08-02T03:13:55.8074709Z recursedown('tools/arch/ia64/include/uapi')
+2026-08-02T03:13:55.8075488Z recursedown('tools/arch/ia64/include/uapi/asm')
+2026-08-02T03:13:55.8076494Z recursedown('tools/arch/loongarch')
+2026-08-02T03:13:55.8077206Z recursedown('tools/arch/loongarch/include')
+2026-08-02T03:13:55.8077995Z recursedown('tools/arch/loongarch/include/asm')
+2026-08-02T03:13:55.8078777Z recursedown('tools/arch/loongarch/include/uapi')
+2026-08-02T03:13:55.8079632Z recursedown('tools/arch/loongarch/include/uapi/asm')
+2026-08-02T03:13:55.8080452Z recursedown('tools/arch/microblaze')
+2026-08-02T03:13:55.8081178Z recursedown('tools/arch/microblaze/include')
+2026-08-02T03:13:55.8082005Z recursedown('tools/arch/microblaze/include/uapi')
+2026-08-02T03:13:55.8082878Z recursedown('tools/arch/microblaze/include/uapi/asm')
+2026-08-02T03:13:55.8083744Z recursedown('tools/arch/mips')
+2026-08-02T03:13:55.8084430Z recursedown('tools/arch/mips/include')
+2026-08-02T03:13:55.8085486Z recursedown('tools/arch/mips/include/asm')
+2026-08-02T03:13:55.8086513Z recursedown('tools/arch/mips/include/uapi')
+2026-08-02T03:13:55.8087302Z recursedown('tools/arch/mips/include/uapi/asm')
+2026-08-02T03:13:55.8088084Z recursedown('tools/arch/parisc')
+2026-08-02T03:13:55.8088791Z recursedown('tools/arch/parisc/include')
+2026-08-02T03:13:55.8089569Z recursedown('tools/arch/parisc/include/uapi')
+2026-08-02T03:13:55.8090386Z recursedown('tools/arch/parisc/include/uapi/asm')
+2026-08-02T03:13:55.8091218Z recursedown('tools/arch/powerpc')
+2026-08-02T03:13:55.8091989Z recursedown('tools/arch/powerpc/include')
+2026-08-02T03:13:55.8092768Z recursedown('tools/arch/powerpc/include/asm')
+2026-08-02T03:13:55.8093585Z recursedown('tools/arch/powerpc/include/uapi')
+2026-08-02T03:13:55.8094438Z recursedown('tools/arch/powerpc/include/uapi/asm')
+2026-08-02T03:13:55.8095233Z recursedown('tools/arch/riscv')
+2026-08-02T03:13:55.8096149Z recursedown('tools/arch/riscv/include')
+2026-08-02T03:13:55.8096922Z recursedown('tools/arch/riscv/include/uapi')
+2026-08-02T03:13:55.8097743Z recursedown('tools/arch/riscv/include/uapi/asm')
+2026-08-02T03:13:55.8098491Z recursedown('tools/arch/s390')
+2026-08-02T03:13:55.8099147Z recursedown('tools/arch/s390/include')
+2026-08-02T03:13:55.8099865Z recursedown('tools/arch/s390/include/asm')
+2026-08-02T03:13:55.8100606Z recursedown('tools/arch/s390/include/uapi')
+2026-08-02T03:13:55.8101439Z recursedown('tools/arch/s390/include/uapi/asm')
+2026-08-02T03:13:55.8102162Z recursedown('tools/arch/sh')
+2026-08-02T03:13:55.8102766Z recursedown('tools/arch/sh/include')
+2026-08-02T03:13:55.8103412Z recursedown('tools/arch/sh/include/asm')
+2026-08-02T03:13:55.8104114Z recursedown('tools/arch/sh/include/uapi')
+2026-08-02T03:13:55.8104826Z recursedown('tools/arch/sh/include/uapi/asm')
+2026-08-02T03:13:55.8105514Z recursedown('tools/arch/sparc')
+2026-08-02T03:13:55.8106394Z recursedown('tools/arch/sparc/include')
+2026-08-02T03:13:55.8107091Z recursedown('tools/arch/sparc/include/asm')
+2026-08-02T03:13:55.8107828Z recursedown('tools/arch/sparc/include/uapi')
+2026-08-02T03:13:55.8108577Z recursedown('tools/arch/sparc/include/uapi/asm')
+2026-08-02T03:13:55.8109292Z recursedown('tools/arch/x86')
+2026-08-02T03:13:55.8109905Z recursedown('tools/arch/x86/include')
+2026-08-02T03:13:55.8110582Z recursedown('tools/arch/x86/include/asm')
+2026-08-02T03:13:55.8111329Z recursedown('tools/arch/x86/include/uapi')
+2026-08-02T03:13:55.8112051Z recursedown('tools/arch/x86/include/uapi/asm')
+2026-08-02T03:13:55.8112784Z recursedown('tools/arch/x86/intel_sdsi')
+2026-08-02T03:13:55.8113468Z recursedown('tools/arch/x86/kcpuid')
+2026-08-02T03:13:55.8114103Z recursedown('tools/arch/x86/lib')
+2026-08-02T03:13:55.8114729Z recursedown('tools/arch/x86/tools')
+2026-08-02T03:13:55.8115914Z recursedown('tools/arch/xtensa')
+2026-08-02T03:13:55.8116632Z recursedown('tools/arch/xtensa/include')
+2026-08-02T03:13:55.8117331Z recursedown('tools/arch/xtensa/include/asm')
+2026-08-02T03:13:55.8118039Z recursedown('tools/arch/xtensa/include/uapi')
+2026-08-02T03:13:55.8118790Z recursedown('tools/arch/xtensa/include/uapi/asm')
+2026-08-02T03:13:55.8119515Z recursedown('tools/bootconfig')
+2026-08-02T03:13:55.8120133Z recursedown('tools/bootconfig/include')
+2026-08-02T03:13:55.8120814Z recursedown('tools/bootconfig/include/linux')
+2026-08-02T03:13:55.8121559Z recursedown('tools/bootconfig/samples')
+2026-08-02T03:13:55.8122258Z recursedown('tools/bootconfig/scripts')
+2026-08-02T03:13:55.8123536Z recursedown('tools/bpf')
+2026-08-02T03:13:55.8125094Z recursedown('tools/bpf/bpftool')
+2026-08-02T03:13:55.8132567Z recursedown('tools/bpf/bpftool/Documentation')
+2026-08-02T03:13:55.8135066Z recursedown('tools/bpf/bpftool/bash-completion')
+2026-08-02T03:13:55.8136107Z recursedown('tools/bpf/bpftool/skeleton')
+2026-08-02T03:13:55.8137187Z recursedown('tools/bpf/resolve_btfids')
+2026-08-02T03:13:55.8137712Z recursedown('tools/bpf/runqslower')
+2026-08-02T03:13:55.8153051Z recursedown('tools/build')
+2026-08-02T03:13:55.8153547Z recursedown('tools/build/Documentation')
+2026-08-02T03:13:55.8154376Z recursedown('tools/build/feature')
+2026-08-02T03:13:55.8155960Z recursedown('tools/build/tests')
+2026-08-02T03:13:55.8156839Z recursedown('tools/build/tests/ex')
+2026-08-02T03:13:55.8159272Z recursedown('tools/build/tests/ex/arch')
+2026-08-02T03:13:55.8160595Z recursedown('tools/build/tests/ex/empty')
+2026-08-02T03:13:55.8161110Z recursedown('tools/build/tests/ex/empty2')
+2026-08-02T03:13:55.8161609Z recursedown('tools/cgroup')
+2026-08-02T03:13:55.8167926Z recursedown('tools/crypto')
+2026-08-02T03:13:55.8168440Z recursedown('tools/crypto/ccp')
+2026-08-02T03:13:55.8175399Z recursedown('tools/debugging')
+2026-08-02T03:13:55.8176276Z recursedown('tools/edid')
+2026-08-02T03:13:55.8177798Z recursedown('tools/firewire')
+2026-08-02T03:13:55.8179790Z recursedown('tools/firmware')
+2026-08-02T03:13:55.8180446Z recursedown('tools/gpio')
+2026-08-02T03:13:55.8181657Z recursedown('tools/hv')
+2026-08-02T03:13:55.8184007Z recursedown('tools/iio')
+2026-08-02T03:13:55.8185458Z recursedown('tools/include')
+2026-08-02T03:13:55.8188123Z recursedown('tools/include/asm')
+2026-08-02T03:13:55.8189471Z recursedown('tools/include/asm-generic')
+2026-08-02T03:13:55.8191370Z recursedown('tools/include/asm-generic/bitops')
+2026-08-02T03:13:55.8193931Z recursedown('tools/include/io_uring')
+2026-08-02T03:13:55.8194472Z recursedown('tools/include/linux')
+2026-08-02T03:13:55.8204928Z recursedown('tools/include/linux/sched')
+2026-08-02T03:13:55.8205994Z recursedown('tools/include/linux/unaligned')
+2026-08-02T03:13:55.8206738Z recursedown('tools/include/nolibc')
+2026-08-02T03:13:55.8209303Z recursedown('tools/include/perf')
+2026-08-02T03:13:55.8210098Z recursedown('tools/include/tools')
+2026-08-02T03:13:55.8211168Z recursedown('tools/include/trace')
+2026-08-02T03:13:55.8212346Z recursedown('tools/include/trace/events')
+2026-08-02T03:13:55.8212898Z recursedown('tools/include/uapi')
+2026-08-02T03:13:55.8213327Z recursedown('tools/include/uapi/asm')
+2026-08-02T03:13:55.8213778Z recursedown('tools/include/uapi/asm-generic')
+2026-08-02T03:13:55.8215740Z recursedown('tools/include/uapi/drm')
+2026-08-02T03:13:55.8216342Z recursedown('tools/include/uapi/linux')
+2026-08-02T03:13:55.8223036Z recursedown('tools/include/uapi/linux/tc_act')
+2026-08-02T03:13:55.8224430Z recursedown('tools/include/vdso')
+2026-08-02T03:13:55.8225749Z recursedown('tools/kvm')
+2026-08-02T03:13:55.8227555Z recursedown('tools/kvm/kvm_stat')
+2026-08-02T03:13:55.8228665Z recursedown('tools/laptop')
+2026-08-02T03:13:55.8229166Z recursedown('tools/laptop/dslm')
+2026-08-02T03:13:55.8229890Z recursedown('tools/laptop/freefall')
+2026-08-02T03:13:55.8230373Z recursedown('tools/leds')
+2026-08-02T03:13:55.8230775Z recursedown('tools/lib')
+2026-08-02T03:13:55.8233296Z recursedown('tools/lib/api')
+2026-08-02T03:13:55.8236412Z recursedown('tools/lib/api/fd')
+2026-08-02T03:13:55.8236882Z recursedown('tools/lib/api/fs')
+2026-08-02T03:13:55.8238789Z recursedown('tools/lib/bpf')
+2026-08-02T03:13:55.8245663Z recursedown('tools/lib/lockdep')
+2026-08-02T03:13:55.8248933Z recursedown('tools/lib/lockdep/include')
+2026-08-02T03:13:55.8249573Z recursedown('tools/lib/lockdep/include/liblockdep')
+2026-08-02T03:13:55.8250160Z recursedown('tools/lib/lockdep/tests')
+2026-08-02T03:13:55.8254484Z recursedown('tools/lib/perf')
+2026-08-02T03:13:55.8258528Z recursedown('tools/lib/perf/Documentation')
+2026-08-02T03:13:55.8260535Z recursedown('tools/lib/perf/Documentation/examples')
+2026-08-02T03:13:55.8261458Z recursedown('tools/lib/perf/include')
+2026-08-02T03:13:55.8262168Z recursedown('tools/lib/perf/include/internal')
+2026-08-02T03:13:55.8264077Z recursedown('tools/lib/perf/include/perf')
+2026-08-02T03:13:55.8266209Z recursedown('tools/lib/perf/tests')
+2026-08-02T03:13:55.8267887Z recursedown('tools/lib/subcmd')
+2026-08-02T03:13:55.8271122Z recursedown('tools/lib/symbol')
+2026-08-02T03:13:55.8272282Z recursedown('tools/memory-model')
+2026-08-02T03:13:55.8274201Z recursedown('tools/memory-model/Documentation')
+2026-08-02T03:13:55.8276620Z recursedown('tools/memory-model/litmus-tests')
+2026-08-02T03:13:55.8283805Z recursedown('tools/memory-model/scripts')
+2026-08-02T03:13:55.8286050Z recursedown('tools/mm')
+2026-08-02T03:13:55.8288380Z recursedown('tools/net')
+2026-08-02T03:13:55.8288993Z recursedown('tools/net/ynl')
+2026-08-02T03:13:55.8300937Z recursedown('tools/net/ynl/generated')
+2026-08-02T03:13:55.8301402Z recursedown('tools/net/ynl/lib')
+2026-08-02T03:13:55.8304356Z recursedown('tools/net/ynl/samples')
+2026-08-02T03:13:55.8306939Z recursedown('tools/objtool')
+2026-08-02T03:13:55.8310210Z recursedown('tools/objtool/Documentation')
+2026-08-02T03:13:55.8310738Z recursedown('tools/objtool/arch')
+2026-08-02T03:13:55.8313183Z recursedown('tools/objtool/arch/loongarch')
+2026-08-02T03:13:55.8314364Z recursedown('tools/objtool/arch/loongarch/include')
+2026-08-02T03:13:55.8315025Z recursedown('tools/objtool/arch/loongarch/include/arch')
+2026-08-02T03:13:55.8315840Z recursedown('tools/objtool/arch/powerpc')
+2026-08-02T03:13:55.8316977Z recursedown('tools/objtool/arch/powerpc/include')
+2026-08-02T03:13:55.8319499Z recursedown('tools/objtool/arch/powerpc/include/arch')
+2026-08-02T03:13:55.8320212Z recursedown('tools/objtool/arch/x86')
+2026-08-02T03:13:55.8320987Z recursedown('tools/objtool/arch/x86/include')
+2026-08-02T03:13:55.8321401Z recursedown('tools/objtool/arch/x86/include/arch')
+2026-08-02T03:13:55.8321966Z recursedown('tools/objtool/include')
+2026-08-02T03:13:55.8322436Z recursedown('tools/objtool/include/objtool')
+2026-08-02T03:13:55.8323794Z recursedown('tools/pci')
+2026-08-02T03:13:55.8324470Z recursedown('tools/pcmcia')
+2026-08-02T03:13:55.8326655Z recursedown('tools/perf')
+2026-08-02T03:13:55.8335484Z recursedown('tools/perf/Documentation')
+2026-08-02T03:13:55.8345761Z recursedown('tools/perf/arch')
+2026-08-02T03:13:55.8349818Z recursedown('tools/perf/arch/alpha')
+2026-08-02T03:13:55.8350900Z recursedown('tools/perf/arch/arc')
+2026-08-02T03:13:55.8351561Z recursedown('tools/perf/arch/arc/annotate')
+2026-08-02T03:13:55.8352088Z recursedown('tools/perf/arch/arm')
+2026-08-02T03:13:55.8353965Z recursedown('tools/perf/arch/arm/annotate')
+2026-08-02T03:13:55.8354957Z recursedown('tools/perf/arch/arm/include')
+2026-08-02T03:13:55.8355751Z recursedown('tools/perf/arch/arm/tests')
+2026-08-02T03:13:55.8356781Z recursedown('tools/perf/arch/arm/util')
+2026-08-02T03:13:55.8359064Z recursedown('tools/perf/arch/arm64')
+2026-08-02T03:13:55.8360658Z recursedown('tools/perf/arch/arm64/annotate')
+2026-08-02T03:13:55.8362161Z recursedown('tools/perf/arch/arm64/entry')
+2026-08-02T03:13:55.8362739Z recursedown('tools/perf/arch/arm64/entry/syscalls')
+2026-08-02T03:13:55.8363302Z recursedown('tools/perf/arch/arm64/include')
+2026-08-02T03:13:55.8364866Z recursedown('tools/perf/arch/arm64/tests')
+2026-08-02T03:13:55.8365415Z recursedown('tools/perf/arch/arm64/util')
+2026-08-02T03:13:55.8368827Z recursedown('tools/perf/arch/csky')
+2026-08-02T03:13:55.8370586Z recursedown('tools/perf/arch/csky/annotate')
+2026-08-02T03:13:55.8371123Z recursedown('tools/perf/arch/csky/include')
+2026-08-02T03:13:55.8371636Z recursedown('tools/perf/arch/csky/util')
+2026-08-02T03:13:55.8372151Z recursedown('tools/perf/arch/loongarch')
+2026-08-02T03:13:55.8374628Z recursedown('tools/perf/arch/loongarch/annotate')
+2026-08-02T03:13:55.8375442Z recursedown('tools/perf/arch/loongarch/entry')
+2026-08-02T03:13:55.8376686Z recursedown('tools/perf/arch/loongarch/entry/syscalls')
+2026-08-02T03:13:55.8377794Z recursedown('tools/perf/arch/loongarch/include')
+2026-08-02T03:13:55.8378596Z recursedown('tools/perf/arch/loongarch/util')
+2026-08-02T03:13:55.8379635Z recursedown('tools/perf/arch/mips')
+2026-08-02T03:13:55.8380592Z recursedown('tools/perf/arch/mips/annotate')
+2026-08-02T03:13:55.8381416Z recursedown('tools/perf/arch/mips/entry')
+2026-08-02T03:13:55.8382176Z recursedown('tools/perf/arch/mips/entry/syscalls')
+2026-08-02T03:13:55.8382753Z recursedown('tools/perf/arch/mips/include')
+2026-08-02T03:13:55.8383547Z recursedown('tools/perf/arch/mips/util')
+2026-08-02T03:13:55.8385182Z recursedown('tools/perf/arch/nds32')
+2026-08-02T03:13:55.8386029Z recursedown('tools/perf/arch/nds32/util')
+2026-08-02T03:13:55.8386881Z recursedown('tools/perf/arch/parisc')
+2026-08-02T03:13:55.8387364Z recursedown('tools/perf/arch/powerpc')
+2026-08-02T03:13:55.8388912Z recursedown('tools/perf/arch/powerpc/annotate')
+2026-08-02T03:13:55.8389525Z recursedown('tools/perf/arch/powerpc/entry')
+2026-08-02T03:13:55.8391259Z recursedown('tools/perf/arch/powerpc/entry/syscalls')
+2026-08-02T03:13:55.8392138Z recursedown('tools/perf/arch/powerpc/include')
+2026-08-02T03:13:55.8392708Z recursedown('tools/perf/arch/powerpc/tests')
+2026-08-02T03:13:55.8393260Z recursedown('tools/perf/arch/powerpc/util')
+2026-08-02T03:13:55.8397130Z recursedown('tools/perf/arch/riscv')
+2026-08-02T03:13:55.8398540Z recursedown('tools/perf/arch/riscv/include')
+2026-08-02T03:13:55.8399385Z recursedown('tools/perf/arch/riscv/util')
+2026-08-02T03:13:55.8400401Z recursedown('tools/perf/arch/riscv64')
+2026-08-02T03:13:55.8401249Z recursedown('tools/perf/arch/riscv64/annotate')
+2026-08-02T03:13:55.8402056Z recursedown('tools/perf/arch/s390')
+2026-08-02T03:13:55.8405300Z recursedown('tools/perf/arch/s390/annotate')
+2026-08-02T03:13:55.8406289Z recursedown('tools/perf/arch/s390/entry')
+2026-08-02T03:13:55.8407050Z recursedown('tools/perf/arch/s390/entry/syscalls')
+2026-08-02T03:13:55.8407625Z recursedown('tools/perf/arch/s390/include')
+2026-08-02T03:13:55.8408150Z recursedown('tools/perf/arch/s390/util')
+2026-08-02T03:13:55.8408644Z recursedown('tools/perf/arch/sh')
+2026-08-02T03:13:55.8409134Z recursedown('tools/perf/arch/sh/include')
+2026-08-02T03:13:55.8409685Z recursedown('tools/perf/arch/sh/util')
+2026-08-02T03:13:55.8410177Z recursedown('tools/perf/arch/sparc')
+2026-08-02T03:13:55.8411287Z recursedown('tools/perf/arch/sparc/annotate')
+2026-08-02T03:13:55.8412361Z recursedown('tools/perf/arch/sparc/include')
+2026-08-02T03:13:55.8412915Z recursedown('tools/perf/arch/sparc/util')
+2026-08-02T03:13:55.8413855Z recursedown('tools/perf/arch/x86')
+2026-08-02T03:13:55.8414700Z recursedown('tools/perf/arch/x86/annotate')
+2026-08-02T03:13:55.8415373Z recursedown('tools/perf/arch/x86/entry')
+2026-08-02T03:13:55.8416436Z recursedown('tools/perf/arch/x86/entry/syscalls')
+2026-08-02T03:13:55.8417114Z recursedown('tools/perf/arch/x86/include')
+2026-08-02T03:13:55.8417788Z recursedown('tools/perf/arch/x86/tests')
+2026-08-02T03:13:55.8421483Z recursedown('tools/perf/arch/x86/util')
+2026-08-02T03:13:55.8426270Z recursedown('tools/perf/arch/xtensa')
+2026-08-02T03:13:55.8427476Z recursedown('tools/perf/arch/xtensa/include')
+2026-08-02T03:13:55.8428416Z recursedown('tools/perf/arch/xtensa/util')
+2026-08-02T03:13:55.8428912Z recursedown('tools/perf/bench')
+2026-08-02T03:13:55.8433479Z recursedown('tools/perf/check-header_ignore_hunks')
+2026-08-02T03:13:55.8434646Z recursedown('tools/perf/check-header_ignore_hunks/lib')
+2026-08-02T03:13:55.8436071Z recursedown('tools/perf/dlfilters')
+2026-08-02T03:13:55.8436765Z recursedown('tools/perf/include')
+2026-08-02T03:13:55.8437252Z recursedown('tools/perf/include/perf')
+2026-08-02T03:13:55.8437833Z recursedown('tools/perf/jvmti')
+2026-08-02T03:13:55.8438303Z recursedown('tools/perf/pmu-events')
+2026-08-02T03:13:55.8446837Z recursedown('tools/perf/pmu-events/arch')
+2026-08-02T03:13:55.8448407Z recursedown('tools/perf/pmu-events/arch/arm64')
+2026-08-02T03:13:55.8451224Z recursedown('tools/perf/pmu-events/arch/arm64/ampere')
+2026-08-02T03:13:55.8452115Z recursedown('tools/perf/pmu-events/arch/arm64/ampere/ampereone')
+2026-08-02T03:13:55.8454270Z recursedown('tools/perf/pmu-events/arch/arm64/ampere/ampereonex')
+2026-08-02T03:13:55.8457522Z recursedown('tools/perf/pmu-events/arch/arm64/ampere/emag')
+2026-08-02T03:13:55.8459473Z recursedown('tools/perf/pmu-events/arch/arm64/arm')
+2026-08-02T03:13:55.8463616Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cmn')
+2026-08-02T03:13:55.8464361Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cmn/sys')
+2026-08-02T03:13:55.8464930Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a34')
+2026-08-02T03:13:55.8466188Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a35')
+2026-08-02T03:13:55.8468117Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a510')
+2026-08-02T03:13:55.8469791Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a53')
+2026-08-02T03:13:55.8471589Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a55')
+2026-08-02T03:13:55.8473453Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a57-a72')
+2026-08-02T03:13:55.8475267Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a65-e1')
+2026-08-02T03:13:55.8477493Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a710')
+2026-08-02T03:13:55.8479461Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a73')
+2026-08-02T03:13:55.8481627Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a75')
+2026-08-02T03:13:55.8483680Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a76')
+2026-08-02T03:13:55.8485889Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a77')
+2026-08-02T03:13:55.8487691Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-a78')
+2026-08-02T03:13:55.8489384Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-x1')
+2026-08-02T03:13:55.8491437Z recursedown('tools/perf/pmu-events/arch/arm64/arm/cortex-x2')
+2026-08-02T03:13:55.8493309Z recursedown('tools/perf/pmu-events/arch/arm64/arm/neoverse-n1')
+2026-08-02T03:13:55.8496742Z recursedown('tools/perf/pmu-events/arch/arm64/arm/neoverse-n2-v2')
+2026-08-02T03:13:55.8500119Z recursedown('tools/perf/pmu-events/arch/arm64/arm/neoverse-v1')
+2026-08-02T03:13:55.8503622Z recursedown('tools/perf/pmu-events/arch/arm64/cavium')
+2026-08-02T03:13:55.8504392Z recursedown('tools/perf/pmu-events/arch/arm64/cavium/thunderx2')
+2026-08-02T03:13:55.8505126Z recursedown('tools/perf/pmu-events/arch/arm64/freescale')
+2026-08-02T03:13:55.8507007Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mm')
+2026-08-02T03:13:55.8507987Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mm/sys')
+2026-08-02T03:13:55.8508949Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mn')
+2026-08-02T03:13:55.8509960Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mn/sys')
+2026-08-02T03:13:55.8510852Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mp')
+2026-08-02T03:13:55.8511843Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mp/sys')
+2026-08-02T03:13:55.8512743Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mq')
+2026-08-02T03:13:55.8513698Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx8mq/sys')
+2026-08-02T03:13:55.8514563Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx93')
+2026-08-02T03:13:55.8515299Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx93/sys')
+2026-08-02T03:13:55.8516200Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx95')
+2026-08-02T03:13:55.8517244Z recursedown('tools/perf/pmu-events/arch/arm64/freescale/imx95/sys')
+2026-08-02T03:13:55.8518139Z recursedown('tools/perf/pmu-events/arch/arm64/fujitsu')
+2026-08-02T03:13:55.8519279Z recursedown('tools/perf/pmu-events/arch/arm64/fujitsu/a64fx')
+2026-08-02T03:13:55.8520051Z recursedown('tools/perf/pmu-events/arch/arm64/hisilicon')
+2026-08-02T03:13:55.8520971Z recursedown('tools/perf/pmu-events/arch/arm64/hisilicon/hip08')
+2026-08-02T03:13:55.8521897Z recursedown('tools/perf/pmu-events/arch/arm64/hisilicon/hip09')
+2026-08-02T03:13:55.8522741Z recursedown('tools/perf/pmu-events/arch/arm64/hisilicon/hip09/sys')
+2026-08-02T03:13:55.8523528Z recursedown('tools/perf/pmu-events/arch/arm64/thead')
+2026-08-02T03:13:55.8524383Z recursedown('tools/perf/pmu-events/arch/arm64/thead/yitian710')
+2026-08-02T03:13:55.8525317Z recursedown('tools/perf/pmu-events/arch/arm64/thead/yitian710/sys')
+2026-08-02T03:13:55.8526433Z recursedown('tools/perf/pmu-events/arch/nds32')
+2026-08-02T03:13:55.8527119Z recursedown('tools/perf/pmu-events/arch/nds32/n13')
+2026-08-02T03:13:55.8527775Z recursedown('tools/perf/pmu-events/arch/powerpc')
+2026-08-02T03:13:55.8528185Z recursedown('tools/perf/pmu-events/arch/powerpc/compat')
+2026-08-02T03:13:55.8528616Z recursedown('tools/perf/pmu-events/arch/powerpc/power10')
+2026-08-02T03:13:55.8530541Z recursedown('tools/perf/pmu-events/arch/powerpc/power8')
+2026-08-02T03:13:55.8532731Z recursedown('tools/perf/pmu-events/arch/powerpc/power9')
+2026-08-02T03:13:55.8535186Z recursedown('tools/perf/pmu-events/arch/riscv')
+2026-08-02T03:13:55.8537173Z recursedown('tools/perf/pmu-events/arch/riscv/andes')
+2026-08-02T03:13:55.8537928Z recursedown('tools/perf/pmu-events/arch/riscv/andes/ax45')
+2026-08-02T03:13:55.8539551Z recursedown('tools/perf/pmu-events/arch/riscv/sifive')
+2026-08-02T03:13:55.8540390Z recursedown('tools/perf/pmu-events/arch/riscv/sifive/u74')
+2026-08-02T03:13:55.8541203Z recursedown('tools/perf/pmu-events/arch/riscv/starfive')
+2026-08-02T03:13:55.8542243Z recursedown('tools/perf/pmu-events/arch/riscv/starfive/dubhe-80')
+2026-08-02T03:13:55.8543130Z recursedown('tools/perf/pmu-events/arch/riscv/thead')
+2026-08-02T03:13:55.8543843Z recursedown('tools/perf/pmu-events/arch/riscv/thead/c900-legacy')
+2026-08-02T03:13:55.8544463Z recursedown('tools/perf/pmu-events/arch/s390')
+2026-08-02T03:13:55.8546901Z recursedown('tools/perf/pmu-events/arch/s390/cf_z10')
+2026-08-02T03:13:55.8547612Z recursedown('tools/perf/pmu-events/arch/s390/cf_z13')
+2026-08-02T03:13:55.8548286Z recursedown('tools/perf/pmu-events/arch/s390/cf_z14')
+2026-08-02T03:13:55.8548953Z recursedown('tools/perf/pmu-events/arch/s390/cf_z15')
+2026-08-02T03:13:55.8550535Z recursedown('tools/perf/pmu-events/arch/s390/cf_z16')
+2026-08-02T03:13:55.8552162Z recursedown('tools/perf/pmu-events/arch/s390/cf_z17')
+2026-08-02T03:13:55.8553644Z recursedown('tools/perf/pmu-events/arch/s390/cf_z196')
+2026-08-02T03:13:55.8554502Z recursedown('tools/perf/pmu-events/arch/s390/cf_zec12')
+2026-08-02T03:13:55.8556183Z recursedown('tools/perf/pmu-events/arch/test')
+2026-08-02T03:13:55.8556979Z recursedown('tools/perf/pmu-events/arch/test/test_soc')
+2026-08-02T03:13:55.8557767Z recursedown('tools/perf/pmu-events/arch/test/test_soc/cpu')
+2026-08-02T03:13:55.8559272Z recursedown('tools/perf/pmu-events/arch/test/test_soc/sys')
+2026-08-02T03:13:55.8559812Z recursedown('tools/perf/pmu-events/arch/x86')
+2026-08-02T03:13:55.8566681Z recursedown('tools/perf/pmu-events/arch/x86/alderlake')
+2026-08-02T03:13:55.8569473Z recursedown('tools/perf/pmu-events/arch/x86/alderlaken')
+2026-08-02T03:13:55.8571909Z recursedown('tools/perf/pmu-events/arch/x86/amdzen1')
+2026-08-02T03:13:55.8573469Z recursedown('tools/perf/pmu-events/arch/x86/amdzen2')
+2026-08-02T03:13:55.8575392Z recursedown('tools/perf/pmu-events/arch/x86/amdzen3')
+2026-08-02T03:13:55.8577435Z recursedown('tools/perf/pmu-events/arch/x86/amdzen4')
+2026-08-02T03:13:55.8579939Z recursedown('tools/perf/pmu-events/arch/x86/amdzen5')
+2026-08-02T03:13:55.8582010Z recursedown('tools/perf/pmu-events/arch/x86/arrowlake')
+2026-08-02T03:13:55.8584944Z recursedown('tools/perf/pmu-events/arch/x86/bonnell')
+2026-08-02T03:13:55.8586952Z recursedown('tools/perf/pmu-events/arch/x86/broadwell')
+2026-08-02T03:13:55.8589770Z recursedown('tools/perf/pmu-events/arch/x86/broadwellde')
+2026-08-02T03:13:55.8592830Z recursedown('tools/perf/pmu-events/arch/x86/broadwellx')
+2026-08-02T03:13:55.8595943Z recursedown('tools/perf/pmu-events/arch/x86/cascadelakex')
+2026-08-02T03:13:55.8599368Z recursedown('tools/perf/pmu-events/arch/x86/clearwaterforest')
+2026-08-02T03:13:55.8602144Z recursedown('tools/perf/pmu-events/arch/x86/elkhartlake')
+2026-08-02T03:13:55.8602925Z recursedown('tools/perf/pmu-events/arch/x86/emeraldrapids')
+2026-08-02T03:13:55.8605759Z recursedown('tools/perf/pmu-events/arch/x86/goldmont')
+2026-08-02T03:13:55.8607550Z recursedown('tools/perf/pmu-events/arch/x86/goldmontplus')
+2026-08-02T03:13:55.8609580Z recursedown('tools/perf/pmu-events/arch/x86/grandridge')
+2026-08-02T03:13:55.8613062Z recursedown('tools/perf/pmu-events/arch/x86/graniterapids')
+2026-08-02T03:13:55.8616195Z recursedown('tools/perf/pmu-events/arch/x86/haswell')
+2026-08-02T03:13:55.8619232Z recursedown('tools/perf/pmu-events/arch/x86/haswellx')
+2026-08-02T03:13:55.8622078Z recursedown('tools/perf/pmu-events/arch/x86/icelake')
+2026-08-02T03:13:55.8624934Z recursedown('tools/perf/pmu-events/arch/x86/icelakex')
+2026-08-02T03:13:55.8628523Z recursedown('tools/perf/pmu-events/arch/x86/ivybridge')
+2026-08-02T03:13:55.8631476Z recursedown('tools/perf/pmu-events/arch/x86/ivytown')
+2026-08-02T03:13:55.8634229Z recursedown('tools/perf/pmu-events/arch/x86/jaketown')
+2026-08-02T03:13:55.8638595Z recursedown('tools/perf/pmu-events/arch/x86/knightslanding')
+2026-08-02T03:13:55.8640548Z recursedown('tools/perf/pmu-events/arch/x86/lunarlake')
+2026-08-02T03:13:55.8643284Z recursedown('tools/perf/pmu-events/arch/x86/meteorlake')
+2026-08-02T03:13:55.8645248Z recursedown('tools/perf/pmu-events/arch/x86/nehalemep')
+2026-08-02T03:13:55.8647523Z recursedown('tools/perf/pmu-events/arch/x86/nehalemex')
+2026-08-02T03:13:55.8649466Z recursedown('tools/perf/pmu-events/arch/x86/pantherlake')
+2026-08-02T03:13:55.8651691Z recursedown('tools/perf/pmu-events/arch/x86/rocketlake')
+2026-08-02T03:13:55.8654011Z recursedown('tools/perf/pmu-events/arch/x86/sandybridge')
+2026-08-02T03:13:55.8656527Z recursedown('tools/perf/pmu-events/arch/x86/sapphirerapids')
+2026-08-02T03:13:55.8659934Z recursedown('tools/perf/pmu-events/arch/x86/sierraforest')
+2026-08-02T03:13:55.8662708Z recursedown('tools/perf/pmu-events/arch/x86/silvermont')
+2026-08-02T03:13:55.8664591Z recursedown('tools/perf/pmu-events/arch/x86/skylake')
+2026-08-02T03:13:55.8667438Z recursedown('tools/perf/pmu-events/arch/x86/skylakex')
+2026-08-02T03:13:55.8670886Z recursedown('tools/perf/pmu-events/arch/x86/snowridgex')
+2026-08-02T03:13:55.8673394Z recursedown('tools/perf/pmu-events/arch/x86/tigerlake')
+2026-08-02T03:13:55.8676290Z recursedown('tools/perf/pmu-events/arch/x86/westmereep-dp')
+2026-08-02T03:13:55.8679562Z recursedown('tools/perf/pmu-events/arch/x86/westmereep-sp')
+2026-08-02T03:13:55.8680403Z recursedown('tools/perf/pmu-events/arch/x86/westmereex')
+2026-08-02T03:13:55.8682619Z recursedown('tools/perf/python')
+2026-08-02T03:13:55.8688814Z recursedown('tools/perf/scripts')
+2026-08-02T03:13:55.8689477Z recursedown('tools/perf/scripts/perl')
+2026-08-02T03:13:55.8691045Z recursedown('tools/perf/scripts/perl/Perf-Trace-Util')
+2026-08-02T03:13:55.8693727Z recursedown('tools/perf/scripts/perl/Perf-Trace-Util/lib')
+2026-08-02T03:13:55.8694800Z recursedown('tools/perf/scripts/perl/Perf-Trace-Util/lib/Perf')
+2026-08-02T03:13:55.8695863Z recursedown('tools/perf/scripts/perl/Perf-Trace-Util/lib/Perf/Trace')
+2026-08-02T03:13:55.8696588Z recursedown('tools/perf/scripts/perl/bin')
+2026-08-02T03:13:55.8698694Z recursedown('tools/perf/scripts/python')
+2026-08-02T03:13:55.8717397Z recursedown('tools/perf/scripts/python/Perf-Trace-Util')
+2026-08-02T03:13:55.8718697Z recursedown('tools/perf/scripts/python/Perf-Trace-Util/lib')
+2026-08-02T03:13:55.8719803Z recursedown('tools/perf/scripts/python/Perf-Trace-Util/lib/Perf')
+2026-08-02T03:13:55.8720853Z recursedown('tools/perf/scripts/python/Perf-Trace-Util/lib/Perf/Trace')
+2026-08-02T03:13:55.8721759Z recursedown('tools/perf/scripts/python/bin')
+2026-08-02T03:13:55.8728056Z recursedown('tools/perf/tests')
+2026-08-02T03:13:55.8740235Z recursedown('tools/perf/tests/attr')
+2026-08-02T03:13:55.8747596Z recursedown('tools/perf/tests/config-fragments')
+2026-08-02T03:13:55.8748321Z recursedown('tools/perf/tests/shell')
+2026-08-02T03:13:55.8755922Z recursedown('tools/perf/tests/shell/base_probe')
+2026-08-02T03:13:55.8757322Z recursedown('tools/perf/tests/shell/base_report')
+2026-08-02T03:13:55.8758711Z recursedown('tools/perf/tests/shell/common')
+2026-08-02T03:13:55.8760443Z recursedown('tools/perf/tests/shell/coresight')
+2026-08-02T03:13:55.8763189Z recursedown('tools/perf/tests/shell/coresight/asm_pure_loop')
+2026-08-02T03:13:55.8764238Z recursedown('tools/perf/tests/shell/coresight/memcpy_thread')
+2026-08-02T03:13:55.8766073Z recursedown('tools/perf/tests/shell/coresight/thread_loop')
+2026-08-02T03:13:55.8766741Z recursedown('tools/perf/tests/shell/coresight/unroll_loop_thread')
+2026-08-02T03:13:55.8767488Z recursedown('tools/perf/tests/shell/lib')
+2026-08-02T03:13:55.8772545Z recursedown('tools/perf/tests/workloads')
+2026-08-02T03:13:55.8774141Z recursedown('tools/perf/trace')
+2026-08-02T03:13:55.8774654Z recursedown('tools/perf/trace/beauty')
+2026-08-02T03:13:55.8785911Z recursedown('tools/perf/trace/beauty/arch')
+2026-08-02T03:13:55.8790135Z recursedown('tools/perf/trace/beauty/arch/x86')
+2026-08-02T03:13:55.8790574Z recursedown('tools/perf/trace/beauty/arch/x86/include')
+2026-08-02T03:13:55.8791892Z recursedown('tools/perf/trace/beauty/arch/x86/include/asm')
+2026-08-02T03:13:55.8792654Z recursedown('tools/perf/trace/beauty/arch/x86/include/uapi')
+2026-08-02T03:13:55.8793414Z recursedown('tools/perf/trace/beauty/arch/x86/include/uapi/asm')
+2026-08-02T03:13:55.8793939Z recursedown('tools/perf/trace/beauty/include')
+2026-08-02T03:13:55.8794326Z recursedown('tools/perf/trace/beauty/include/linux')
+2026-08-02T03:13:55.8794800Z recursedown('tools/perf/trace/beauty/include/uapi')
+2026-08-02T03:13:55.8795222Z recursedown('tools/perf/trace/beauty/include/uapi/linux')
+2026-08-02T03:13:55.8796164Z recursedown('tools/perf/trace/beauty/include/uapi/sound')
+2026-08-02T03:13:55.8797362Z recursedown('tools/perf/trace/beauty/tracepoints')
+2026-08-02T03:13:55.8798415Z recursedown('tools/perf/trace/strace')
+2026-08-02T03:13:55.8799217Z recursedown('tools/perf/trace/strace/groups')
+2026-08-02T03:13:55.8799759Z recursedown('tools/perf/ui')
+2026-08-02T03:13:55.8800576Z recursedown('tools/perf/ui/browsers')
+2026-08-02T03:13:55.8801114Z recursedown('tools/perf/ui/gtk')
+2026-08-02T03:13:55.8803304Z recursedown('tools/perf/ui/stdio')
+2026-08-02T03:13:55.8804769Z recursedown('tools/perf/ui/tui')
+2026-08-02T03:13:55.8805264Z recursedown('tools/perf/util')
+2026-08-02T03:13:55.8852745Z recursedown('tools/perf/util/arm-spe-decoder')
+2026-08-02T03:13:55.8853471Z recursedown('tools/perf/util/bpf_skel')
+2026-08-02T03:13:55.8856728Z recursedown('tools/perf/util/bpf_skel/vmlinux')
+2026-08-02T03:13:55.8858476Z recursedown('tools/perf/util/cs-etm-decoder')
+2026-08-02T03:13:55.8859592Z recursedown('tools/perf/util/hisi-ptt-decoder')
+2026-08-02T03:13:55.8860472Z recursedown('tools/perf/util/include')
+2026-08-02T03:13:55.8861964Z recursedown('tools/perf/util/include/asm')
+2026-08-02T03:13:55.8862513Z recursedown('tools/perf/util/include/linux')
+2026-08-02T03:13:55.8863469Z recursedown('tools/perf/util/intel-pt-decoder')
+2026-08-02T03:13:55.8864625Z recursedown('tools/perf/util/libunwind')
+2026-08-02T03:13:55.8865143Z recursedown('tools/perf/util/perf-regs-arch')
+2026-08-02T03:13:55.8866465Z recursedown('tools/perf/util/scripting-engines')
+2026-08-02T03:13:55.8867601Z recursedown('tools/power')
+2026-08-02T03:13:55.8868742Z recursedown('tools/power/acpi')
+2026-08-02T03:13:55.8871170Z recursedown('tools/power/acpi/common')
+2026-08-02T03:13:55.8873165Z recursedown('tools/power/acpi/man')
+2026-08-02T03:13:55.8874600Z recursedown('tools/power/acpi/os_specific')
+2026-08-02T03:13:55.8875452Z recursedown('tools/power/acpi/os_specific/service_layers')
+2026-08-02T03:13:55.8876852Z recursedown('tools/power/acpi/tools')
+2026-08-02T03:13:55.8877390Z recursedown('tools/power/acpi/tools/acpidbg')
+2026-08-02T03:13:55.8878848Z recursedown('tools/power/acpi/tools/acpidump')
+2026-08-02T03:13:55.8879668Z recursedown('tools/power/acpi/tools/ec')
+2026-08-02T03:13:55.8880430Z recursedown('tools/power/cpupower')
+2026-08-02T03:13:55.8880930Z recursedown('tools/power/cpupower/bench')
+2026-08-02T03:13:55.8882091Z recursedown('tools/power/cpupower/bindings')
+2026-08-02T03:13:55.8883587Z recursedown('tools/power/cpupower/bindings/python')
+2026-08-02T03:13:55.8887220Z recursedown('tools/power/cpupower/debug')
+2026-08-02T03:13:55.8887637Z recursedown('tools/power/cpupower/debug/i386')
+2026-08-02T03:13:55.8889290Z recursedown('tools/power/cpupower/debug/kernel')
+2026-08-02T03:13:55.8890315Z recursedown('tools/power/cpupower/debug/x86_64')
+2026-08-02T03:13:55.8890932Z recursedown('tools/power/cpupower/lib')
+2026-08-02T03:13:55.8892626Z recursedown('tools/power/cpupower/man')
+2026-08-02T03:13:55.8894645Z recursedown('tools/power/cpupower/po')
+2026-08-02T03:13:55.8896905Z recursedown('tools/power/cpupower/utils')
+2026-08-02T03:13:55.8899872Z recursedown('tools/power/cpupower/utils/helpers')
+2026-08-02T03:13:55.8902069Z recursedown('tools/power/cpupower/utils/idle_monitor')
+2026-08-02T03:13:55.8904598Z recursedown('tools/power/pm-graph')
+2026-08-02T03:13:55.8914028Z recursedown('tools/power/pm-graph/config')
+2026-08-02T03:13:55.8916701Z recursedown('tools/power/x86')
+2026-08-02T03:13:55.8918385Z recursedown('tools/power/x86/intel-speed-select')
+2026-08-02T03:13:55.8920411Z recursedown('tools/power/x86/intel_pstate_tracer')
+2026-08-02T03:13:55.8924280Z recursedown('tools/power/x86/turbostat')
+2026-08-02T03:13:55.8925273Z recursedown('tools/power/x86/x86_energy_perf_policy')
+2026-08-02T03:13:55.8926742Z recursedown('tools/rcu')
+2026-08-02T03:13:55.8927409Z recursedown('tools/scripts')
+2026-08-02T03:13:55.8928822Z recursedown('tools/sound')
+2026-08-02T03:13:55.8929607Z recursedown('tools/spi')
+2026-08-02T03:13:55.8930519Z recursedown('tools/testing')
+2026-08-02T03:13:55.8933089Z recursedown('tools/testing/crypto')
+2026-08-02T03:13:55.8933813Z recursedown('tools/testing/crypto/chacha20-s390')
+2026-08-02T03:13:55.8934331Z recursedown('tools/testing/cxl')
+2026-08-02T03:13:55.8936272Z recursedown('tools/testing/cxl/test')
+2026-08-02T03:13:55.8938346Z recursedown('tools/testing/fault-injection')
+2026-08-02T03:13:55.8938960Z recursedown('tools/testing/ktest')
+2026-08-02T03:13:55.8940643Z recursedown('tools/testing/ktest/examples')
+2026-08-02T03:13:55.8941463Z recursedown('tools/testing/ktest/examples/bootconfigs')
+2026-08-02T03:13:55.8943542Z recursedown('tools/testing/ktest/examples/include')
+2026-08-02T03:13:55.8944647Z recursedown('tools/testing/kunit')
+2026-08-02T03:13:55.8956075Z recursedown('tools/testing/kunit/configs')
+2026-08-02T03:13:55.8957430Z recursedown('tools/testing/kunit/qemu_configs')
+2026-08-02T03:13:55.8962085Z recursedown('tools/testing/kunit/test_data')
+2026-08-02T03:13:55.8965905Z recursedown('tools/testing/memblock')
+2026-08-02T03:13:55.8968334Z recursedown('tools/testing/memblock/asm')
+2026-08-02T03:13:55.8968977Z recursedown('tools/testing/memblock/lib')
+2026-08-02T03:13:55.8969350Z recursedown('tools/testing/memblock/linux')
+2026-08-02T03:13:55.8970587Z recursedown('tools/testing/memblock/scripts')
+2026-08-02T03:13:55.8971044Z recursedown('tools/testing/nvdimm')
+2026-08-02T03:13:55.8973490Z recursedown('tools/testing/nvdimm/test')
+2026-08-02T03:13:55.8975486Z recursedown('tools/testing/radix-tree')
+2026-08-02T03:13:55.8979322Z recursedown('tools/testing/radix-tree/generated')
+2026-08-02T03:13:55.8979881Z recursedown('tools/testing/radix-tree/linux')
+2026-08-02T03:13:55.8982333Z recursedown('tools/testing/radix-tree/trace')
+2026-08-02T03:13:55.8982811Z recursedown('tools/testing/radix-tree/trace/events')
+2026-08-02T03:13:55.8983829Z recursedown('tools/testing/scatterlist')
+2026-08-02T03:13:55.8984712Z recursedown('tools/testing/scatterlist/linux')
+2026-08-02T03:13:55.8985766Z recursedown('tools/testing/selftests')
+2026-08-02T03:13:55.9000006Z recursedown('tools/testing/selftests/arm64')
+2026-08-02T03:13:55.9001554Z recursedown('tools/testing/selftests/arm64/bti')
+2026-08-02T03:13:55.9005096Z recursedown('tools/testing/selftests/arm64/bti/gen')
+2026-08-02T03:13:55.9005698Z recursedown('tools/testing/selftests/arm64/fp')
+2026-08-02T03:13:55.9009262Z recursedown('tools/testing/selftests/arm64/mte')
+2026-08-02T03:13:55.9011181Z recursedown('tools/testing/selftests/arm64/pauth')
+2026-08-02T03:13:55.9012641Z recursedown('tools/testing/selftests/arm64/signal')
+2026-08-02T03:13:55.9015613Z recursedown('tools/testing/selftests/arm64/signal/testcases')
+2026-08-02T03:13:55.9019469Z recursedown('tools/testing/selftests/arm64/tags')
+2026-08-02T03:13:55.9021260Z recursedown('tools/testing/selftests/bpf')
+2026-08-02T03:13:55.9048431Z recursedown('tools/testing/selftests/bpf/benchs')
+2026-08-02T03:13:55.9054490Z recursedown('tools/testing/selftests/bpf/bpf_test_modorder_x')
+2026-08-02T03:13:55.9056645Z recursedown('tools/testing/selftests/bpf/bpf_test_modorder_y')
+2026-08-02T03:13:55.9057814Z recursedown('tools/testing/selftests/bpf/bpf_test_no_cfi')
+2026-08-02T03:13:55.9059205Z recursedown('tools/testing/selftests/bpf/bpf_testmod')
+2026-08-02T03:13:55.9059839Z recursedown('tools/testing/selftests/bpf/gnu')
+2026-08-02T03:13:55.9060408Z recursedown('tools/testing/selftests/bpf/map_tests')
+2026-08-02T03:13:55.9061021Z recursedown('tools/testing/selftests/bpf/prog_tests')
+2026-08-02T03:13:55.9108031Z recursedown('tools/testing/selftests/bpf/progs')
+2026-08-02T03:13:55.9219268Z recursedown('tools/testing/selftests/bpf/verifier')
+2026-08-02T03:13:55.9224405Z recursedown('tools/testing/selftests/breakpoints')
+2026-08-02T03:13:55.9227122Z recursedown('tools/testing/selftests/cachestat')
+2026-08-02T03:13:55.9228358Z recursedown('tools/testing/selftests/capabilities')
+2026-08-02T03:13:55.9228946Z recursedown('tools/testing/selftests/cgroup')
+2026-08-02T03:13:55.9232023Z recursedown('tools/testing/selftests/clone3')
+2026-08-02T03:13:55.9233886Z recursedown('tools/testing/selftests/core')
+2026-08-02T03:13:55.9234549Z recursedown('tools/testing/selftests/cpu-hotplug')
+2026-08-02T03:13:55.9235516Z recursedown('tools/testing/selftests/cpufreq')
+2026-08-02T03:13:55.9238859Z recursedown('tools/testing/selftests/damon')
+2026-08-02T03:13:55.9241672Z recursedown('tools/testing/selftests/dma')
+2026-08-02T03:13:55.9242805Z recursedown('tools/testing/selftests/dmabuf-heaps')
+2026-08-02T03:13:55.9243823Z recursedown('tools/testing/selftests/drivers')
+2026-08-02T03:13:55.9245247Z recursedown('tools/testing/selftests/drivers/dma-buf')
+2026-08-02T03:13:55.9246492Z recursedown('tools/testing/selftests/drivers/gpu')
+2026-08-02T03:13:55.9247111Z recursedown('tools/testing/selftests/drivers/net')
+2026-08-02T03:13:55.9260938Z recursedown('tools/testing/selftests/drivers/net/bonding')
+2026-08-02T03:13:55.9263845Z recursedown('tools/testing/selftests/drivers/net/hw')
+2026-08-02T03:13:55.9273418Z recursedown('tools/testing/selftests/drivers/net/hw/lib')
+2026-08-02T03:13:55.9274184Z recursedown('tools/testing/selftests/drivers/net/hw/lib/py')
+2026-08-02T03:13:55.9276244Z recursedown('tools/testing/selftests/drivers/net/lib')
+2026-08-02T03:13:55.9276964Z recursedown('tools/testing/selftests/drivers/net/lib/py')
+2026-08-02T03:13:55.9279020Z recursedown('tools/testing/selftests/drivers/net/mlxsw')
+2026-08-02T03:13:55.9293708Z recursedown('tools/testing/selftests/drivers/net/mlxsw/spectrum')
+2026-08-02T03:13:55.9297402Z recursedown('tools/testing/selftests/drivers/net/mlxsw/spectrum-2')
+2026-08-02T03:13:55.9299336Z recursedown('tools/testing/selftests/drivers/net/netdevsim')
+2026-08-02T03:13:55.9304621Z recursedown('tools/testing/selftests/drivers/net/ocelot')
+2026-08-02T03:13:55.9306282Z recursedown('tools/testing/selftests/drivers/net/team')
+2026-08-02T03:13:55.9307514Z recursedown('tools/testing/selftests/drivers/sdsi')
+2026-08-02T03:13:55.9309439Z recursedown('tools/testing/selftests/drivers/usb')
+2026-08-02T03:13:55.9310549Z recursedown('tools/testing/selftests/drivers/usb/usbip')
+2026-08-02T03:13:55.9311291Z recursedown('tools/testing/selftests/dt')
+2026-08-02T03:13:55.9311871Z recursedown('tools/testing/selftests/efivarfs')
+2026-08-02T03:13:55.9313372Z recursedown('tools/testing/selftests/exec')
+2026-08-02T03:13:55.9315092Z recursedown('tools/testing/selftests/filesystems')
+2026-08-02T03:13:55.9316957Z recursedown('tools/testing/selftests/filesystems/binderfs')
+2026-08-02T03:13:55.9318384Z recursedown('tools/testing/selftests/filesystems/epoll')
+2026-08-02T03:13:55.9319148Z recursedown('tools/testing/selftests/filesystems/fat')
+2026-08-02T03:13:55.9320689Z recursedown('tools/testing/selftests/firmware')
+2026-08-02T03:13:55.9322981Z recursedown('tools/testing/selftests/fpu')
+2026-08-02T03:13:55.9324476Z recursedown('tools/testing/selftests/ftrace')
+2026-08-02T03:13:55.9326185Z recursedown('tools/testing/selftests/ftrace/samples')
+2026-08-02T03:13:55.9327888Z recursedown('tools/testing/selftests/ftrace/test.d')
+2026-08-02T03:13:55.9331008Z recursedown('tools/testing/selftests/ftrace/test.d/00basic')
+2026-08-02T03:13:55.9332888Z recursedown('tools/testing/selftests/ftrace/test.d/direct')
+2026-08-02T03:13:55.9334703Z recursedown('tools/testing/selftests/ftrace/test.d/dynevent')
+2026-08-02T03:13:55.9335699Z recursedown('tools/testing/selftests/ftrace/test.d/event')
+2026-08-02T03:13:55.9336526Z recursedown('tools/testing/selftests/ftrace/test.d/ftrace')
+2026-08-02T03:13:55.9341022Z recursedown('tools/testing/selftests/ftrace/test.d/instances')
+2026-08-02T03:13:55.9341798Z recursedown('tools/testing/selftests/ftrace/test.d/kprobe')
+2026-08-02T03:13:55.9345629Z recursedown('tools/testing/selftests/ftrace/test.d/preemptirq')
+2026-08-02T03:13:55.9346990Z recursedown('tools/testing/selftests/ftrace/test.d/selftest')
+2026-08-02T03:13:55.9348037Z recursedown('tools/testing/selftests/ftrace/test.d/tracer')
+2026-08-02T03:13:55.9349040Z recursedown('tools/testing/selftests/ftrace/test.d/trigger')
+2026-08-02T03:13:55.9350873Z recursedown('tools/testing/selftests/ftrace/test.d/trigger/inter-event')
+2026-08-02T03:13:55.9353793Z recursedown('tools/testing/selftests/futex')
+2026-08-02T03:13:55.9355114Z recursedown('tools/testing/selftests/futex/functional')
+2026-08-02T03:13:55.9358710Z recursedown('tools/testing/selftests/futex/include')
+2026-08-02T03:13:55.9359891Z recursedown('tools/testing/selftests/gpio')
+2026-08-02T03:13:55.9361300Z recursedown('tools/testing/selftests/hid')
+2026-08-02T03:13:55.9366430Z recursedown('tools/testing/selftests/hid/progs')
+2026-08-02T03:13:55.9367058Z recursedown('tools/testing/selftests/hid/tests')
+2026-08-02T03:13:55.9404689Z recursedown('tools/testing/selftests/ia64')
+2026-08-02T03:13:55.9408175Z recursedown('tools/testing/selftests/intel_pstate')
+2026-08-02T03:13:55.9408798Z recursedown('tools/testing/selftests/iommu')
+2026-08-02T03:13:55.9409332Z recursedown('tools/testing/selftests/ipc')
+2026-08-02T03:13:55.9409899Z recursedown('tools/testing/selftests/ir')
+2026-08-02T03:13:55.9412294Z recursedown('tools/testing/selftests/kcmp')
+2026-08-02T03:13:55.9413891Z recursedown('tools/testing/selftests/kexec')
+2026-08-02T03:13:55.9414946Z recursedown('tools/testing/selftests/kmod')
+2026-08-02T03:13:55.9415544Z recursedown('tools/testing/selftests/kselftest')
+2026-08-02T03:13:55.9416404Z recursedown('tools/testing/selftests/kvm')
+2026-08-02T03:13:55.9421440Z recursedown('tools/testing/selftests/kvm/aarch64')
+2026-08-02T03:13:55.9424709Z recursedown('tools/testing/selftests/kvm/include')
+2026-08-02T03:13:55.9428162Z recursedown('tools/testing/selftests/kvm/include/aarch64')
+2026-08-02T03:13:55.9430859Z recursedown('tools/testing/selftests/kvm/include/riscv')
+2026-08-02T03:13:55.9432604Z recursedown('tools/testing/selftests/kvm/include/s390x')
+2026-08-02T03:13:55.9433573Z recursedown('tools/testing/selftests/kvm/include/x86_64')
+2026-08-02T03:13:55.9435442Z recursedown('tools/testing/selftests/kvm/lib')
+2026-08-02T03:13:55.9438803Z recursedown('tools/testing/selftests/kvm/lib/aarch64')
+2026-08-02T03:13:55.9441253Z recursedown('tools/testing/selftests/kvm/lib/s390x')
+2026-08-02T03:13:55.9441981Z recursedown('tools/testing/selftests/kvm/lib/x86_64')
+2026-08-02T03:13:55.9444306Z recursedown('tools/testing/selftests/kvm/s390x')
+2026-08-02T03:13:55.9446611Z recursedown('tools/testing/selftests/kvm/x86_64')
+2026-08-02T03:13:55.9458229Z recursedown('tools/testing/selftests/landlock')
+2026-08-02T03:13:55.9461111Z recursedown('tools/testing/selftests/lib')
+2026-08-02T03:13:55.9462708Z recursedown('tools/testing/selftests/livepatch')
+2026-08-02T03:13:55.9465794Z recursedown('tools/testing/selftests/lkdtm')
+2026-08-02T03:13:55.9467869Z recursedown('tools/testing/selftests/locking')
+2026-08-02T03:13:55.9468447Z recursedown('tools/testing/selftests/media_tests')
+2026-08-02T03:13:55.9470223Z recursedown('tools/testing/selftests/membarrier')
+2026-08-02T03:13:55.9471700Z recursedown('tools/testing/selftests/memfd')
+2026-08-02T03:13:55.9474213Z recursedown('tools/testing/selftests/memory-hotplug')
+2026-08-02T03:13:55.9475218Z recursedown('tools/testing/selftests/mincore')
+2026-08-02T03:13:55.9475711Z recursedown('tools/testing/selftests/mm')
+2026-08-02T03:13:55.9485010Z recursedown('tools/testing/selftests/mount')
+2026-08-02T03:13:55.9486507Z recursedown('tools/testing/selftests/mount_setattr')
+2026-08-02T03:13:55.9487705Z recursedown('tools/testing/selftests/mqueue')
+2026-08-02T03:13:55.9488768Z recursedown('tools/testing/selftests/nci')
+2026-08-02T03:13:55.9490636Z recursedown('tools/testing/selftests/net')
+2026-08-02T03:13:55.9510690Z recursedown('tools/testing/selftests/net/forwarding')
+2026-08-02T03:13:55.9530203Z recursedown('tools/testing/selftests/net/hsr')
+2026-08-02T03:13:55.9532048Z recursedown('tools/testing/selftests/net/lib')
+2026-08-02T03:13:55.9532894Z recursedown('tools/testing/selftests/net/lib/py')
+2026-08-02T03:13:55.9536740Z recursedown('tools/testing/selftests/net/lib/sh')
+2026-08-02T03:13:55.9537865Z recursedown('tools/testing/selftests/net/mptcp')
+2026-08-02T03:13:55.9540469Z recursedown('tools/testing/selftests/net/netfilter')
+2026-08-02T03:13:55.9547453Z recursedown('tools/testing/selftests/nsfs')
+2026-08-02T03:13:55.9548737Z recursedown('tools/testing/selftests/ntb')
+2026-08-02T03:13:55.9549798Z recursedown('tools/testing/selftests/openat2')
+2026-08-02T03:13:55.9550783Z recursedown('tools/testing/selftests/perf_events')
+2026-08-02T03:13:55.9553099Z recursedown('tools/testing/selftests/pid_namespace')
+2026-08-02T03:13:55.9553890Z recursedown('tools/testing/selftests/pidfd')
+2026-08-02T03:13:55.9556015Z recursedown('tools/testing/selftests/powerpc')
+2026-08-02T03:13:55.9562886Z recursedown('tools/testing/selftests/powerpc/alignment')
+2026-08-02T03:13:55.9564161Z recursedown('tools/testing/selftests/powerpc/benchmarks')
+2026-08-02T03:13:55.9566432Z recursedown('tools/testing/selftests/powerpc/cache_shape')
+2026-08-02T03:13:55.9567259Z recursedown('tools/testing/selftests/powerpc/copyloops')
+2026-08-02T03:13:55.9569399Z recursedown('tools/testing/selftests/powerpc/copyloops/asm')
+2026-08-02T03:13:55.9570778Z recursedown('tools/testing/selftests/powerpc/dexcr')
+2026-08-02T03:13:55.9572746Z recursedown('tools/testing/selftests/powerpc/dscr')
+2026-08-02T03:13:55.9575144Z recursedown('tools/testing/selftests/powerpc/eeh')
+2026-08-02T03:13:55.9577343Z recursedown('tools/testing/selftests/powerpc/include')
+2026-08-02T03:13:55.9579325Z recursedown('tools/testing/selftests/powerpc/lib')
+2026-08-02T03:13:55.9579939Z recursedown('tools/testing/selftests/powerpc/math')
+2026-08-02T03:13:55.9582422Z recursedown('tools/testing/selftests/powerpc/mce')
+2026-08-02T03:13:55.9583157Z recursedown('tools/testing/selftests/powerpc/mm')
+2026-08-02T03:13:55.9586798Z recursedown('tools/testing/selftests/powerpc/nx-gzip')
+2026-08-02T03:13:55.9589266Z recursedown('tools/testing/selftests/powerpc/nx-gzip/include')
+2026-08-02T03:13:55.9591849Z recursedown('tools/testing/selftests/powerpc/papr_attributes')
+2026-08-02T03:13:55.9592992Z recursedown('tools/testing/selftests/powerpc/papr_sysparm')
+2026-08-02T03:13:55.9593693Z recursedown('tools/testing/selftests/powerpc/papr_vpd')
+2026-08-02T03:13:55.9594318Z recursedown('tools/testing/selftests/powerpc/pmu')
+2026-08-02T03:13:55.9596254Z recursedown('tools/testing/selftests/powerpc/pmu/ebb')
+2026-08-02T03:13:55.9602264Z recursedown('tools/testing/selftests/powerpc/pmu/sampling_tests')
+2026-08-02T03:13:55.9605800Z recursedown('tools/testing/selftests/powerpc/primitives')
+2026-08-02T03:13:55.9607251Z recursedown('tools/testing/selftests/powerpc/primitives/asm')
+2026-08-02T03:13:55.9608747Z recursedown('tools/testing/selftests/powerpc/primitives/linux')
+2026-08-02T03:13:55.9609466Z recursedown('tools/testing/selftests/powerpc/ptrace')
+2026-08-02T03:13:55.9613729Z recursedown('tools/testing/selftests/powerpc/scripts')
+2026-08-02T03:13:55.9614415Z recursedown('tools/testing/selftests/powerpc/security')
+2026-08-02T03:13:55.9616720Z recursedown('tools/testing/selftests/powerpc/signal')
+2026-08-02T03:13:55.9619133Z recursedown('tools/testing/selftests/powerpc/stringloops')
+2026-08-02T03:13:55.9621410Z recursedown('tools/testing/selftests/powerpc/stringloops/asm')
+2026-08-02T03:13:55.9622232Z recursedown('tools/testing/selftests/powerpc/switch_endian')
+2026-08-02T03:13:55.9624000Z recursedown('tools/testing/selftests/powerpc/syscalls')
+2026-08-02T03:13:55.9624442Z recursedown('tools/testing/selftests/powerpc/tm')
+2026-08-02T03:13:55.9629738Z recursedown('tools/testing/selftests/powerpc/vphn')
+2026-08-02T03:13:55.9630684Z recursedown('tools/testing/selftests/powerpc/vphn/asm')
+2026-08-02T03:13:55.9631663Z recursedown('tools/testing/selftests/prctl')
+2026-08-02T03:13:55.9632633Z recursedown('tools/testing/selftests/proc')
+2026-08-02T03:13:55.9636959Z recursedown('tools/testing/selftests/pstore')
+2026-08-02T03:13:55.9639127Z recursedown('tools/testing/selftests/ptp')
+2026-08-02T03:13:55.9639923Z recursedown('tools/testing/selftests/ptrace')
+2026-08-02T03:13:55.9641266Z recursedown('tools/testing/selftests/rcutorture')
+2026-08-02T03:13:55.9643261Z recursedown('tools/testing/selftests/rcutorture/bin')
+2026-08-02T03:13:55.9649876Z recursedown('tools/testing/selftests/rcutorture/configs')
+2026-08-02T03:13:55.9650654Z recursedown('tools/testing/selftests/rcutorture/configs/lock')
+2026-08-02T03:13:55.9656337Z recursedown('tools/testing/selftests/rcutorture/configs/rcu')
+2026-08-02T03:13:55.9665760Z recursedown('tools/testing/selftests/rcutorture/configs/rcuscale')
+2026-08-02T03:13:55.9667979Z recursedown('tools/testing/selftests/rcutorture/configs/refscale')
+2026-08-02T03:13:55.9668887Z recursedown('tools/testing/selftests/rcutorture/configs/scf')
+2026-08-02T03:13:55.9670184Z recursedown('tools/testing/selftests/rcutorture/doc')
+2026-08-02T03:13:55.9671595Z recursedown('tools/testing/selftests/resctrl')
+2026-08-02T03:13:55.9674233Z recursedown('tools/testing/selftests/rlimits')
+2026-08-02T03:13:55.9675736Z recursedown('tools/testing/selftests/rseq')
+2026-08-02T03:13:55.9679990Z recursedown('tools/testing/selftests/rtc')
+2026-08-02T03:13:55.9681341Z recursedown('tools/testing/selftests/safesetid')
+2026-08-02T03:13:55.9682464Z recursedown('tools/testing/selftests/sched')
+2026-08-02T03:13:55.9683616Z recursedown('tools/testing/selftests/seccomp')
+2026-08-02T03:13:55.9685075Z recursedown('tools/testing/selftests/sgx')
+2026-08-02T03:13:55.9688116Z recursedown('tools/testing/selftests/sigaltstack')
+2026-08-02T03:13:55.9689493Z recursedown('tools/testing/selftests/size')
+2026-08-02T03:13:55.9690132Z recursedown('tools/testing/selftests/sparc64')
+2026-08-02T03:13:55.9691521Z recursedown('tools/testing/selftests/sparc64/drivers')
+2026-08-02T03:13:55.9692124Z recursedown('tools/testing/selftests/splice')
+2026-08-02T03:13:55.9693584Z recursedown('tools/testing/selftests/static_keys')
+2026-08-02T03:13:55.9694425Z recursedown('tools/testing/selftests/sync')
+2026-08-02T03:13:55.9697901Z recursedown('tools/testing/selftests/syscall_user_dispatch')
+2026-08-02T03:13:55.9699056Z recursedown('tools/testing/selftests/sysctl')
+2026-08-02T03:13:55.9700185Z recursedown('tools/testing/selftests/tc-testing')
+2026-08-02T03:13:55.9716520Z recursedown('tools/testing/selftests/tc-testing/creating-plugins')
+2026-08-02T03:13:55.9717528Z recursedown('tools/testing/selftests/tc-testing/creating-testcases')
+2026-08-02T03:13:55.9719596Z recursedown('tools/testing/selftests/tc-testing/plugin-lib')
+2026-08-02T03:13:55.9723737Z recursedown('tools/testing/selftests/tc-testing/plugins')
+2026-08-02T03:13:55.9724632Z recursedown('tools/testing/selftests/tc-testing/scripts')
+2026-08-02T03:13:55.9728067Z recursedown('tools/testing/selftests/tc-testing/tc-tests')
+2026-08-02T03:13:55.9728744Z recursedown('tools/testing/selftests/tc-testing/tc-tests/actions')
+2026-08-02T03:13:55.9732745Z recursedown('tools/testing/selftests/tc-testing/tc-tests/filters')
+2026-08-02T03:13:55.9735147Z recursedown('tools/testing/selftests/tc-testing/tc-tests/infra')
+2026-08-02T03:13:55.9737004Z recursedown('tools/testing/selftests/tc-testing/tc-tests/qdiscs')
+2026-08-02T03:13:55.9742598Z recursedown('tools/testing/selftests/tdx')
+2026-08-02T03:13:55.9743196Z recursedown('tools/testing/selftests/thermal')
+2026-08-02T03:13:55.9744174Z recursedown('tools/testing/selftests/thermal/intel')
+2026-08-02T03:13:55.9745128Z recursedown('tools/testing/selftests/thermal/intel/workload_hint')
+2026-08-02T03:13:55.9746230Z recursedown('tools/testing/selftests/timens')
+2026-08-02T03:13:55.9747937Z recursedown('tools/testing/selftests/timers')
+2026-08-02T03:13:55.9752075Z recursedown('tools/testing/selftests/tmpfs')
+2026-08-02T03:13:55.9752656Z recursedown('tools/testing/selftests/tpm2')
+2026-08-02T03:13:55.9754728Z recursedown('tools/testing/selftests/tty')
+2026-08-02T03:13:55.9756308Z recursedown('tools/testing/selftests/turbostat')
+2026-08-02T03:13:55.9759397Z recursedown('tools/testing/selftests/uevent')
+2026-08-02T03:13:55.9760091Z recursedown('tools/testing/selftests/user')
+2026-08-02T03:13:55.9761186Z recursedown('tools/testing/selftests/vDSO')
+2026-08-02T03:13:55.9763315Z recursedown('tools/testing/selftests/watchdog')
+2026-08-02T03:13:55.9765366Z recursedown('tools/testing/selftests/wireguard')
+2026-08-02T03:13:55.9766314Z recursedown('tools/testing/selftests/wireguard/qemu')
+2026-08-02T03:13:55.9768170Z recursedown('tools/testing/selftests/wireguard/qemu/arch')
+2026-08-02T03:13:55.9770200Z recursedown('tools/testing/selftests/x86')
+2026-08-02T03:13:55.9776945Z recursedown('tools/testing/selftests/x86/bugs')
+2026-08-02T03:13:55.9788185Z tools/kvm/kvm_stat/kvm_stat: updating
+2026-08-02T03:13:55.9788876Z scripts/show_delta: updating
+2026-08-02T03:13:55.9789584Z scripts/diffconfig: updating
+2026-08-02T03:13:55.9790244Z scripts/bloat-o-meter: updating
+2026-08-02T03:13:55.9790676Z scripts/jobserver-exec: updating
+2026-08-02T03:13:55.9791163Z tools/cgroup/iocost_coef_gen.py: updating
+2026-08-02T03:13:55.9791878Z tools/cgroup/iocost_monitor.py: no change
+2026-08-02T03:13:55.9792574Z tools/cgroup/memcg_slabinfo.py: no change
+2026-08-02T03:13:55.9793375Z tools/crypto/ccp/dbc.py: updating
+2026-08-02T03:13:55.9794026Z tools/crypto/ccp/dbc_cli.py: updating
+2026-08-02T03:13:55.9794755Z tools/crypto/ccp/test_dbc.py: updating
+2026-08-02T03:13:55.9795961Z tools/net/ynl/cli.py: updating
+2026-08-02T03:13:55.9813281Z tools/net/ynl/ethtool.py: updating
+2026-08-02T03:13:55.9813842Z tools/net/ynl/ynl-gen-c.py: updating
+2026-08-02T03:13:55.9814413Z tools/net/ynl/ynl-gen-rst.py: updating
+2026-08-02T03:13:55.9814924Z tools/net/ynl/lib/__init__.py: no change
+2026-08-02T03:13:55.9815422Z tools/net/ynl/lib/nlspec.py: no change
+2026-08-02T03:13:55.9816105Z tools/net/ynl/lib/ynl.py: no change
+2026-08-02T03:13:55.9816620Z tools/perf/pmu-events/jevents.py: updating
+2026-08-02T03:13:55.9817166Z tools/perf/pmu-events/metric.py: no change
+2026-08-02T03:13:55.9817722Z tools/perf/pmu-events/metric_test.py: updating
+2026-08-02T03:13:55.9818292Z tools/perf/pmu-events/models.py: updating
+2026-08-02T03:13:55.9818832Z tools/perf/python/tracepoint.py: updating
+2026-08-02T03:13:55.9819347Z tools/perf/python/twatch.py: updating
+2026-08-02T03:13:55.9820266Z tools/perf/scripts/python/arm-cs-trace-disasm.py: no change
+2026-08-02T03:13:55.9821060Z tools/perf/scripts/python/check-perf-trace.py: no change
+2026-08-02T03:13:55.9821793Z tools/perf/scripts/python/compaction-times.py: no change
+2026-08-02T03:13:55.9822522Z tools/perf/scripts/python/event_analyzing_sample.py: no change
+2026-08-02T03:13:55.9823297Z tools/perf/scripts/python/export-to-postgresql.py: no change
+2026-08-02T03:13:55.9824069Z tools/perf/scripts/python/export-to-sqlite.py: no change
+2026-08-02T03:13:55.9824782Z tools/perf/scripts/python/exported-sql-viewer.py: updating
+2026-08-02T03:13:55.9825727Z tools/perf/scripts/python/failed-syscalls-by-pid.py: no change
+2026-08-02T03:13:55.9826391Z tools/perf/scripts/python/flamegraph.py: no change
+2026-08-02T03:13:55.9826802Z tools/perf/scripts/python/futex-contention.py: no change
+2026-08-02T03:13:55.9827312Z tools/perf/scripts/python/gecko.py: no change
+2026-08-02T03:13:55.9827848Z tools/perf/scripts/python/intel-pt-events.py: no change
+2026-08-02T03:13:55.9828493Z tools/perf/scripts/python/libxed.py: updating
+2026-08-02T03:13:55.9829125Z tools/perf/scripts/python/mem-phys-addr.py: no change
+2026-08-02T03:13:55.9829858Z tools/perf/scripts/python/net_dropmonitor.py: no change
+2026-08-02T03:13:55.9830472Z tools/perf/scripts/python/netdev-times.py: no change
+2026-08-02T03:13:55.9831056Z tools/perf/scripts/python/parallel-perf.py: updating
+2026-08-02T03:13:55.9831438Z tools/perf/scripts/python/powerpc-hcalls.py: no change
+2026-08-02T03:13:55.9831808Z tools/perf/scripts/python/sched-migration.py: no change
+2026-08-02T03:13:55.9832147Z tools/perf/scripts/python/sctop.py: no change
+2026-08-02T03:13:55.9832480Z tools/perf/scripts/python/stackcollapse.py: no change
+2026-08-02T03:13:55.9832825Z tools/perf/scripts/python/stat-cpi.py: no change
+2026-08-02T03:13:55.9833213Z tools/perf/scripts/python/syscall-counts-by-pid.py: no change
+2026-08-02T03:13:55.9833634Z tools/perf/scripts/python/syscall-counts.py: no change
+2026-08-02T03:13:55.9834007Z tools/perf/scripts/python/task-analyzer.py: no change
+2026-08-02T03:13:55.9834434Z tools/perf/scripts/python/Perf-Trace-Util/lib/Perf/Trace/Core.py: no change
+2026-08-02T03:13:55.9834974Z tools/perf/scripts/python/Perf-Trace-Util/lib/Perf/Trace/EventClass.py: no change
+2026-08-02T03:13:55.9835784Z tools/perf/scripts/python/Perf-Trace-Util/lib/Perf/Trace/SchedGui.py: no change
+2026-08-02T03:13:55.9836355Z tools/perf/scripts/python/Perf-Trace-Util/lib/Perf/Trace/Util.py: no change
+2026-08-02T03:13:55.9836753Z tools/perf/tests/attr.py: no change
+2026-08-02T03:13:55.9837090Z tools/perf/tests/shell/lib/perf_json_output_lint.py: updating
+2026-08-02T03:13:55.9837500Z tools/perf/tests/shell/lib/perf_metric_validation.py: no change
+2026-08-02T03:13:55.9837852Z tools/perf/util/setup.py: no change
+2026-08-02T03:13:55.9838214Z tools/power/cpupower/bindings/python/test_raw_pylibcpupower.py: updating
+2026-08-02T03:13:55.9838621Z tools/power/pm-graph/bootgraph.py: updating
+2026-08-02T03:13:55.9838921Z tools/power/pm-graph/sleepgraph.py: updating
+2026-08-02T03:13:55.9839311Z tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py: updating
+2026-08-02T03:13:55.9839674Z tools/rcu/rcu-cbs.py: no change
+2026-08-02T03:13:55.9839923Z tools/testing/kunit/kunit.py: updating
+2026-08-02T03:13:55.9840220Z tools/testing/kunit/kunit_config.py: no change
+2026-08-02T03:13:55.9840544Z tools/testing/kunit/kunit_json.py: no change
+2026-08-02T03:13:55.9840845Z tools/testing/kunit/kunit_kernel.py: no change
+2026-08-02T03:13:55.9841150Z tools/testing/kunit/kunit_parser.py: no change
+2026-08-02T03:13:55.9841469Z tools/testing/kunit/kunit_printer.py: updating
+2026-08-02T03:13:55.9841785Z tools/testing/kunit/kunit_tool_test.py: updating
+2026-08-02T03:13:55.9842104Z tools/testing/kunit/qemu_config.py: no change
+2026-08-02T03:13:55.9842449Z tools/testing/kunit/run_checks.py: updating
+2026-08-02T03:13:55.9843036Z tools/testing/kunit/qemu_configs/alpha.py: no change
+2026-08-02T03:13:55.9843678Z tools/testing/kunit/qemu_configs/arm.py: no change
+2026-08-02T03:13:55.9844584Z tools/testing/kunit/qemu_configs/arm64.py: no change
+2026-08-02T03:13:55.9845212Z tools/testing/kunit/qemu_configs/i386.py: no change
+2026-08-02T03:13:55.9846050Z tools/testing/kunit/qemu_configs/m68k.py: no change
+2026-08-02T03:13:55.9846721Z tools/testing/kunit/qemu_configs/powerpc.py: no change
+2026-08-02T03:13:55.9847346Z tools/testing/kunit/qemu_configs/riscv.py: no change
+2026-08-02T03:13:55.9847913Z tools/testing/kunit/qemu_configs/s390.py: no change
+2026-08-02T03:13:55.9848508Z tools/testing/kunit/qemu_configs/sh.py: no change
+2026-08-02T03:13:55.9849119Z tools/testing/kunit/qemu_configs/sparc.py: no change
+2026-08-02T03:13:55.9849767Z tools/testing/kunit/qemu_configs/x86_64.py: no change
+2026-08-02T03:13:55.9850426Z recursedown('tools/testing/selftests/zram')
+2026-08-02T03:13:55.9850867Z recursedown('tools/testing/vsock')
+2026-08-02T03:13:55.9851316Z recursedown('tools/thermal')
+2026-08-02T03:13:55.9851591Z recursedown('tools/thermal/tmon')
+2026-08-02T03:13:55.9851857Z recursedown('tools/time')
+2026-08-02T03:13:55.9852099Z recursedown('tools/tracing')
+2026-08-02T03:13:55.9852341Z recursedown('tools/tracing/latency')
+2026-08-02T03:13:55.9852603Z recursedown('tools/tracing/rtla')
+2026-08-02T03:13:55.9852868Z recursedown('tools/tracing/rtla/sample')
+2026-08-02T03:13:55.9853339Z recursedown('tools/tracing/rtla/src')
+2026-08-02T03:13:55.9853744Z recursedown('tools/tracing/rtla/tests')
+2026-08-02T03:13:55.9854282Z recursedown('tools/tracing/rtla/tests/scripts')
+2026-08-02T03:13:55.9854828Z recursedown('tools/usb')
+2026-08-02T03:13:55.9855275Z recursedown('tools/usb/ffs-aio-example')
+2026-08-02T03:13:55.9856064Z recursedown('tools/usb/ffs-aio-example/multibuff')
+2026-08-02T03:13:55.9856795Z recursedown('tools/usb/ffs-aio-example/multibuff/device_app')
+2026-08-02T03:13:55.9857548Z recursedown('tools/usb/ffs-aio-example/multibuff/host_app')
+2026-08-02T03:13:55.9858240Z recursedown('tools/usb/ffs-aio-example/simple')
+2026-08-02T03:13:55.9858913Z recursedown('tools/usb/ffs-aio-example/simple/device_app')
+2026-08-02T03:13:55.9859651Z recursedown('tools/usb/ffs-aio-example/simple/host_app')
+2026-08-02T03:13:55.9860254Z recursedown('tools/usb/usbip')
+2026-08-02T03:13:55.9860709Z recursedown('tools/usb/usbip/doc')
+2026-08-02T03:13:55.9861192Z recursedown('tools/usb/usbip/libsrc')
+2026-08-02T03:13:55.9861691Z recursedown('tools/usb/usbip/src')
+2026-08-02T03:13:55.9862176Z recursedown('tools/usb/usbip/vudc')
+2026-08-02T03:13:55.9862644Z recursedown('tools/verification')
+2026-08-02T03:13:55.9863092Z recursedown('tools/verification/models')
+2026-08-02T03:13:55.9863618Z recursedown('tools/verification/models/rtapp')
+2026-08-02T03:13:55.9864050Z recursedown('tools/verification/models/sched')
+2026-08-02T03:13:55.9864363Z recursedown('tools/verification/rv')
+2026-08-02T03:13:55.9864648Z recursedown('tools/verification/rv/include')
+2026-08-02T03:13:55.9864939Z recursedown('tools/verification/rv/src')
+2026-08-02T03:13:55.9865215Z recursedown('tools/verification/rvgen')
+2026-08-02T03:13:55.9865502Z recursedown('tools/verification/rvgen/rvgen')
+2026-08-02T03:13:55.9866032Z recursedown('tools/verification/rvgen/rvgen/templates')
+2026-08-02T03:13:55.9866450Z recursedown('tools/verification/rvgen/rvgen/templates/container')
+2026-08-02T03:13:55.9866883Z recursedown('tools/verification/rvgen/rvgen/templates/dot2k')
+2026-08-02T03:13:55.9867306Z recursedown('tools/verification/rvgen/rvgen/templates/ltl2k')
+2026-08-02T03:13:55.9867639Z recursedown('tools/virtio')
+2026-08-02T03:13:55.9867875Z recursedown('tools/virtio/asm')
+2026-08-02T03:13:55.9868127Z recursedown('tools/virtio/crypto')
+2026-08-02T03:13:55.9868389Z recursedown('tools/virtio/generated')
+2026-08-02T03:13:55.9868725Z tools/testing/selftests/bpf/test_bpftool.py: no change
+2026-08-02T03:13:55.9869134Z tools/testing/selftests/bpf/test_bpftool_synctypes.py: updating
+2026-08-02T03:13:55.9869530Z tools/testing/selftests/bpf/test_offload.py: updating
+2026-08-02T03:13:55.9869897Z tools/testing/selftests/drivers/net/hds.py: updating
+2026-08-02T03:13:55.9870244Z tools/testing/selftests/drivers/net/ping.py: updating
+2026-08-02T03:13:55.9870782Z tools/testing/selftests/drivers/net/queues.py: updating
+2026-08-02T03:13:55.9871139Z tools/testing/selftests/drivers/net/shaper.py: updating
+2026-08-02T03:13:55.9871492Z tools/testing/selftests/drivers/net/stats.py: updating
+2026-08-02T03:13:55.9871903Z tools/testing/selftests/drivers/net/hw/devlink_port_split.py: updating
+2026-08-02T03:13:55.9872345Z tools/testing/selftests/drivers/net/hw/rss_ctx.py: updating
+2026-08-02T03:13:55.9872763Z tools/testing/selftests/drivers/net/hw/rss_input_xfrm.py: updating
+2026-08-02T03:13:55.9873213Z tools/testing/selftests/drivers/net/hw/lib/py/__init__.py: no change
+2026-08-02T03:13:55.9874054Z tools/testing/selftests/drivers/net/lib/py/__init__.py: no change
+2026-08-02T03:13:55.9874844Z tools/testing/selftests/drivers/net/lib/py/env.py: no change
+2026-08-02T03:13:55.9875806Z tools/testing/selftests/drivers/net/lib/py/load.py: no change
+2026-08-02T03:13:55.9876261Z tools/testing/selftests/drivers/net/lib/py/remote.py: no change
+2026-08-02T03:13:55.9877048Z tools/testing/selftests/drivers/net/lib/py/remote_netns.py: no change
+2026-08-02T03:13:55.9877593Z tools/testing/selftests/drivers/net/lib/py/remote_ssh.py: no change
+2026-08-02T03:13:55.9878366Z tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py: updating
+2026-08-02T03:13:55.9879533Z tools/testing/selftests/drivers/sdsi/sdsi_test.py: updating
+2026-08-02T03:13:55.9880255Z tools/testing/selftests/hid/tests/__init__.py: no change
+2026-08-02T03:13:55.9880926Z tools/testing/selftests/hid/tests/base.py: updating
+2026-08-02T03:13:55.9881607Z tools/testing/selftests/hid/tests/base_device.py: updating
+2026-08-02T03:13:55.9882331Z tools/testing/selftests/hid/tests/base_gamepad.py: no change
+2026-08-02T03:13:55.9883029Z tools/testing/selftests/hid/tests/conftest.py: updating
+2026-08-02T03:13:55.9883509Z tools/testing/selftests/hid/tests/descriptors_wacom.py: no change
+2026-08-02T03:13:55.9883976Z tools/testing/selftests/hid/tests/test_apple_keyboard.py: updating
+2026-08-02T03:13:55.9884420Z tools/testing/selftests/hid/tests/test_gamepad.py: updating
+2026-08-02T03:13:55.9884817Z tools/testing/selftests/hid/tests/test_hid_core.py: updating
+2026-08-02T03:13:55.9885223Z tools/testing/selftests/hid/tests/test_ite_keyboard.py: updating
+2026-08-02T03:13:55.9885905Z tools/testing/selftests/hid/tests/test_keyboard.py: updating
+2026-08-02T03:13:55.9886377Z tools/testing/selftests/hid/tests/test_mouse.py: updating
+2026-08-02T03:13:55.9886968Z tools/testing/selftests/hid/tests/test_multitouch.py: updating
+2026-08-02T03:13:55.9887706Z tools/testing/selftests/hid/tests/test_sony.py: updating
+2026-08-02T03:13:55.9888447Z tools/testing/selftests/hid/tests/test_tablet.py: updating
+2026-08-02T03:13:55.9889161Z tools/testing/selftests/hid/tests/test_usb_crash.py: updating
+2026-08-02T03:13:55.9889830Z tools/testing/selftests/hid/tests/test_wacom_generic.py: updating
+2026-08-02T03:13:55.9890244Z tools/testing/selftests/kselftest/ksft.py: no change
+2026-08-02T03:13:55.9890616Z tools/testing/selftests/net/nl_netdev.py: updating
+2026-08-02T03:13:55.9890967Z tools/testing/selftests/net/lib/py/__init__.py: no change
+2026-08-02T03:13:55.9891330Z tools/testing/selftests/net/lib/py/consts.py: no change
+2026-08-02T03:13:55.9891679Z tools/testing/selftests/net/lib/py/ksft.py: no change
+2026-08-02T03:13:55.9892028Z tools/testing/selftests/net/lib/py/netns.py: no change
+2026-08-02T03:13:55.9892367Z tools/testing/selftests/net/lib/py/nsim.py: no change
+2026-08-02T03:13:55.9892702Z tools/testing/selftests/net/lib/py/utils.py: no change
+2026-08-02T03:13:55.9893039Z tools/testing/selftests/net/lib/py/ynl.py: no change
+2026-08-02T03:13:55.9893393Z tools/testing/selftests/tc-testing/TdcPlugin.py: updating
+2026-08-02T03:13:55.9893768Z tools/testing/selftests/tc-testing/TdcResults.py: updating
+2026-08-02T03:13:55.9894125Z tools/testing/selftests/tc-testing/tdc.py: updating
+2026-08-02T03:13:55.9894468Z tools/testing/selftests/tc-testing/tdc_batch.py: updating
+2026-08-02T03:13:55.9894839Z tools/testing/selftests/tc-testing/tdc_config.py: no change
+2026-08-02T03:13:55.9895466Z tools/testing/selftests/tc-testing/tdc_config_local_template.py: no change
+2026-08-02T03:13:55.9896159Z tools/testing/selftests/tc-testing/tdc_helper.py: no change
+2026-08-02T03:13:55.9896561Z tools/testing/selftests/tc-testing/tdc_multibatch.py: updating
+2026-08-02T03:13:55.9896988Z tools/testing/selftests/tc-testing/plugin-lib/nsPlugin.py: no change
+2026-08-02T03:13:55.9897443Z tools/testing/selftests/tc-testing/plugin-lib/rootPlugin.py: no change
+2026-08-02T03:13:55.9897899Z tools/testing/selftests/tc-testing/plugin-lib/scapyPlugin.py: updating
+2026-08-02T03:13:55.9898375Z tools/testing/selftests/tc-testing/plugin-lib/valgrindPlugin.py: no change
+2026-08-02T03:13:55.9898836Z tools/testing/selftests/tc-testing/plugins/__init__.py: no change
+2026-08-02T03:13:55.9899302Z tools/testing/selftests/tc-testing/scripts/sfq_rejects_limit_1.py: updating
+2026-08-02T03:13:55.9899723Z tools/testing/selftests/tpm2/tpm2.py: no change
+2026-08-02T03:13:55.9900060Z tools/testing/selftests/tpm2/tpm2_tests.py: no change
+2026-08-02T03:13:55.9900423Z tools/testing/selftests/turbostat/defcolumns.py: updating
+2026-08-02T03:13:55.9900786Z tools/testing/selftests/x86/bugs/common.py: updating
+2026-08-02T03:13:55.9901310Z tools/testing/selftests/x86/bugs/its_indirect_alignment.py: updating
+2026-08-02T03:13:55.9901750Z tools/testing/selftests/x86/bugs/its_permutations.py: updating
+2026-08-02T03:13:55.9902163Z tools/testing/selftests/x86/bugs/its_ret_alignment.py: updating
+2026-08-02T03:13:55.9902535Z recursedown('tools/virtio/linux')
+2026-08-02T03:13:55.9902791Z recursedown('tools/virtio/ringtest')
+2026-08-02T03:13:55.9903053Z recursedown('tools/virtio/uapi')
+2026-08-02T03:13:55.9903306Z recursedown('tools/virtio/uapi/linux')
+2026-08-02T03:13:55.9903577Z recursedown('tools/virtio/vhost_test')
+2026-08-02T03:13:55.9903852Z recursedown('tools/virtio/virtio-trace')
+2026-08-02T03:13:55.9904125Z recursedown('tools/virtio/xen')
+2026-08-02T03:13:55.9904363Z recursedown('tools/wmi')
+2026-08-02T03:13:55.9904595Z recursedown('tools/workqueue')
+2026-08-02T03:13:55.9904836Z recursedown('Documentation')
+2026-08-02T03:13:55.9905076Z recursedown('Documentation/ABI')
+2026-08-02T03:13:55.9905332Z recursedown('Documentation/ABI/obsolete')
+2026-08-02T03:13:55.9905767Z recursedown('Documentation/ABI/removed')
+2026-08-02T03:13:55.9906051Z recursedown('Documentation/ABI/stable')
+2026-08-02T03:13:55.9906329Z recursedown('Documentation/ABI/testing')
+2026-08-02T03:13:55.9950718Z recursedown('Documentation/PCI')
+2026-08-02T03:13:55.9952235Z recursedown('Documentation/PCI/endpoint')
+2026-08-02T03:13:55.9954849Z recursedown('Documentation/PCI/endpoint/function')
+2026-08-02T03:13:55.9955772Z recursedown('Documentation/PCI/endpoint/function/binding')
+2026-08-02T03:13:55.9956163Z recursedown('Documentation/RCU')
+2026-08-02T03:13:55.9958487Z recursedown('Documentation/RCU/Design')
+2026-08-02T03:13:55.9959216Z recursedown('Documentation/RCU/Design/Data-Structures')
+2026-08-02T03:13:55.9960814Z recursedown('Documentation/RCU/Design/Expedited-Grace-Periods')
+2026-08-02T03:13:55.9963417Z recursedown('Documentation/RCU/Design/Memory-Ordering')
+2026-08-02T03:13:55.9966837Z recursedown('Documentation/RCU/Design/Requirements')
+2026-08-02T03:13:55.9967525Z recursedown('Documentation/accounting')
+2026-08-02T03:13:55.9967991Z recursedown('Documentation/admin-guide')
+2026-08-02T03:13:55.9980171Z recursedown('Documentation/admin-guide/LSM')
+2026-08-02T03:13:55.9981046Z recursedown('Documentation/admin-guide/RAS')
+2026-08-02T03:13:55.9982442Z recursedown('Documentation/admin-guide/acpi')
+2026-08-02T03:13:55.9983801Z recursedown('Documentation/admin-guide/aoe')
+2026-08-02T03:13:55.9986409Z recursedown('Documentation/admin-guide/auxdisplay')
+2026-08-02T03:13:55.9987042Z recursedown('Documentation/admin-guide/blockdev')
+2026-08-02T03:13:55.9988269Z recursedown('Documentation/admin-guide/blockdev/drbd')
+2026-08-02T03:13:55.9990529Z recursedown('Documentation/admin-guide/cgroup-v1')
+2026-08-02T03:13:55.9993116Z recursedown('Documentation/admin-guide/cifs')
+2026-08-02T03:13:55.9994958Z recursedown('Documentation/admin-guide/device-mapper')
+2026-08-02T03:13:56.0000598Z recursedown('Documentation/admin-guide/gpio')
+2026-08-02T03:13:56.0001216Z recursedown('Documentation/admin-guide/hw-vuln')
+2026-08-02T03:13:56.0004612Z recursedown('Documentation/admin-guide/kdump')
+2026-08-02T03:13:56.0005769Z recursedown('Documentation/admin-guide/laptops')
+2026-08-02T03:13:56.0007981Z recursedown('Documentation/admin-guide/media')
+2026-08-02T03:13:56.0022994Z recursedown('Documentation/admin-guide/mm')
+2026-08-02T03:13:56.0026017Z recursedown('Documentation/admin-guide/mm/damon')
+2026-08-02T03:13:56.0026961Z recursedown('Documentation/admin-guide/namespaces')
+2026-08-02T03:13:56.0028244Z recursedown('Documentation/admin-guide/nfs')
+2026-08-02T03:13:56.0030648Z recursedown('Documentation/admin-guide/perf')
+2026-08-02T03:13:56.0033562Z recursedown('Documentation/admin-guide/pm')
+2026-08-02T03:13:56.0036273Z recursedown('Documentation/admin-guide/sysctl')
+2026-08-02T03:13:56.0038063Z recursedown('Documentation/admin-guide/thermal')
+2026-08-02T03:13:56.0039382Z recursedown('Documentation/arch')
+2026-08-02T03:13:56.0040656Z recursedown('Documentation/arch/powerpc')
+2026-08-02T03:13:56.0041181Z recursedown('Documentation/arch/s390')
+2026-08-02T03:13:56.0044358Z recursedown('Documentation/arch/x86')
+2026-08-02T03:13:56.0050950Z recursedown('Documentation/arch/x86/i386')
+2026-08-02T03:13:56.0051546Z recursedown('Documentation/arch/x86/x86_64')
+2026-08-02T03:13:56.0053170Z recursedown('Documentation/arm')
+2026-08-02T03:13:56.0059234Z recursedown('Documentation/arm/keystone')
+2026-08-02T03:13:56.0059893Z recursedown('Documentation/arm/nwfpe')
+2026-08-02T03:13:56.0061133Z recursedown('Documentation/arm/omap')
+2026-08-02T03:13:56.0062165Z recursedown('Documentation/arm/pxa')
+2026-08-02T03:13:56.0062675Z recursedown('Documentation/arm/sa1100')
+2026-08-02T03:13:56.0064271Z recursedown('Documentation/arm/samsung')
+2026-08-02T03:13:56.0065297Z recursedown('Documentation/arm/samsung-s3c24xx')
+2026-08-02T03:13:56.0067832Z recursedown('Documentation/arm/spear')
+2026-08-02T03:13:56.0068339Z recursedown('Documentation/arm/sti')
+2026-08-02T03:13:56.0069657Z recursedown('Documentation/arm/stm32')
+2026-08-02T03:13:56.0071576Z recursedown('Documentation/arm/sunxi')
+2026-08-02T03:13:56.0072576Z recursedown('Documentation/arm/vfp')
+2026-08-02T03:13:56.0073007Z recursedown('Documentation/arm64')
+2026-08-02T03:13:56.0076600Z recursedown('Documentation/block')
+2026-08-02T03:13:56.0079272Z recursedown('Documentation/bpf')
+2026-08-02T03:13:56.0086364Z recursedown('Documentation/bpf/libbpf')
+2026-08-02T03:13:56.0087477Z recursedown('Documentation/bpf/standardization')
+2026-08-02T03:13:56.0088535Z recursedown('Documentation/cdrom')
+2026-08-02T03:13:56.0089891Z recursedown('Documentation/core-api')
+2026-08-02T03:13:56.0096504Z recursedown('Documentation/core-api/irq')
+2026-08-02T03:13:56.0098099Z recursedown('Documentation/cpu-freq')
+2026-08-02T03:13:56.0098905Z recursedown('Documentation/crypto')
+2026-08-02T03:13:56.0102600Z recursedown('Documentation/crypto/device_drivers')
+2026-08-02T03:13:56.0102926Z recursedown('Documentation/dev-tools')
+2026-08-02T03:13:56.0106033Z recursedown('Documentation/dev-tools/kunit')
+2026-08-02T03:13:56.0108455Z recursedown('Documentation/dev-tools/kunit/api')
+2026-08-02T03:13:56.0109789Z recursedown('Documentation/devicetree')
+2026-08-02T03:13:56.0111670Z recursedown('Documentation/devicetree/bindings')
+2026-08-02T03:13:56.0128874Z recursedown('Documentation/devicetree/bindings/arc')
+2026-08-02T03:13:56.0129562Z recursedown('Documentation/devicetree/bindings/arm')
+2026-08-02T03:13:56.0144699Z recursedown('Documentation/devicetree/bindings/arm/altera')
+2026-08-02T03:13:56.0146341Z recursedown('Documentation/devicetree/bindings/arm/amlogic')
+2026-08-02T03:13:56.0149026Z recursedown('Documentation/devicetree/bindings/arm/apm')
+2026-08-02T03:13:56.0149379Z recursedown('Documentation/devicetree/bindings/arm/bcm')
+2026-08-02T03:13:56.0152147Z recursedown('Documentation/devicetree/bindings/arm/calxeda')
+2026-08-02T03:13:56.0154101Z recursedown('Documentation/devicetree/bindings/arm/cpu-enable-method')
+2026-08-02T03:13:56.0154836Z recursedown('Documentation/devicetree/bindings/arm/firmware')
+2026-08-02T03:13:56.0157001Z recursedown('Documentation/devicetree/bindings/arm/freescale')
+2026-08-02T03:13:56.0157300Z recursedown('Documentation/devicetree/bindings/arm/hisilicon')
+2026-08-02T03:13:56.0158370Z recursedown('Documentation/devicetree/bindings/arm/hisilicon/controller')
+2026-08-02T03:13:56.0160316Z recursedown('Documentation/devicetree/bindings/arm/keystone')
+2026-08-02T03:13:56.0164788Z recursedown('Documentation/devicetree/bindings/arm/marvell')
+2026-08-02T03:13:56.0165007Z recursedown('Documentation/devicetree/bindings/arm/mediatek')
+2026-08-02T03:13:56.0169682Z recursedown('Documentation/devicetree/bindings/arm/mrvl')
+2026-08-02T03:13:56.0170164Z recursedown('Documentation/devicetree/bindings/arm/msm')
+2026-08-02T03:13:56.0171751Z recursedown('Documentation/devicetree/bindings/arm/mstar')
+2026-08-02T03:13:56.0173154Z recursedown('Documentation/devicetree/bindings/arm/npcm')
+2026-08-02T03:13:56.0173624Z recursedown('Documentation/devicetree/bindings/arm/nxp')
+2026-08-02T03:13:56.0173922Z recursedown('Documentation/devicetree/bindings/arm/omap')
+2026-08-02T03:13:56.0176547Z recursedown('Documentation/devicetree/bindings/arm/rockchip')
+2026-08-02T03:13:56.0177630Z recursedown('Documentation/devicetree/bindings/arm/samsung')
+2026-08-02T03:13:56.0178944Z recursedown('Documentation/devicetree/bindings/arm/socionext')
+2026-08-02T03:13:56.0179630Z recursedown('Documentation/devicetree/bindings/arm/sprd')
+2026-08-02T03:13:56.0181057Z recursedown('Documentation/devicetree/bindings/arm/stm32')
+2026-08-02T03:13:56.0181679Z recursedown('Documentation/devicetree/bindings/arm/sunxi')
+2026-08-02T03:13:56.0181964Z recursedown('Documentation/devicetree/bindings/arm/tegra')
+2026-08-02T03:13:56.0183966Z recursedown('Documentation/devicetree/bindings/arm/ti')
+2026-08-02T03:13:56.0184829Z recursedown('Documentation/devicetree/bindings/arm/ux500')
+2026-08-02T03:13:56.0186915Z recursedown('Documentation/devicetree/bindings/arm/vt8500')
+2026-08-02T03:13:56.0187078Z recursedown('Documentation/devicetree/bindings/ata')
+2026-08-02T03:13:56.0191901Z recursedown('Documentation/devicetree/bindings/auxdisplay')
+2026-08-02T03:13:56.0193267Z recursedown('Documentation/devicetree/bindings/board')
+2026-08-02T03:13:56.0193590Z recursedown('Documentation/devicetree/bindings/bus')
+2026-08-02T03:13:56.0198138Z recursedown('Documentation/devicetree/bindings/chrome')
+2026-08-02T03:13:56.0198592Z recursedown('Documentation/devicetree/bindings/clock')
+2026-08-02T03:13:56.0236866Z recursedown('Documentation/devicetree/bindings/clock/sifive')
+2026-08-02T03:13:56.0237364Z recursedown('Documentation/devicetree/bindings/clock/st')
+2026-08-02T03:13:56.0237743Z recursedown('Documentation/devicetree/bindings/clock/ti')
+2026-08-02T03:13:56.0241309Z recursedown('Documentation/devicetree/bindings/clock/ti/davinci')
+2026-08-02T03:13:56.0241868Z recursedown('Documentation/devicetree/bindings/connector')
+2026-08-02T03:13:56.0242224Z recursedown('Documentation/devicetree/bindings/counter')
+2026-08-02T03:13:56.0243534Z recursedown('Documentation/devicetree/bindings/cpu')
+2026-08-02T03:13:56.0243870Z recursedown('Documentation/devicetree/bindings/cpufreq')
+2026-08-02T03:13:56.0246366Z recursedown('Documentation/devicetree/bindings/crypto')
+2026-08-02T03:13:56.0253837Z recursedown('Documentation/devicetree/bindings/csky')
+2026-08-02T03:13:56.0254111Z recursedown('Documentation/devicetree/bindings/ddr')
+2026-08-02T03:13:56.0255004Z recursedown('Documentation/devicetree/bindings/devfreq')
+2026-08-02T03:13:56.0256337Z recursedown('Documentation/devicetree/bindings/devfreq/event')
+2026-08-02T03:13:56.0257225Z recursedown('Documentation/devicetree/bindings/display')
+2026-08-02T03:13:56.0271455Z recursedown('Documentation/devicetree/bindings/display/armada')
+2026-08-02T03:13:56.0271897Z recursedown('Documentation/devicetree/bindings/display/atmel')
+2026-08-02T03:13:56.0272593Z recursedown('Documentation/devicetree/bindings/display/bridge')
+2026-08-02T03:13:56.0280012Z recursedown('Documentation/devicetree/bindings/display/connector')
+2026-08-02T03:13:56.0280887Z recursedown('Documentation/devicetree/bindings/display/exynos')
+2026-08-02T03:13:56.0283571Z recursedown('Documentation/devicetree/bindings/display/hisilicon')
+2026-08-02T03:13:56.0283899Z recursedown('Documentation/devicetree/bindings/display/imx')
+2026-08-02T03:13:56.0285311Z recursedown('Documentation/devicetree/bindings/display/mediatek')
+2026-08-02T03:13:56.0286590Z recursedown('Documentation/devicetree/bindings/display/msm')
+2026-08-02T03:13:56.0290375Z recursedown('Documentation/devicetree/bindings/display/panel')
+2026-08-02T03:13:56.0302912Z recursedown('Documentation/devicetree/bindings/display/rockchip')
+2026-08-02T03:13:56.0304573Z recursedown('Documentation/devicetree/bindings/display/tegra')
+2026-08-02T03:13:56.0308652Z recursedown('Documentation/devicetree/bindings/display/ti')
+2026-08-02T03:13:56.0311865Z recursedown('Documentation/devicetree/bindings/display/tilcdc')
+2026-08-02T03:13:56.0312339Z recursedown('Documentation/devicetree/bindings/display/xlnx')
+2026-08-02T03:13:56.0312714Z recursedown('Documentation/devicetree/bindings/dma')
+2026-08-02T03:13:56.0323266Z recursedown('Documentation/devicetree/bindings/dma/ti')
+2026-08-02T03:13:56.0324315Z recursedown('Documentation/devicetree/bindings/dma/xilinx')
+2026-08-02T03:13:56.0325418Z recursedown('Documentation/devicetree/bindings/dpll')
+2026-08-02T03:13:56.0326092Z recursedown('Documentation/devicetree/bindings/dsp')
+2026-08-02T03:13:56.0326668Z recursedown('Documentation/devicetree/bindings/dvfs')
+2026-08-02T03:13:56.0327504Z recursedown('Documentation/devicetree/bindings/edac')
+2026-08-02T03:13:56.0328396Z recursedown('Documentation/devicetree/bindings/eeprom')
+2026-08-02T03:13:56.0329274Z recursedown('Documentation/devicetree/bindings/extcon')
+2026-08-02T03:13:56.0332085Z recursedown('Documentation/devicetree/bindings/firmware')
+2026-08-02T03:13:56.0334641Z recursedown('Documentation/devicetree/bindings/firmware/meson')
+2026-08-02T03:13:56.0335796Z recursedown('Documentation/devicetree/bindings/firmware/xilinx')
+2026-08-02T03:13:56.0336071Z recursedown('Documentation/devicetree/bindings/fpga')
+2026-08-02T03:13:56.0339159Z recursedown('Documentation/devicetree/bindings/fsi')
+2026-08-02T03:13:56.0341158Z recursedown('Documentation/devicetree/bindings/fuse')
+2026-08-02T03:13:56.0341996Z recursedown('Documentation/devicetree/bindings/gnss')
+2026-08-02T03:13:56.0342268Z recursedown('Documentation/devicetree/bindings/goldfish')
+2026-08-02T03:13:56.0343653Z recursedown('Documentation/devicetree/bindings/gpio')
+2026-08-02T03:13:56.0358828Z recursedown('Documentation/devicetree/bindings/gpu')
+2026-08-02T03:13:56.0361079Z recursedown('Documentation/devicetree/bindings/gpu/host1x')
+2026-08-02T03:13:56.0362256Z recursedown('Documentation/devicetree/bindings/h8300')
+2026-08-02T03:13:56.0362639Z recursedown('Documentation/devicetree/bindings/hsi')
+2026-08-02T03:13:56.0363210Z recursedown('Documentation/devicetree/bindings/hwlock')
+2026-08-02T03:13:56.0365708Z recursedown('Documentation/devicetree/bindings/hwmon')
+2026-08-02T03:13:56.0374049Z recursedown('Documentation/devicetree/bindings/hwmon/pmbus')
+2026-08-02T03:13:56.0374509Z recursedown('Documentation/devicetree/bindings/i2c')
+2026-08-02T03:13:56.0386309Z recursedown('Documentation/devicetree/bindings/i3c')
+2026-08-02T03:13:56.0387760Z recursedown('Documentation/devicetree/bindings/iio')
+2026-08-02T03:13:56.0392728Z recursedown('Documentation/devicetree/bindings/iio/accel')
+2026-08-02T03:13:56.0395668Z recursedown('Documentation/devicetree/bindings/iio/adc')
+2026-08-02T03:13:56.0407183Z recursedown('Documentation/devicetree/bindings/iio/afe')
+2026-08-02T03:13:56.0408891Z recursedown('Documentation/devicetree/bindings/iio/amplifiers')
+2026-08-02T03:13:56.0410038Z recursedown('Documentation/devicetree/bindings/iio/cdc')
+2026-08-02T03:13:56.0410348Z recursedown('Documentation/devicetree/bindings/iio/chemical')
+2026-08-02T03:13:56.0412137Z recursedown('Documentation/devicetree/bindings/iio/dac')
+2026-08-02T03:13:56.0416450Z recursedown('Documentation/devicetree/bindings/iio/frequency')
+2026-08-02T03:13:56.0416902Z recursedown('Documentation/devicetree/bindings/iio/gyroscope')
+2026-08-02T03:13:56.0418440Z recursedown('Documentation/devicetree/bindings/iio/health')
+2026-08-02T03:13:56.0420320Z recursedown('Documentation/devicetree/bindings/iio/humidity')
+2026-08-02T03:13:56.0421287Z recursedown('Documentation/devicetree/bindings/iio/impedance-analyzer')
+2026-08-02T03:13:56.0421682Z recursedown('Documentation/devicetree/bindings/iio/imu')
+2026-08-02T03:13:56.0424099Z recursedown('Documentation/devicetree/bindings/iio/light')
+2026-08-02T03:13:56.0429192Z recursedown('Documentation/devicetree/bindings/iio/magnetometer')
+2026-08-02T03:13:56.0431326Z recursedown('Documentation/devicetree/bindings/iio/multiplexer')
+2026-08-02T03:13:56.0431727Z recursedown('Documentation/devicetree/bindings/iio/potentiometer')
+2026-08-02T03:13:56.0432976Z recursedown('Documentation/devicetree/bindings/iio/potentiostat')
+2026-08-02T03:13:56.0433316Z recursedown('Documentation/devicetree/bindings/iio/pressure')
+2026-08-02T03:13:56.0434695Z recursedown('Documentation/devicetree/bindings/iio/proximity')
+2026-08-02T03:13:56.0436543Z recursedown('Documentation/devicetree/bindings/iio/resolver')
+2026-08-02T03:13:56.0437668Z recursedown('Documentation/devicetree/bindings/iio/temperature')
+2026-08-02T03:13:56.0439521Z recursedown('Documentation/devicetree/bindings/infiniband')
+2026-08-02T03:13:56.0439775Z recursedown('Documentation/devicetree/bindings/input')
+2026-08-02T03:13:56.0451747Z recursedown('Documentation/devicetree/bindings/input/rmi4')
+2026-08-02T03:13:56.0452399Z recursedown('Documentation/devicetree/bindings/input/touchscreen')
+2026-08-02T03:13:56.0461132Z recursedown('Documentation/devicetree/bindings/interconnect')
+2026-08-02T03:13:56.0463107Z recursedown('Documentation/devicetree/bindings/interrupt-controller')
+2026-08-02T03:13:56.0479029Z recursedown('Documentation/devicetree/bindings/iommu')
+2026-08-02T03:13:56.0481387Z recursedown('Documentation/devicetree/bindings/ipmi')
+2026-08-02T03:13:56.0482892Z recursedown('Documentation/devicetree/bindings/leds')
+2026-08-02T03:13:56.0492304Z recursedown('Documentation/devicetree/bindings/leds/backlight')
+2026-08-02T03:13:56.0495740Z recursedown('Documentation/devicetree/bindings/leds/irled')
+2026-08-02T03:13:56.0496639Z recursedown('Documentation/devicetree/bindings/mailbox')
+2026-08-02T03:13:56.0501249Z recursedown('Documentation/devicetree/bindings/media')
+2026-08-02T03:13:56.0515955Z recursedown('Documentation/devicetree/bindings/media/i2c')
+2026-08-02T03:13:56.0525323Z recursedown('Documentation/devicetree/bindings/media/spi')
+2026-08-02T03:13:56.0525755Z recursedown('Documentation/devicetree/bindings/media/xilinx')
+2026-08-02T03:13:56.0527300Z recursedown('Documentation/devicetree/bindings/memory-controllers')
+2026-08-02T03:13:56.0533701Z recursedown('Documentation/devicetree/bindings/memory-controllers/fsl')
+2026-08-02T03:13:56.0534591Z recursedown('Documentation/devicetree/bindings/memory-controllers/ti')
+2026-08-02T03:13:56.0534848Z recursedown('Documentation/devicetree/bindings/mfd')
+2026-08-02T03:13:56.0552892Z recursedown('Documentation/devicetree/bindings/mips')
+2026-08-02T03:13:56.0556337Z recursedown('Documentation/devicetree/bindings/mips/brcm')
+2026-08-02T03:13:56.0556563Z recursedown('Documentation/devicetree/bindings/mips/cavium')
+2026-08-02T03:13:56.0558872Z recursedown('Documentation/devicetree/bindings/mips/img')
+2026-08-02T03:13:56.0559991Z recursedown('Documentation/devicetree/bindings/mips/ingenic')
+2026-08-02T03:13:56.0560562Z recursedown('Documentation/devicetree/bindings/mips/lantiq')
+2026-08-02T03:13:56.0563065Z recursedown('Documentation/devicetree/bindings/mips/loongson')
+2026-08-02T03:13:56.0563532Z recursedown('Documentation/devicetree/bindings/mips/pic32')
+2026-08-02T03:13:56.0563758Z recursedown('Documentation/devicetree/bindings/misc')
+2026-08-02T03:13:56.0567414Z recursedown('Documentation/devicetree/bindings/mmc')
+2026-08-02T03:13:56.0577817Z recursedown('Documentation/devicetree/bindings/mtd')
+2026-08-02T03:13:56.0586949Z recursedown('Documentation/devicetree/bindings/mtd/partitions')
+2026-08-02T03:13:56.0590208Z recursedown('Documentation/devicetree/bindings/mux')
+2026-08-02T03:13:56.0591355Z recursedown('Documentation/devicetree/bindings/nds32')
+2026-08-02T03:13:56.0592489Z recursedown('Documentation/devicetree/bindings/net')
+2026-08-02T03:13:56.0616701Z recursedown('Documentation/devicetree/bindings/net/bluetooth')
+2026-08-02T03:13:56.0617175Z recursedown('Documentation/devicetree/bindings/net/can')
+2026-08-02T03:13:56.0621032Z recursedown('Documentation/devicetree/bindings/net/dsa')
+2026-08-02T03:13:56.0624373Z recursedown('Documentation/devicetree/bindings/net/ieee802154')
+2026-08-02T03:13:56.0625000Z recursedown('Documentation/devicetree/bindings/net/nfc')
+2026-08-02T03:13:56.0628728Z recursedown('Documentation/devicetree/bindings/net/wireless')
+2026-08-02T03:13:56.0631994Z recursedown('Documentation/devicetree/bindings/nios2')
+2026-08-02T03:13:56.0632269Z recursedown('Documentation/devicetree/bindings/nvmem')
+2026-08-02T03:13:56.0637802Z recursedown('Documentation/devicetree/bindings/openrisc')
+2026-08-02T03:13:56.0639408Z recursedown('Documentation/devicetree/bindings/openrisc/opencores')
+2026-08-02T03:13:56.0639915Z recursedown('Documentation/devicetree/bindings/opp')
+2026-08-02T03:13:56.0640143Z recursedown('Documentation/devicetree/bindings/pci')
+2026-08-02T03:13:56.0653416Z recursedown('Documentation/devicetree/bindings/perf')
+2026-08-02T03:13:56.0655496Z recursedown('Documentation/devicetree/bindings/phy')
+2026-08-02T03:13:56.0675570Z recursedown('Documentation/devicetree/bindings/pinctrl')
+2026-08-02T03:13:56.0699152Z recursedown('Documentation/devicetree/bindings/pmem')
+2026-08-02T03:13:56.0699503Z recursedown('Documentation/devicetree/bindings/power')
+2026-08-02T03:13:56.0704736Z recursedown('Documentation/devicetree/bindings/power/avs')
+2026-08-02T03:13:56.0705292Z recursedown('Documentation/devicetree/bindings/power/reset')
+2026-08-02T03:13:56.0709476Z recursedown('Documentation/devicetree/bindings/power/supply')
+2026-08-02T03:13:56.0718493Z recursedown('Documentation/devicetree/bindings/powerpc')
+2026-08-02T03:13:56.0720116Z recursedown('Documentation/devicetree/bindings/powerpc/4xx')
+2026-08-02T03:13:56.0721767Z recursedown('Documentation/devicetree/bindings/powerpc/fsl')
+2026-08-02T03:13:56.0726613Z recursedown('Documentation/devicetree/bindings/powerpc/nintendo')
+2026-08-02T03:13:56.0727102Z recursedown('Documentation/devicetree/bindings/powerpc/opal')
+2026-08-02T03:13:56.0729244Z recursedown('Documentation/devicetree/bindings/pps')
+2026-08-02T03:13:56.0729432Z recursedown('Documentation/devicetree/bindings/ptp')
+2026-08-02T03:13:56.0730644Z recursedown('Documentation/devicetree/bindings/pwm')
+2026-08-02T03:13:56.0738714Z recursedown('Documentation/devicetree/bindings/regmap')
+2026-08-02T03:13:56.0739256Z recursedown('Documentation/devicetree/bindings/regulator')
+2026-08-02T03:13:56.0754333Z recursedown('Documentation/devicetree/bindings/remoteproc')
+2026-08-02T03:13:56.0758053Z recursedown('Documentation/devicetree/bindings/reserved-memory')
+2026-08-02T03:13:56.0759465Z recursedown('Documentation/devicetree/bindings/reset')
+2026-08-02T03:13:56.0766266Z recursedown('Documentation/devicetree/bindings/riscv')
+2026-08-02T03:13:56.0767353Z recursedown('Documentation/devicetree/bindings/rng')
+2026-08-02T03:13:56.0771911Z recursedown('Documentation/devicetree/bindings/rtc')
+2026-08-02T03:13:56.0784581Z recursedown('Documentation/devicetree/bindings/scsi')
+2026-08-02T03:13:56.0784873Z recursedown('Documentation/devicetree/bindings/security')
+2026-08-02T03:13:56.0785289Z recursedown('Documentation/devicetree/bindings/security/tpm')
+2026-08-02T03:13:56.0786855Z recursedown('Documentation/devicetree/bindings/serial')
+2026-08-02T03:13:56.0796972Z recursedown('Documentation/devicetree/bindings/serio')
+2026-08-02T03:13:56.0798366Z recursedown('Documentation/devicetree/bindings/sifive')
+2026-08-02T03:13:56.0799265Z recursedown('Documentation/devicetree/bindings/siox')
+2026-08-02T03:13:56.0799556Z recursedown('Documentation/devicetree/bindings/slimbus')
+2026-08-02T03:13:56.0800176Z recursedown('Documentation/devicetree/bindings/soc')
+2026-08-02T03:13:56.0803273Z recursedown('Documentation/devicetree/bindings/soc/amlogic')
+2026-08-02T03:13:56.0803794Z recursedown('Documentation/devicetree/bindings/soc/bcm')
+2026-08-02T03:13:56.0805346Z recursedown('Documentation/devicetree/bindings/soc/dove')
+2026-08-02T03:13:56.0805657Z recursedown('Documentation/devicetree/bindings/soc/fsl')
+2026-08-02T03:13:56.0807398Z recursedown('Documentation/devicetree/bindings/soc/fsl/cpm_qe')
+2026-08-02T03:13:56.0809665Z recursedown('Documentation/devicetree/bindings/soc/fsl/cpm_qe/cpm')
+2026-08-02T03:13:56.0811782Z recursedown('Documentation/devicetree/bindings/soc/fsl/cpm_qe/qe')
+2026-08-02T03:13:56.0813175Z recursedown('Documentation/devicetree/bindings/soc/imx')
+2026-08-02T03:13:56.0814666Z recursedown('Documentation/devicetree/bindings/soc/litex')
+2026-08-02T03:13:56.0815334Z recursedown('Documentation/devicetree/bindings/soc/mediatek')
+2026-08-02T03:13:56.0816390Z recursedown('Documentation/devicetree/bindings/soc/microchip')
+2026-08-02T03:13:56.0816970Z recursedown('Documentation/devicetree/bindings/soc/qcom')
+2026-08-02T03:13:56.0820614Z recursedown('Documentation/devicetree/bindings/soc/rockchip')
+2026-08-02T03:13:56.0820996Z recursedown('Documentation/devicetree/bindings/soc/ti')
+2026-08-02T03:13:56.0822076Z recursedown('Documentation/devicetree/bindings/soc/xilinx')
+2026-08-02T03:13:56.0822785Z recursedown('Documentation/devicetree/bindings/sound')
+2026-08-02T03:13:56.0877872Z recursedown('Documentation/devicetree/bindings/soundwire')
+2026-08-02T03:13:56.0878183Z recursedown('Documentation/devicetree/bindings/spi')
+2026-08-02T03:13:56.0890624Z recursedown('Documentation/devicetree/bindings/spmi')
+2026-08-02T03:13:56.0890905Z recursedown('Documentation/devicetree/bindings/sram')
+2026-08-02T03:13:56.0892924Z recursedown('Documentation/devicetree/bindings/staging')
+2026-08-02T03:13:56.0893237Z recursedown('Documentation/devicetree/bindings/staging/iio')
+2026-08-02T03:13:56.0893548Z recursedown('Documentation/devicetree/bindings/staging/iio/adc')
+2026-08-02T03:13:56.0893975Z recursedown('Documentation/devicetree/bindings/thermal')
+2026-08-02T03:13:56.0900890Z recursedown('Documentation/devicetree/bindings/timer')
+2026-08-02T03:13:56.0911803Z recursedown('Documentation/devicetree/bindings/timestamp')
+2026-08-02T03:13:56.0912262Z recursedown('Documentation/devicetree/bindings/ufs')
+2026-08-02T03:13:56.0914503Z recursedown('Documentation/devicetree/bindings/usb')
+2026-08-02T03:13:56.0933073Z recursedown('Documentation/devicetree/bindings/virtio')
+2026-08-02T03:13:56.0933360Z recursedown('Documentation/devicetree/bindings/w1')
+2026-08-02T03:13:56.0934158Z recursedown('Documentation/devicetree/bindings/watchdog')
+2026-08-02T03:13:56.0943629Z recursedown('Documentation/devicetree/bindings/x86')
+2026-08-02T03:13:56.0944411Z recursedown('Documentation/devicetree/bindings/xillybus')
+2026-08-02T03:13:56.0944827Z recursedown('Documentation/doc-guide')
+2026-08-02T03:13:56.0946343Z recursedown('Documentation/driver-api')
+2026-08-02T03:13:56.0961311Z recursedown('Documentation/driver-api/80211')
+2026-08-02T03:13:56.0963753Z recursedown('Documentation/driver-api/acpi')
+2026-08-02T03:13:56.0964824Z recursedown('Documentation/driver-api/backlight')
+2026-08-02T03:13:56.0965100Z recursedown('Documentation/driver-api/crypto')
+2026-08-02T03:13:56.0965773Z recursedown('Documentation/driver-api/crypto/iaa')
+2026-08-02T03:13:56.0965935Z recursedown('Documentation/driver-api/cxl')
+2026-08-02T03:13:56.0966104Z recursedown('Documentation/driver-api/dmaengine')
+2026-08-02T03:13:56.0967827Z recursedown('Documentation/driver-api/driver-model')
+2026-08-02T03:13:56.0969981Z recursedown('Documentation/driver-api/early-userspace')
+2026-08-02T03:13:56.0970427Z recursedown('Documentation/driver-api/firmware')
+2026-08-02T03:13:56.0974116Z recursedown('Documentation/driver-api/firmware/efi')
+2026-08-02T03:13:56.0975001Z recursedown('Documentation/driver-api/fpga')
+2026-08-02T03:13:56.0975330Z recursedown('Documentation/driver-api/gpio')
+2026-08-02T03:13:56.0978719Z recursedown('Documentation/driver-api/hte')
+2026-08-02T03:13:56.0979165Z recursedown('Documentation/driver-api/i3c')
+2026-08-02T03:13:56.0979832Z recursedown('Documentation/driver-api/iio')
+2026-08-02T03:13:56.0981608Z recursedown('Documentation/driver-api/md')
+2026-08-02T03:13:56.0982468Z recursedown('Documentation/driver-api/media')
+2026-08-02T03:13:56.0988773Z recursedown('Documentation/driver-api/media/drivers')
+2026-08-02T03:13:56.0992510Z recursedown('Documentation/driver-api/media/drivers/ccs')
+2026-08-02T03:13:56.0993821Z recursedown('Documentation/driver-api/mei')
+2026-08-02T03:13:56.0994092Z recursedown('Documentation/driver-api/memory-devices')
+2026-08-02T03:13:56.0995322Z recursedown('Documentation/driver-api/mmc')
+2026-08-02T03:13:56.0996929Z recursedown('Documentation/driver-api/mtd')
+2026-08-02T03:13:56.0999411Z recursedown('Documentation/driver-api/nfc')
+2026-08-02T03:13:56.0999664Z recursedown('Documentation/driver-api/nvdimm')
+2026-08-02T03:13:56.1000296Z recursedown('Documentation/driver-api/pci')
+2026-08-02T03:13:56.1001366Z recursedown('Documentation/driver-api/phy')
+2026-08-02T03:13:56.1001899Z recursedown('Documentation/driver-api/pldmfw')
+2026-08-02T03:13:56.1003082Z recursedown('Documentation/driver-api/pm')
+2026-08-02T03:13:56.1004107Z recursedown('Documentation/driver-api/rapidio')
+2026-08-02T03:13:56.1006179Z recursedown('Documentation/driver-api/serial')
+2026-08-02T03:13:56.1006513Z recursedown('Documentation/driver-api/soundwire')
+2026-08-02T03:13:56.1009214Z recursedown('Documentation/driver-api/surface_aggregator')
+2026-08-02T03:13:56.1010328Z recursedown('Documentation/driver-api/surface_aggregator/clients')
+2026-08-02T03:13:56.1011460Z recursedown('Documentation/driver-api/thermal')
+2026-08-02T03:13:56.1013418Z recursedown('Documentation/driver-api/usb')
+2026-08-02T03:13:56.1016883Z recursedown('Documentation/driver-api/virtio')
+2026-08-02T03:13:56.1017977Z recursedown('Documentation/driver-api/xilinx')
+2026-08-02T03:13:56.1019356Z recursedown('Documentation/fault-injection')
+2026-08-02T03:13:56.1019872Z recursedown('Documentation/fb')
+2026-08-02T03:13:56.1025518Z recursedown('Documentation/features')
+2026-08-02T03:13:56.1027998Z recursedown('Documentation/features/core')
+2026-08-02T03:13:56.1030271Z recursedown('Documentation/features/core/cBPF-JIT')
+2026-08-02T03:13:56.1031304Z recursedown('Documentation/features/core/eBPF-JIT')
+2026-08-02T03:13:56.1031846Z recursedown('Documentation/features/core/generic-idle-thread')
+2026-08-02T03:13:56.1032266Z recursedown('Documentation/features/core/jump-labels')
+2026-08-02T03:13:56.1032594Z recursedown('Documentation/features/core/thread-info-in-task')
+2026-08-02T03:13:56.1032843Z recursedown('Documentation/features/core/tracehook')
+2026-08-02T03:13:56.1033019Z recursedown('Documentation/features/debug')
+2026-08-02T03:13:56.1036419Z recursedown('Documentation/features/debug/KASAN')
+2026-08-02T03:13:56.1037329Z recursedown('Documentation/features/debug/debug-vm-pgtable')
+2026-08-02T03:13:56.1038414Z recursedown('Documentation/features/debug/gcov-profile-all')
+2026-08-02T03:13:56.1039288Z recursedown('Documentation/features/debug/kcov')
+2026-08-02T03:13:56.1039520Z recursedown('Documentation/features/debug/kgdb')
+2026-08-02T03:13:56.1044106Z recursedown('Documentation/features/debug/kmemleak')
+2026-08-02T03:13:56.1044396Z recursedown('Documentation/features/debug/kprobes')
+2026-08-02T03:13:56.1045495Z recursedown('Documentation/features/debug/kprobes-on-ftrace')
+2026-08-02T03:13:56.1045965Z recursedown('Documentation/features/debug/kretprobes')
+2026-08-02T03:13:56.1046220Z recursedown('Documentation/features/debug/optprobes')
+2026-08-02T03:13:56.1046506Z recursedown('Documentation/features/debug/stackprotector')
+2026-08-02T03:13:56.1046726Z recursedown('Documentation/features/debug/uprobes')
+2026-08-02T03:13:56.1047309Z recursedown('Documentation/features/debug/user-ret-profiler')
+2026-08-02T03:13:56.1047499Z recursedown('Documentation/features/io')
+2026-08-02T03:13:56.1047761Z recursedown('Documentation/features/io/dma-contiguous')
+2026-08-02T03:13:56.1047972Z recursedown('Documentation/features/locking')
+2026-08-02T03:13:56.1048278Z recursedown('Documentation/features/locking/cmpxchg-local')
+2026-08-02T03:13:56.1049215Z recursedown('Documentation/features/locking/lockdep')
+2026-08-02T03:13:56.1049531Z recursedown('Documentation/features/locking/queued-rwlocks')
+2026-08-02T03:13:56.1049814Z recursedown('Documentation/features/locking/queued-spinlocks')
+2026-08-02T03:13:56.1050143Z recursedown('Documentation/features/perf')
+2026-08-02T03:13:56.1050401Z recursedown('Documentation/features/perf/kprobes-event')
+2026-08-02T03:13:56.1050628Z recursedown('Documentation/features/perf/perf-regs')
+2026-08-02T03:13:56.1050880Z recursedown('Documentation/features/perf/perf-stackdump')
+2026-08-02T03:13:56.1052611Z recursedown('Documentation/features/sched')
+2026-08-02T03:13:56.1052953Z recursedown('Documentation/features/sched/membarrier-sync-core')
+2026-08-02T03:13:56.1053233Z recursedown('Documentation/features/sched/numa-balancing')
+2026-08-02T03:13:56.1053422Z recursedown('Documentation/features/scripts')
+2026-08-02T03:13:56.1053879Z recursedown('Documentation/features/seccomp')
+2026-08-02T03:13:56.1054167Z recursedown('Documentation/features/seccomp/seccomp-filter')
+2026-08-02T03:13:56.1054356Z recursedown('Documentation/features/time')
+2026-08-02T03:13:56.1056463Z recursedown('Documentation/features/time/arch-tick-broadcast')
+2026-08-02T03:13:56.1056714Z recursedown('Documentation/features/time/clockevents')
+2026-08-02T03:13:56.1056988Z recursedown('Documentation/features/time/context-tracking')
+2026-08-02T03:13:56.1057486Z recursedown('Documentation/features/time/irq-time-acct')
+2026-08-02T03:13:56.1057733Z recursedown('Documentation/features/time/virt-cpuacct')
+2026-08-02T03:13:56.1057920Z recursedown('Documentation/features/vm')
+2026-08-02T03:13:56.1059393Z recursedown('Documentation/features/vm/ELF-ASLR')
+2026-08-02T03:13:56.1060073Z recursedown('Documentation/features/vm/PG_uncached')
+2026-08-02T03:13:56.1060438Z recursedown('Documentation/features/vm/THP')
+2026-08-02T03:13:56.1060640Z recursedown('Documentation/features/vm/TLB')
+2026-08-02T03:13:56.1061471Z recursedown('Documentation/features/vm/huge-vmap')
+2026-08-02T03:13:56.1061728Z recursedown('Documentation/features/vm/ioremap_prot')
+2026-08-02T03:13:56.1062781Z recursedown('Documentation/features/vm/pte_special')
+2026-08-02T03:13:56.1062961Z recursedown('Documentation/filesystems')
+2026-08-02T03:13:56.1074976Z recursedown('Documentation/filesystems/caching')
+2026-08-02T03:13:56.1075446Z recursedown('Documentation/filesystems/cifs')
+2026-08-02T03:13:56.1076092Z recursedown('Documentation/filesystems/ext4')
+2026-08-02T03:13:56.1080587Z recursedown('Documentation/filesystems/iomap')
+2026-08-02T03:13:56.1080807Z recursedown('Documentation/filesystems/nfs')
+2026-08-02T03:13:56.1082841Z recursedown('Documentation/filesystems/spufs')
+2026-08-02T03:13:56.1083704Z recursedown('Documentation/filesystems/xfs')
+2026-08-02T03:13:56.1084839Z recursedown('Documentation/firmware-guide')
+2026-08-02T03:13:56.1085766Z recursedown('Documentation/firmware-guide/acpi')
+2026-08-02T03:13:56.1090402Z recursedown('Documentation/firmware-guide/acpi/apei')
+2026-08-02T03:13:56.1090703Z recursedown('Documentation/firmware-guide/acpi/dsd')
+2026-08-02T03:13:56.1091887Z recursedown('Documentation/firmware_class')
+2026-08-02T03:13:56.1092164Z recursedown('Documentation/fpga')
+2026-08-02T03:13:56.1092946Z recursedown('Documentation/gpu')
+2026-08-02T03:13:56.1098614Z recursedown('Documentation/gpu/bridge')
+2026-08-02T03:13:56.1098844Z recursedown('Documentation/gpu/dp-mst')
+2026-08-02T03:13:56.1099297Z recursedown('Documentation/gpu/rfc')
+2026-08-02T03:13:56.1100278Z recursedown('Documentation/hid')
+2026-08-02T03:13:56.1103556Z recursedown('Documentation/hwmon')
+2026-08-02T03:13:56.1128332Z recursedown('Documentation/i2c')
+2026-08-02T03:13:56.1132280Z recursedown('Documentation/i2c/busses')
+2026-08-02T03:13:56.1136697Z recursedown('Documentation/i2c/muxes')
+2026-08-02T03:13:56.1136887Z recursedown('Documentation/ia64')
+2026-08-02T03:13:56.1139021Z recursedown('Documentation/ide')
+2026-08-02T03:13:56.1141387Z recursedown('Documentation/iio')
+2026-08-02T03:13:56.1141623Z recursedown('Documentation/infiniband')
+2026-08-02T03:13:56.1143925Z recursedown('Documentation/input')
+2026-08-02T03:13:56.1146296Z recursedown('Documentation/input/devices')
+2026-08-02T03:13:56.1149837Z recursedown('Documentation/input/joydev')
+2026-08-02T03:13:56.1150047Z recursedown('Documentation/isdn')
+2026-08-02T03:13:56.1151286Z recursedown('Documentation/kbuild')
+2026-08-02T03:13:56.1153495Z recursedown('Documentation/kernel-hacking')
+2026-08-02T03:13:56.1154333Z recursedown('Documentation/leds')
+2026-08-02T03:13:56.1157638Z recursedown('Documentation/litmus-tests')
+2026-08-02T03:13:56.1158726Z recursedown('Documentation/litmus-tests/atomic')
+2026-08-02T03:13:56.1158952Z recursedown('Documentation/litmus-tests/rcu')
+2026-08-02T03:13:56.1159814Z recursedown('Documentation/livepatch')
+2026-08-02T03:13:56.1162159Z recursedown('Documentation/locking')
+2026-08-02T03:13:56.1165749Z recursedown('Documentation/m68k')
+2026-08-02T03:13:56.1166264Z recursedown('Documentation/maintainer')
+2026-08-02T03:13:56.1168219Z recursedown('Documentation/mhi')
+2026-08-02T03:13:56.1168439Z recursedown('Documentation/mips')
+2026-08-02T03:13:56.1169795Z recursedown('Documentation/misc-devices')
+2026-08-02T03:13:56.1172305Z recursedown('Documentation/mm')
+2026-08-02T03:13:56.1178182Z recursedown('Documentation/mm/damon')
+2026-08-02T03:13:56.1179157Z recursedown('Documentation/netlabel')
+2026-08-02T03:13:56.1181332Z recursedown('Documentation/netlink')
+2026-08-02T03:13:56.1181833Z recursedown('Documentation/netlink/specs')
+2026-08-02T03:13:56.1185629Z recursedown('Documentation/networking')
+2026-08-02T03:13:56.1202149Z recursedown('Documentation/networking/caif')
+2026-08-02T03:13:56.1202596Z recursedown('Documentation/networking/device_drivers')
+2026-08-02T03:13:56.1205640Z recursedown('Documentation/networking/device_drivers/appletalk')
+2026-08-02T03:13:56.1206032Z recursedown('Documentation/networking/device_drivers/atm')
+2026-08-02T03:13:56.1211286Z recursedown('Documentation/networking/device_drivers/cable')
+2026-08-02T03:13:56.1211828Z recursedown('Documentation/networking/device_drivers/can')
+2026-08-02T03:13:56.1212388Z recursedown('Documentation/networking/device_drivers/can/freescale')
+2026-08-02T03:13:56.1213825Z recursedown('Documentation/networking/device_drivers/cellular')
+2026-08-02T03:13:56.1214208Z recursedown('Documentation/networking/device_drivers/cellular/qualcomm')
+2026-08-02T03:13:56.1214859Z recursedown('Documentation/networking/device_drivers/ethernet')
+2026-08-02T03:13:56.1219475Z recursedown('Documentation/networking/device_drivers/ethernet/3com')
+2026-08-02T03:13:56.1219882Z recursedown('Documentation/networking/device_drivers/ethernet/altera')
+2026-08-02T03:13:56.1220342Z recursedown('Documentation/networking/device_drivers/ethernet/amazon')
+2026-08-02T03:13:56.1220739Z recursedown('Documentation/networking/device_drivers/ethernet/aquantia')
+2026-08-02T03:13:56.1222273Z recursedown('Documentation/networking/device_drivers/ethernet/chelsio')
+2026-08-02T03:13:56.1223339Z recursedown('Documentation/networking/device_drivers/ethernet/cirrus')
+2026-08-02T03:13:56.1223820Z recursedown('Documentation/networking/device_drivers/ethernet/davicom')
+2026-08-02T03:13:56.1224150Z recursedown('Documentation/networking/device_drivers/ethernet/dec')
+2026-08-02T03:13:56.1224486Z recursedown('Documentation/networking/device_drivers/ethernet/dlink')
+2026-08-02T03:13:56.1228327Z recursedown('Documentation/networking/device_drivers/ethernet/freescale')
+2026-08-02T03:13:56.1228754Z recursedown('Documentation/networking/device_drivers/ethernet/freescale/dpaa2')
+2026-08-02T03:13:56.1229245Z recursedown('Documentation/networking/device_drivers/ethernet/google')
+2026-08-02T03:13:56.1230120Z recursedown('Documentation/networking/device_drivers/ethernet/huawei')
+2026-08-02T03:13:56.1230497Z recursedown('Documentation/networking/device_drivers/ethernet/intel')
+2026-08-02T03:13:56.1231712Z recursedown('Documentation/networking/device_drivers/ethernet/marvell')
+2026-08-02T03:13:56.1232974Z recursedown('Documentation/networking/device_drivers/ethernet/mellanox')
+2026-08-02T03:13:56.1233742Z recursedown('Documentation/networking/device_drivers/ethernet/mellanox/mlx5')
+2026-08-02T03:13:56.1234356Z recursedown('Documentation/networking/device_drivers/ethernet/microsoft')
+2026-08-02T03:13:56.1235391Z recursedown('Documentation/networking/device_drivers/ethernet/neterion')
+2026-08-02T03:13:56.1235764Z recursedown('Documentation/networking/device_drivers/ethernet/netronome')
+2026-08-02T03:13:56.1236529Z recursedown('Documentation/networking/device_drivers/ethernet/pensando')
+2026-08-02T03:13:56.1237632Z recursedown('Documentation/networking/device_drivers/ethernet/smsc')
+2026-08-02T03:13:56.1238011Z recursedown('Documentation/networking/device_drivers/ethernet/stmicro')
+2026-08-02T03:13:56.1238337Z recursedown('Documentation/networking/device_drivers/ethernet/ti')
+2026-08-02T03:13:56.1239781Z recursedown('Documentation/networking/device_drivers/ethernet/toshiba')
+2026-08-02T03:13:56.1240530Z recursedown('Documentation/networking/device_drivers/fddi')
+2026-08-02T03:13:56.1240971Z recursedown('Documentation/networking/device_drivers/hamradio')
+2026-08-02T03:13:56.1242071Z recursedown('Documentation/networking/device_drivers/qlogic')
+2026-08-02T03:13:56.1242359Z recursedown('Documentation/networking/device_drivers/wan')
+2026-08-02T03:13:56.1243434Z recursedown('Documentation/networking/device_drivers/wifi')
+2026-08-02T03:13:56.1244628Z recursedown('Documentation/networking/device_drivers/wifi/intel')
+2026-08-02T03:13:56.1245933Z recursedown('Documentation/networking/device_drivers/wwan')
+2026-08-02T03:13:56.1246179Z recursedown('Documentation/networking/devlink')
+2026-08-02T03:13:56.1251677Z recursedown('Documentation/networking/diagnostic')
+2026-08-02T03:13:56.1252408Z recursedown('Documentation/networking/dsa')
+2026-08-02T03:13:56.1254362Z recursedown('Documentation/networking/mac80211_hwsim')
+2026-08-02T03:13:56.1255894Z recursedown('Documentation/networking/net_cachelines')
+2026-08-02T03:13:56.1256847Z recursedown('Documentation/networking/netlink_spec')
+2026-08-02T03:13:56.1257533Z recursedown('Documentation/networking/pse-pd')
+2026-08-02T03:13:56.1258227Z recursedown('Documentation/nios2')
+2026-08-02T03:13:56.1259548Z recursedown('Documentation/nvdimm')
+2026-08-02T03:13:56.1260397Z recursedown('Documentation/openrisc')
+2026-08-02T03:13:56.1261350Z recursedown('Documentation/parisc')
+2026-08-02T03:13:56.1261999Z recursedown('Documentation/pcmcia')
+2026-08-02T03:13:56.1263195Z recursedown('Documentation/power')
+2026-08-02T03:13:56.1266986Z recursedown('Documentation/power/powercap')
+2026-08-02T03:13:56.1269174Z recursedown('Documentation/power/regulator')
+2026-08-02T03:13:56.1269518Z recursedown('Documentation/powerpc')
+2026-08-02T03:13:56.1274390Z recursedown('Documentation/process')
+2026-08-02T03:13:56.1279689Z recursedown('Documentation/riscv')
+2026-08-02T03:13:56.1280660Z recursedown('Documentation/rust')
+2026-08-02T03:13:56.1281933Z recursedown('Documentation/scheduler')
+2026-08-02T03:13:56.1285191Z recursedown('Documentation/scsi')
+2026-08-02T03:13:56.1292656Z recursedown('Documentation/scsi/scsi_transport_srp')
+2026-08-02T03:13:56.1292845Z recursedown('Documentation/security')
+2026-08-02T03:13:56.1295872Z recursedown('Documentation/security/keys')
+2026-08-02T03:13:56.1297451Z recursedown('Documentation/security/secrets')
+2026-08-02T03:13:56.1298355Z recursedown('Documentation/security/tpm')
+2026-08-02T03:13:56.1299743Z recursedown('Documentation/sh')
+2026-08-02T03:13:56.1300089Z recursedown('Documentation/sound')
+2026-08-02T03:13:56.1302094Z recursedown('Documentation/sound/cards')
+2026-08-02T03:13:56.1305729Z recursedown('Documentation/sound/codecs')
+2026-08-02T03:13:56.1306087Z recursedown('Documentation/sound/designs')
+2026-08-02T03:13:56.1309387Z recursedown('Documentation/sound/hd-audio')
+2026-08-02T03:13:56.1309654Z recursedown('Documentation/sound/kernel-api')
+2026-08-02T03:13:56.1310608Z recursedown('Documentation/sound/soc')
+2026-08-02T03:13:56.1314006Z recursedown('Documentation/sparc')
+2026-08-02T03:13:56.1314536Z recursedown('Documentation/sparc/oradax')
+2026-08-02T03:13:56.1315185Z recursedown('Documentation/sphinx')
+2026-08-02T03:13:56.1326595Z recursedown('Documentation/sphinx-static')
+2026-08-02T03:13:56.1328478Z recursedown('Documentation/spi')
+2026-08-02T03:13:56.1328654Z recursedown('Documentation/staging')
+2026-08-02T03:13:56.1330775Z recursedown('Documentation/target')
+2026-08-02T03:13:56.1334479Z recursedown('Documentation/timers')
+2026-08-02T03:13:56.1336133Z recursedown('Documentation/tools')
+2026-08-02T03:13:56.1336782Z recursedown('Documentation/tools/rtla')
+2026-08-02T03:13:56.1341051Z recursedown('Documentation/tools/rv')
+2026-08-02T03:13:56.1342288Z recursedown('Documentation/trace')
+2026-08-02T03:13:56.1347228Z recursedown('Documentation/trace/coresight')
+2026-08-02T03:13:56.1349726Z recursedown('Documentation/trace/postprocess')
+2026-08-02T03:13:56.1352708Z recursedown('Documentation/trace/rv')
+2026-08-02T03:13:56.1354879Z recursedown('Documentation/translations')
+2026-08-02T03:13:56.1357106Z recursedown('Documentation/translations/it_IT')
+2026-08-02T03:13:56.1358813Z recursedown('Documentation/translations/it_IT/admin-guide')
+2026-08-02T03:13:56.1359624Z recursedown('Documentation/translations/it_IT/core-api')
+2026-08-02T03:13:56.1361361Z recursedown('Documentation/translations/it_IT/doc-guide')
+2026-08-02T03:13:56.1361749Z recursedown('Documentation/translations/it_IT/kernel-hacking')
+2026-08-02T03:13:56.1363744Z recursedown('Documentation/translations/it_IT/networking')
+2026-08-02T03:13:56.1364251Z recursedown('Documentation/translations/it_IT/process')
+2026-08-02T03:13:56.1370153Z recursedown('Documentation/translations/it_IT/riscv')
+2026-08-02T03:13:56.1370677Z recursedown('Documentation/translations/ja_JP')
+2026-08-02T03:13:56.1371959Z recursedown('Documentation/translations/ko_KR')
+2026-08-02T03:13:56.1373411Z recursedown('Documentation/translations/zh_CN')
+2026-08-02T03:13:56.1379006Z recursedown('Documentation/translations/zh_CN/accounting')
+2026-08-02T03:13:56.1379304Z recursedown('Documentation/translations/zh_CN/admin-guide')
+2026-08-02T03:13:56.1382510Z recursedown('Documentation/translations/zh_CN/admin-guide/mm')
+2026-08-02T03:13:56.1383123Z recursedown('Documentation/translations/zh_CN/admin-guide/mm/damon')
+2026-08-02T03:13:56.1384282Z recursedown('Documentation/translations/zh_CN/arm')
+2026-08-02T03:13:56.1384597Z recursedown('Documentation/translations/zh_CN/arm64')
+2026-08-02T03:13:56.1386369Z recursedown('Documentation/translations/zh_CN/core-api')
+2026-08-02T03:13:56.1392705Z recursedown('Documentation/translations/zh_CN/core-api/irq')
+2026-08-02T03:13:56.1393643Z recursedown('Documentation/translations/zh_CN/cpu-freq')
+2026-08-02T03:13:56.1395329Z recursedown('Documentation/translations/zh_CN/dev-tools')
+2026-08-02T03:13:56.1395807Z recursedown('Documentation/translations/zh_CN/doc-guide')
+2026-08-02T03:13:56.1398535Z recursedown('Documentation/translations/zh_CN/filesystems')
+2026-08-02T03:13:56.1399504Z recursedown('Documentation/translations/zh_CN/iio')
+2026-08-02T03:13:56.1400499Z recursedown('Documentation/translations/zh_CN/infiniband')
+2026-08-02T03:13:56.1401712Z recursedown('Documentation/translations/zh_CN/kernel-hacking')
+2026-08-02T03:13:56.1402155Z recursedown('Documentation/translations/zh_CN/maintainer')
+2026-08-02T03:13:56.1403045Z recursedown('Documentation/translations/zh_CN/mips')
+2026-08-02T03:13:56.1404423Z recursedown('Documentation/translations/zh_CN/mm')
+2026-08-02T03:13:56.1409491Z recursedown('Documentation/translations/zh_CN/mm/damon')
+2026-08-02T03:13:56.1410228Z recursedown('Documentation/translations/zh_CN/openrisc')
+2026-08-02T03:13:56.1411680Z recursedown('Documentation/translations/zh_CN/parisc')
+2026-08-02T03:13:56.1412456Z recursedown('Documentation/translations/zh_CN/peci')
+2026-08-02T03:13:56.1412952Z recursedown('Documentation/translations/zh_CN/process')
+2026-08-02T03:13:56.1417901Z recursedown('Documentation/translations/zh_CN/riscv')
+2026-08-02T03:13:56.1418933Z recursedown('Documentation/translations/zh_CN/scheduler')
+2026-08-02T03:13:56.1419406Z recursedown('Documentation/translations/zh_CN/sound')
+2026-08-02T03:13:56.1421924Z recursedown('Documentation/translations/zh_CN/sound/hd-audio')
+2026-08-02T03:13:56.1422745Z recursedown('Documentation/translations/zh_CN/video4linux')
+2026-08-02T03:13:56.1423206Z recursedown('Documentation/translations/zh_CN/virt')
+2026-08-02T03:13:56.1423522Z recursedown('Documentation/translations/zh_TW')
+2026-08-02T03:13:56.1425106Z recursedown('Documentation/translations/zh_TW/admin-guide')
+2026-08-02T03:13:56.1428296Z recursedown('Documentation/translations/zh_TW/arm64')
+2026-08-02T03:13:56.1430580Z recursedown('Documentation/translations/zh_TW/cpu-freq')
+2026-08-02T03:13:56.1431774Z recursedown('Documentation/translations/zh_TW/filesystems')
+2026-08-02T03:13:56.1432510Z recursedown('Documentation/translations/zh_TW/process')
+2026-08-02T03:13:56.1437916Z recursedown('Documentation/tty')
+2026-08-02T03:13:56.1439944Z recursedown('Documentation/tty/device_drivers')
+2026-08-02T03:13:56.1440556Z recursedown('Documentation/usb')
+2026-08-02T03:13:56.1444965Z recursedown('Documentation/userspace-api')
+2026-08-02T03:13:56.1448873Z recursedown('Documentation/userspace-api/accelerators')
+2026-08-02T03:13:56.1449117Z recursedown('Documentation/userspace-api/ebpf')
+2026-08-02T03:13:56.1449728Z recursedown('Documentation/userspace-api/fwctl')
+2026-08-02T03:13:56.1450606Z recursedown('Documentation/userspace-api/ioctl')
+2026-08-02T03:13:56.1451752Z recursedown('Documentation/userspace-api/media')
+2026-08-02T03:13:56.1456201Z recursedown('Documentation/userspace-api/media/cec')
+2026-08-02T03:13:56.1460116Z recursedown('Documentation/userspace-api/media/drivers')
+2026-08-02T03:13:56.1462651Z recursedown('Documentation/userspace-api/media/dvb')
+2026-08-02T03:13:56.1474868Z recursedown('Documentation/userspace-api/media/mediactl')
+2026-08-02T03:13:56.1478876Z recursedown('Documentation/userspace-api/media/rc')
+2026-08-02T03:13:56.1483361Z recursedown('Documentation/userspace-api/media/v4l')
+2026-08-02T03:13:56.1514816Z recursedown('Documentation/userspace-api/netlink')
+2026-08-02T03:13:56.1516418Z recursedown('Documentation/virt')
+2026-08-02T03:13:56.1519210Z recursedown('Documentation/virt/acrn')
+2026-08-02T03:13:56.1519412Z recursedown('Documentation/virt/coco')
+2026-08-02T03:13:56.1520107Z recursedown('Documentation/virt/kvm')
+2026-08-02T03:13:56.1522745Z recursedown('Documentation/virt/kvm/arm')
+2026-08-02T03:13:56.1524243Z recursedown('Documentation/virt/kvm/devices')
+2026-08-02T03:13:56.1526593Z recursedown('Documentation/virt/kvm/s390')
+2026-08-02T03:13:56.1528147Z recursedown('Documentation/virt/kvm/x86')
+2026-08-02T03:13:56.1531663Z recursedown('Documentation/virt/uml')
+2026-08-02T03:13:56.1531892Z recursedown('Documentation/w1')
+2026-08-02T03:13:56.1532342Z recursedown('Documentation/w1/masters')
+2026-08-02T03:13:56.1533489Z recursedown('Documentation/w1/slaves')
+2026-08-02T03:13:56.1535411Z recursedown('Documentation/watchdog')
+2026-08-02T03:13:56.1538217Z recursedown('Documentation/xtensa')
+2026-08-02T03:13:56.1539236Z recursedown('scripts/clang-tools')
+2026-08-02T03:13:56.1545716Z tools/testing/selftests/x86/bugs/its_sysfs.py: updating
+2026-08-02T03:13:56.1546223Z tools/tracing/rtla/sample/timerlat_load.py: updating
+2026-08-02T03:13:56.1546422Z tools/verification/rvgen/__main__.py: updating
+2026-08-02T03:13:56.1546828Z tools/verification/rvgen/rvgen/automata.py: updating
+2026-08-02T03:13:56.1547052Z tools/verification/rvgen/rvgen/container.py: updating
+2026-08-02T03:13:56.1547257Z tools/verification/rvgen/rvgen/dot2c.py: updating
+2026-08-02T03:13:56.1547451Z tools/verification/rvgen/rvgen/dot2k.py: updating
+2026-08-02T03:13:56.1547674Z tools/verification/rvgen/rvgen/generator.py: updating
+2026-08-02T03:13:56.1548151Z tools/verification/rvgen/rvgen/ltl2ba.py: updating
+2026-08-02T03:13:56.1548352Z tools/verification/rvgen/rvgen/ltl2k.py: updating
+2026-08-02T03:13:56.1548514Z tools/workqueue/wq_dump.py: no change
+2026-08-02T03:13:56.1548690Z tools/workqueue/wq_monitor.py: no change
+2026-08-02T03:13:56.1548856Z Documentation/conf.py: no change
+2026-08-02T03:13:56.1549176Z Documentation/networking/device_drivers/atm/cxacru-cf.py: updating
+2026-08-02T03:13:56.1549375Z Documentation/sphinx/automarkup.py: no change
+2026-08-02T03:13:56.1549555Z Documentation/sphinx/cdomain.py: no change
+2026-08-02T03:13:56.1549751Z Documentation/sphinx/kernel_abi.py: no change
+2026-08-02T03:13:56.1549900Z Documentation/sphinx/kernel_feat.py: no change
+2026-08-02T03:13:56.1550033Z Documentation/sphinx/kernel_include.py: updating
+2026-08-02T03:13:56.1550158Z Documentation/sphinx/kerneldoc.py: no change
+2026-08-02T03:13:56.1550262Z Documentation/sphinx/kernellog.py: no change
+2026-08-02T03:13:56.1550369Z Documentation/sphinx/kfigure.py: no change
+2026-08-02T03:13:56.1550499Z Documentation/sphinx/load_config.py: no change
+2026-08-02T03:13:56.1550647Z Documentation/sphinx/maintainers_include.py: updating
+2026-08-02T03:13:56.1550768Z Documentation/sphinx/rstFlatTable.py: updating
+2026-08-02T03:13:56.1551046Z Documentation/target/tcm_mod_builder.py: updating
+2026-08-02T03:13:56.1551206Z Documentation/trace/postprocess/decode_msr.py: updating
+2026-08-02T03:13:56.1551376Z Documentation/userspace-api/media/conf_nitpick.py: no change
+2026-08-02T03:13:56.1551523Z scripts/clang-tools/gen_compile_commands.py: updating
+2026-08-02T03:13:56.1551660Z scripts/clang-tools/run-clang-tools.py: updating
+2026-08-02T03:13:56.1573364Z + sed -e s,@KVER,5.14.0-687.30.1.el9.x86_64, -e s,@SBAT_SUFFIX,rhel, /tmp/rpmbuild-bcache/SOURCES/kernel.sbat.template
+2026-08-02T03:13:56.1587923Z + '[' -L configs ']'
+2026-08-02T03:13:56.1588234Z + mkdir configs
+2026-08-02T03:13:56.1602266Z + cd configs
+2026-08-02T03:13:56.1608882Z + cp /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-64k-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-64k-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-rt-64k-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-rt-64k-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-rt-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-aarch64-rt-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-ppc64le-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-ppc64le-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-s390x-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-s390x-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-s390x-zfcpdump-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-x86_64-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-x86_64-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-x86_64-rt-debug-rhel.config /tmp/rpmbuild-bcache/SOURCES/kernel-x86_64-rt-rhel.config .
+2026-08-02T03:13:56.1644188Z + cp /tmp/rpmbuild-bcache/SOURCES/generate_all_configs.sh .
+2026-08-02T03:13:56.1657547Z + cp /tmp/rpmbuild-bcache/SOURCES/merge.pl .
+2026-08-02T03:13:56.1672827Z + cp /tmp/rpmbuild-bcache/SOURCES/kernel-local .
+2026-08-02T03:13:56.1686287Z + FLAVOR=rhel
+2026-08-02T03:13:56.1688572Z + SPECVERSION=5.14.0
+2026-08-02T03:13:56.1688752Z + ./generate_all_configs.sh 1
+2026-08-02T03:13:56.2238109Z + for i in kernel-5.14.0-x86_64*.config
+2026-08-02T03:13:56.2238422Z + mv kernel-5.14.0-x86_64-debug.config kernel-5.14.0-x86_64-debug.config.tmp
+2026-08-02T03:13:56.2251013Z + ./merge.pl /tmp/rpmbuild-bcache/SOURCES/kernel-local kernel-5.14.0-x86_64-debug.config.tmp
+2026-08-02T03:13:56.2339729Z + rm kernel-5.14.0-x86_64-debug.config.tmp
+2026-08-02T03:13:56.2354323Z + for i in kernel-5.14.0-x86_64*.config
+2026-08-02T03:13:56.2355099Z + mv kernel-5.14.0-x86_64-rt-debug.config kernel-5.14.0-x86_64-rt-debug.config.tmp
+2026-08-02T03:13:56.2369635Z + ./merge.pl /tmp/rpmbuild-bcache/SOURCES/kernel-local kernel-5.14.0-x86_64-rt-debug.config.tmp
+2026-08-02T03:13:56.2457110Z + rm kernel-5.14.0-x86_64-rt-debug.config.tmp
+2026-08-02T03:13:56.2471182Z + for i in kernel-5.14.0-x86_64*.config
+2026-08-02T03:13:56.2471558Z + mv kernel-5.14.0-x86_64-rt.config kernel-5.14.0-x86_64-rt.config.tmp
+2026-08-02T03:13:56.2485375Z + ./merge.pl /tmp/rpmbuild-bcache/SOURCES/kernel-local kernel-5.14.0-x86_64-rt.config.tmp
+2026-08-02T03:13:56.2569542Z + rm kernel-5.14.0-x86_64-rt.config.tmp
+2026-08-02T03:13:56.2582732Z + for i in kernel-5.14.0-x86_64*.config
+2026-08-02T03:13:56.2583206Z + mv kernel-5.14.0-x86_64.config kernel-5.14.0-x86_64.config.tmp
+2026-08-02T03:13:56.2597822Z + ./merge.pl /tmp/rpmbuild-bcache/SOURCES/kernel-local kernel-5.14.0-x86_64.config.tmp
+2026-08-02T03:13:56.2683330Z + rm kernel-5.14.0-x86_64.config.tmp
+2026-08-02T03:13:56.2698355Z + openssl x509 -inform der -in /usr/share/pki/sb-certs/kernel-dup1-x86_64.der -out rheldup3.pem
+2026-08-02T03:13:56.2803277Z + openssl x509 -inform der -in /usr/share/pki/sb-certs/kernel-kpatch1-x86_64.der -out rhelkpatch1.pem
+2026-08-02T03:13:56.2904886Z + openssl x509 -inform der -in /usr/share/pki/sb-certs/rocky-ima-ca.crt -out rhelimaca1.pem
+2026-08-02T03:13:56.3002488Z + openssl x509 -inform der -in /usr/share/pki/sb-certs/kernel-nvidiagpuoot101-x86_64.der -out nvidiagpuoot001.pem
+2026-08-02T03:13:56.3102302Z + cat rheldup3.pem rhelkpatch1.pem rhelimaca1.pem nvidiagpuoot001.pem
+2026-08-02T03:13:56.3119116Z + for i in *.config
+2026-08-02T03:13:56.3120462Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-64k-debug.config
+2026-08-02T03:13:56.3148765Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-64k-debug.config
+2026-08-02T03:13:56.3176282Z + for i in *.config
+2026-08-02T03:13:56.3177253Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-64k.config
+2026-08-02T03:13:56.3204851Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-64k.config
+2026-08-02T03:13:56.3232841Z + for i in *.config
+2026-08-02T03:13:56.3233931Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-debug.config
+2026-08-02T03:13:56.3262292Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-debug.config
+2026-08-02T03:13:56.3290562Z + for i in *.config
+2026-08-02T03:13:56.3291474Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-rt-64k-debug.config
+2026-08-02T03:13:56.3321023Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-rt-64k-debug.config
+2026-08-02T03:13:56.3348404Z + for i in *.config
+2026-08-02T03:13:56.3349471Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-rt-64k.config
+2026-08-02T03:13:56.3378152Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-rt-64k.config
+2026-08-02T03:13:56.3404815Z + for i in *.config
+2026-08-02T03:13:56.3405954Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-rt-debug.config
+2026-08-02T03:13:56.3434666Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-rt-debug.config
+2026-08-02T03:13:56.3464671Z + for i in *.config
+2026-08-02T03:13:56.3465518Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64-rt.config
+2026-08-02T03:13:56.3493582Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64-rt.config
+2026-08-02T03:13:56.3521277Z + for i in *.config
+2026-08-02T03:13:56.3522574Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-aarch64.config
+2026-08-02T03:13:56.3550030Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-aarch64.config
+2026-08-02T03:13:56.3578113Z + for i in *.config
+2026-08-02T03:13:56.3579156Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-ppc64le-debug.config
+2026-08-02T03:13:56.3605252Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-ppc64le-debug.config
+2026-08-02T03:13:56.3632567Z + for i in *.config
+2026-08-02T03:13:56.3633421Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-ppc64le.config
+2026-08-02T03:13:56.3662533Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-ppc64le.config
+2026-08-02T03:13:56.3690142Z + for i in *.config
+2026-08-02T03:13:56.3691150Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-s390x-debug.config
+2026-08-02T03:13:56.3717675Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-s390x-debug.config
+2026-08-02T03:13:56.3745168Z + for i in *.config
+2026-08-02T03:13:56.3746263Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-s390x-zfcpdump.config
+2026-08-02T03:13:56.3772405Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-s390x-zfcpdump.config
+2026-08-02T03:13:56.3799140Z + for i in *.config
+2026-08-02T03:13:56.3799984Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-s390x.config
+2026-08-02T03:13:56.3827263Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-s390x.config
+2026-08-02T03:13:56.3854611Z + for i in *.config
+2026-08-02T03:13:56.3855834Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-x86_64-debug.config
+2026-08-02T03:13:56.3883562Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-x86_64-debug.config
+2026-08-02T03:13:56.3912163Z + for i in *.config
+2026-08-02T03:13:56.3913020Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-x86_64-rt-debug.config
+2026-08-02T03:13:56.3940881Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-x86_64-rt-debug.config
+2026-08-02T03:13:56.3967556Z + for i in *.config
+2026-08-02T03:13:56.3968710Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-x86_64-rt.config
+2026-08-02T03:13:56.3997049Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-x86_64-rt.config
+2026-08-02T03:13:56.4024367Z + for i in *.config
+2026-08-02T03:13:56.4025463Z + sed -i 's@CONFIG_SYSTEM_TRUSTED_KEYS=""@CONFIG_SYSTEM_TRUSTED_KEYS="certs/rhel.pem"@' kernel-5.14.0-x86_64.config
+2026-08-02T03:13:56.4052983Z + sed -i 's@CONFIG_EFI_SBAT_FILE=""@CONFIG_EFI_SBAT_FILE="kernel.sbat"@' kernel-5.14.0-x86_64.config
+2026-08-02T03:13:56.4081426Z + for i in *.config
+2026-08-02T03:13:56.4082580Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-64k-debug.config
+2026-08-02T03:13:56.4110811Z + for i in *.config
+2026-08-02T03:13:56.4111810Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-64k.config
+2026-08-02T03:13:56.4141404Z + for i in *.config
+2026-08-02T03:13:56.4142485Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-debug.config
+2026-08-02T03:13:56.4169825Z + for i in *.config
+2026-08-02T03:13:56.4171094Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-rt-64k-debug.config
+2026-08-02T03:13:56.4199392Z + for i in *.config
+2026-08-02T03:13:56.4200506Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-rt-64k.config
+2026-08-02T03:13:56.4227227Z + for i in *.config
+2026-08-02T03:13:56.4228993Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-rt-debug.config
+2026-08-02T03:13:56.4257174Z + for i in *.config
+2026-08-02T03:13:56.4258317Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64-rt.config
+2026-08-02T03:13:56.4287192Z + for i in *.config
+2026-08-02T03:13:56.4288311Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-aarch64.config
+2026-08-02T03:13:56.4316499Z + for i in *.config
+2026-08-02T03:13:56.4317651Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-ppc64le-debug.config
+2026-08-02T03:13:56.4343971Z + for i in *.config
+2026-08-02T03:13:56.4344977Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-ppc64le.config
+2026-08-02T03:13:56.4372154Z + for i in *.config
+2026-08-02T03:13:56.4373000Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-s390x-debug.config
+2026-08-02T03:13:56.4400375Z + for i in *.config
+2026-08-02T03:13:56.4401418Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-s390x-zfcpdump.config
+2026-08-02T03:13:56.4428531Z + for i in *.config
+2026-08-02T03:13:56.4429525Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-s390x.config
+2026-08-02T03:13:56.4457109Z + for i in *.config
+2026-08-02T03:13:56.4458260Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-x86_64-debug.config
+2026-08-02T03:13:56.4485698Z + for i in *.config
+2026-08-02T03:13:56.4486563Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-x86_64-rt-debug.config
+2026-08-02T03:13:56.4514309Z + for i in *.config
+2026-08-02T03:13:56.4515849Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-x86_64-rt.config
+2026-08-02T03:13:56.4555983Z + for i in *.config
+2026-08-02T03:13:56.4556755Z + sed -i 's/CONFIG_CRYPTO_FIPS_NAME=.*/CONFIG_CRYPTO_FIPS_NAME="Rocky Linux 9 - Kernel Cryptographic API"/' kernel-5.14.0-x86_64.config
+2026-08-02T03:13:56.4572808Z + cp /tmp/rpmbuild-bcache/SOURCES/process_configs.sh .
+2026-08-02T03:13:56.4588934Z + OPTS=
+2026-08-02T03:13:56.4589374Z + OPTS=' -w -n -c'
+2026-08-02T03:13:56.4589889Z + RHJOBS=4
+2026-08-02T03:13:56.4590404Z + PACKAGE_NAME=kernel
+2026-08-02T03:13:56.4590931Z + ./process_configs.sh -w -n -c
+2026-08-02T03:13:56.4723343Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k-debug.config ... 
+2026-08-02T03:13:59.7957709Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k-debug.config complete
+2026-08-02T03:13:59.8071040Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k-debug.config ... 
+2026-08-02T03:13:59.8124824Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k.config ... 
+2026-08-02T03:13:59.8184822Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-debug.config ... 
+2026-08-02T03:13:59.8234457Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-64k-debug.config ... 
+2026-08-02T03:14:02.2290299Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k.config complete
+2026-08-02T03:14:02.2521045Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-64k.config ... 
+2026-08-02T03:14:02.2699058Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-debug.config complete
+2026-08-02T03:14:02.2928930Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-debug.config ... 
+2026-08-02T03:14:02.4112764Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-64k-debug.config complete
+2026-08-02T03:14:02.4359909Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt.config ... 
+2026-08-02T03:14:02.4486656Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-64k-debug.config complete
+2026-08-02T03:14:02.4697718Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64.config ... 
+2026-08-02T03:14:04.6658556Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-64k.config complete
+2026-08-02T03:14:04.6848822Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-ppc64le-debug.config ... 
+2026-08-02T03:14:04.7013123Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt-debug.config complete
+2026-08-02T03:14:04.7191861Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-ppc64le.config ... 
+2026-08-02T03:14:04.9795267Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64-rt.config complete
+2026-08-02T03:14:05.0050400Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x-debug.config ... 
+2026-08-02T03:14:05.0176504Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-aarch64.config complete
+2026-08-02T03:14:05.0432381Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x-zfcpdump.config ... 
+2026-08-02T03:14:07.3129139Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-ppc64le.config complete
+2026-08-02T03:14:07.3316893Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x.config ... 
+2026-08-02T03:14:07.6038680Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x-zfcpdump.config complete
+2026-08-02T03:14:07.6267967Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-debug.config ... 
+2026-08-02T03:14:07.7292190Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-ppc64le-debug.config complete
+2026-08-02T03:14:07.7337424Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x-debug.config complete
+2026-08-02T03:14:07.7445410Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-rt-debug.config ... 
+2026-08-02T03:14:07.7541138Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-rt.config ... 
+2026-08-02T03:14:09.6500099Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-s390x.config complete
+2026-08-02T03:14:09.6688407Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64.config ... 
+2026-08-02T03:14:10.2991468Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-rt.config complete
+2026-08-02T03:14:10.3420028Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-rt-debug.config complete
+2026-08-02T03:14:10.3471748Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64-debug.config complete
+2026-08-02T03:14:11.3929426Z Processing /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs/kernel-5.14.0-x86_64.config complete
+2026-08-02T03:14:11.3982068Z Processed config files are in /tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64/configs
+2026-08-02T03:14:11.3984162Z + cp /tmp/rpmbuild-bcache/SOURCES/update_scripts.sh .
+2026-08-02T03:14:11.4000242Z + RPM_SOURCE_DIR=/tmp/rpmbuild-bcache/SOURCES
+2026-08-02T03:14:11.4000821Z + ./update_scripts.sh rhel
+2026-08-02T03:14:11.4230299Z + '[' rhel == rhel ']'
+2026-08-02T03:14:11.4230839Z + echo 'Updating scripts/sources to centos version'
+2026-08-02T03:14:11.4231205Z + RPM_SOURCE_DIR=/tmp/rpmbuild-bcache/SOURCES
+2026-08-02T03:14:11.4231519Z + ./update_scripts.sh centos
+2026-08-02T03:14:11.4231790Z Updating scripts/sources to centos version
+2026-08-02T03:14:11.4275282Z + cd ..
+2026-08-02T03:14:11.4275989Z + find . '(' -name '*.orig' -o -name '*~' ')' -delete
+2026-08-02T03:14:11.6540846Z + find . -name .gitignore -delete
+2026-08-02T03:14:11.8730679Z + cd ..
+2026-08-02T03:14:11.8731178Z + RPM_EC=0
+2026-08-02T03:14:11.8733591Z ++ jobs -p
+2026-08-02T03:14:11.8736380Z + exit 0
+2026-08-02T03:14:12.0307771Z ##[error]Process completed with exit code 1.
