@@ -55,7 +55,3 @@ See [procedure.md](procedure.md) for the complete manual process, including:
   destroy existing data.
 - Never force-load a mismatched or unresolved module with `insmod -f` or
   `modprobe --force`.
-
-## License
-
-This project is available under the [MIT License](LICENSE).
