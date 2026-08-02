@@ -1,0 +1,477 @@
+﻿2026-08-02T04:10:40.0541671Z ##[group]Run set -euo pipefail
+2026-08-02T04:10:40.0542022Z [36;1mset -euo pipefail[0m
+2026-08-02T04:10:40.0542278Z [36;1mKDIR="/usr/src/kernels/$KREL"[0m
+2026-08-02T04:10:40.0542768Z [36;1mKSRC="/tmp/rpmbuild-bcache/BUILD/kernel-5.14.0-687.30.1.el9_8/linux-5.14.0-687.30.1.el9.x86_64"[0m
+2026-08-02T04:10:40.0543255Z [36;1mrm -rf "$WORK"[0m
+2026-08-02T04:10:40.0543576Z [36;1mmkdir -p "$WORK/include/linux" "$WORK/include/uapi/linux" \[0m
+2026-08-02T04:10:40.0543943Z [36;1m  "$WORK/include/trace/events"[0m
+2026-08-02T04:10:40.0544247Z [36;1mcp -a "$KSRC/drivers/md/bcache" "$WORK/"[0m
+2026-08-02T04:10:40.0544605Z [36;1mcp "$KSRC/include/linux/crc64.h" "$WORK/include/linux/"[0m
+2026-08-02T04:10:40.0545335Z [36;1mif [[ -f "$KSRC/include/uapi/linux/bcache.h" ]]; then[0m
+2026-08-02T04:10:40.0545775Z [36;1m  cp "$KSRC/include/uapi/linux/bcache.h" "$WORK/include/uapi/linux/"[0m
+2026-08-02T04:10:40.0546142Z [36;1mfi[0m
+2026-08-02T04:10:40.0546462Z [36;1mcp "$KSRC/include/trace/events/bcache.h" "$WORK/include/trace/events/"[0m
+2026-08-02T04:10:40.0546898Z [36;1mcat > "$WORK/Kbuild" <<'EOF'[0m
+2026-08-02T04:10:40.0547172Z [36;1mobj-m += bcache/[0m
+2026-08-02T04:10:40.0547471Z [36;1mccflags-y += -I$(src)/include -I$(src)/include/uapi[0m
+2026-08-02T04:10:40.0547910Z [36;1msubdir-ccflags-y += -I$(src)/include -I$(src)/include/uapi[0m
+2026-08-02T04:10:40.0548258Z [36;1mEOF[0m
+2026-08-02T04:10:40.0548537Z [36;1mmake -C "$KDIR" M="$WORK" CONFIG_BCACHE=m -j"$(nproc)" modules[0m
+2026-08-02T04:10:40.0548884Z [36;1m[0m
+2026-08-02T04:10:40.0549088Z [36;1mtest -f "$WORK/bcache/bcache.ko"[0m
+2026-08-02T04:10:40.0549374Z [36;1mtest ! -f "$WORK/crc64.ko"[0m
+2026-08-02T04:10:40.0549690Z [36;1mnm -u "$WORK/bcache/bcache.ko" | grep -w crc64_be[0m
+2026-08-02T04:10:40.0550108Z [36;1mVERMAGIC="$(modinfo -F vermagic "$WORK/bcache/bcache.ko")"[0m
+2026-08-02T04:10:40.0550477Z [36;1m[[ "$VERMAGIC" == "$KREL "* ]] || {[0m
+2026-08-02T04:10:40.0550789Z [36;1m  echo "Unexpected vermagic: $VERMAGIC" >&2[0m
+2026-08-02T04:10:40.0551280Z [36;1m  exit 1[0m
+2026-08-02T04:10:40.0551477Z [36;1m}[0m
+2026-08-02T04:10:40.0551712Z [36;1minstall -D -m 0644 "$WORK/bcache/bcache.ko" \[0m
+2026-08-02T04:10:40.0552025Z [36;1m  "dist/bcache-$KREL.ko"[0m
+2026-08-02T04:10:40.0552394Z [36;1msha256sum "dist/bcache-$KREL.ko" > "dist/bcache-$KREL.ko.sha256"[0m
+2026-08-02T04:10:40.0552911Z shell: bash --noprofile --norc -e -o pipefail {0}
+2026-08-02T04:10:40.0553197Z env:
+2026-08-02T04:10:40.0553380Z   KREL: 5.14.0-687.30.1.el9_8.x86_64
+2026-08-02T04:10:40.0553615Z   ARCH: x86_64
+2026-08-02T04:10:40.0553820Z   TOP: /tmp/rpmbuild-bcache
+2026-08-02T04:10:40.0554058Z   WORK: /tmp/bcache-kmod
+2026-08-02T04:10:40.0554276Z ##[endgroup]
+2026-08-02T04:10:40.1206271Z make: Entering directory '/usr/src/kernels/5.14.0-687.30.1.el9_8.x86_64'
+2026-08-02T04:10:40.6032168Z   CC [M]  /tmp/bcache-kmod/bcache/alloc.o
+2026-08-02T04:10:40.6032829Z   CC [M]  /tmp/bcache-kmod/bcache/bset.o
+2026-08-02T04:10:40.6056788Z   CC [M]  /tmp/bcache-kmod/bcache/btree.o
+2026-08-02T04:10:40.6058161Z   CC [M]  /tmp/bcache-kmod/bcache/closure.o
+2026-08-02T04:10:41.1367570Z   CC [M]  /tmp/bcache-kmod/bcache/debug.o
+2026-08-02T04:10:41.5907882Z   CC [M]  /tmp/bcache-kmod/bcache/extents.o
+2026-08-02T04:10:41.7167929Z   CC [M]  /tmp/bcache-kmod/bcache/io.o
+2026-08-02T04:10:41.7896248Z   CC [M]  /tmp/bcache-kmod/bcache/journal.o
+2026-08-02T04:10:42.3190849Z   CC [M]  /tmp/bcache-kmod/bcache/movinggc.o
+2026-08-02T04:10:42.4759324Z   CC [M]  /tmp/bcache-kmod/bcache/request.o
+2026-08-02T04:10:42.6638480Z   CC [M]  /tmp/bcache-kmod/bcache/stats.o
+2026-08-02T04:10:42.8255908Z   CC [M]  /tmp/bcache-kmod/bcache/super.o
+2026-08-02T04:10:42.9979083Z In file included from /tmp/bcache-kmod/bcache/bset.h:9,
+2026-08-02T04:10:42.9979861Z                  from /tmp/bcache-kmod/bcache/bcache.h:193,
+2026-08-02T04:10:42.9980498Z                  from /tmp/bcache-kmod/bcache/request.c:10:
+2026-08-02T04:10:42.9981214Z /tmp/bcache-kmod/bcache/request.c: In function 'add_sequential':
+2026-08-02T04:10:42.9982775Z /tmp/bcache-kmod/bcache/request.c:352:19: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:42.9983767Z   352 |         ewma_add(t->sequential_io_avg,
+2026-08-02T04:10:42.9984267Z       |                   ^~
+2026-08-02T04:10:42.9985135Z /tmp/bcache-kmod/bcache/util.h:412:10: note: in definition of macro 'ewma_add'
+2026-08-02T04:10:42.9986051Z   412 |         (ewma) *= (weight) - 1;                                         \
+2026-08-02T04:10:42.9986661Z       |          ^~~~
+2026-08-02T04:10:42.9993254Z /tmp/bcache-kmod/bcache/request.c:352:19: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:42.9994256Z   352 |         ewma_add(t->sequential_io_avg,
+2026-08-02T04:10:42.9994773Z       |                   ^~
+2026-08-02T04:10:42.9995637Z /tmp/bcache-kmod/bcache/util.h:413:10: note: in definition of macro 'ewma_add'
+2026-08-02T04:10:42.9996574Z   413 |         (ewma) += (val) << factor;                                      \
+2026-08-02T04:10:42.9997208Z       |          ^~~~
+2026-08-02T04:10:43.0002703Z /tmp/bcache-kmod/bcache/request.c:353:19: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0003676Z   353 |                  t->sequential_io, 8, 0);
+2026-08-02T04:10:43.0004184Z       |                   ^~
+2026-08-02T04:10:43.0004820Z /tmp/bcache-kmod/bcache/util.h:413:20: note: in definition of macro 'ewma_add'
+2026-08-02T04:10:43.0005884Z   413 |         (ewma) += (val) << factor;                                      \
+2026-08-02T04:10:43.0006504Z       |                    ^~~
+2026-08-02T04:10:43.0012602Z /tmp/bcache-kmod/bcache/request.c:352:19: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:43.0013578Z   352 |         ewma_add(t->sequential_io_avg,
+2026-08-02T04:10:43.0014088Z       |                   ^~
+2026-08-02T04:10:43.0014737Z /tmp/bcache-kmod/bcache/util.h:414:10: note: in definition of macro 'ewma_add'
+2026-08-02T04:10:43.0015794Z   414 |         (ewma) /= (weight);                                             \
+2026-08-02T04:10:43.0016730Z       |          ^~~~
+2026-08-02T04:10:43.0022708Z /tmp/bcache-kmod/bcache/request.c:352:19: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:43.0023691Z   352 |         ewma_add(t->sequential_io_avg,
+2026-08-02T04:10:43.0024203Z       |                   ^~
+2026-08-02T04:10:43.0024855Z /tmp/bcache-kmod/bcache/util.h:415:10: note: in definition of macro 'ewma_add'
+2026-08-02T04:10:43.0025917Z   415 |         (ewma) >> factor;                                               \
+2026-08-02T04:10:43.0026517Z       |          ^~~~
+2026-08-02T04:10:43.0032114Z /tmp/bcache-kmod/bcache/request.c:355:10: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0033056Z   355 |         t->sequential_io = 0;
+2026-08-02T04:10:43.0033516Z       |          ^~
+2026-08-02T04:10:43.0050818Z /tmp/bcache-kmod/bcache/request.c: In function 'check_should_bypass':
+2026-08-02T04:10:43.0058164Z /tmp/bcache-kmod/bcache/request.c:431:13: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0059333Z   431 |         task->sequential_io      = i->sequential;
+2026-08-02T04:10:43.0060031Z       |             ^~
+2026-08-02T04:10:43.0071227Z In file included from ./include/linux/kernel.h:18,
+2026-08-02T04:10:43.0071971Z                  from ./include/linux/list.h:9,
+2026-08-02T04:10:43.0072624Z                  from ./include/linux/wait.h:7,
+2026-08-02T04:10:43.0073786Z                  from ./include/linux/mempool.h:8,
+2026-08-02T04:10:43.0074335Z                  from ./include/linux/bio.h:8,
+2026-08-02T04:10:43.0075127Z                  from /tmp/bcache-kmod/bcache/bcache.h:181,
+2026-08-02T04:10:43.0075760Z                  from /tmp/bcache-kmod/bcache/request.c:10:
+2026-08-02T04:10:43.0076683Z /tmp/bcache-kmod/bcache/request.c:439:27: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0077621Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0078479Z       |                           ^~
+2026-08-02T04:10:43.0079170Z ./include/linux/minmax.h:99:27: note: in definition of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0080287Z    99 |         __auto_type ux = (x); __auto_type uy = (y);     \
+2026-08-02T04:10:43.0081009Z       |                           ^
+2026-08-02T04:10:43.0081776Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0082710Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0083392Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0084186Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0085323Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0085997Z       |                   ^~~
+2026-08-02T04:10:43.0095844Z /tmp/bcache-kmod/bcache/request.c:440:27: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:43.0096826Z   440 |                       task->sequential_io_avg) >> 9;
+2026-08-02T04:10:43.0097308Z       |                           ^~
+2026-08-02T04:10:43.0097901Z ./include/linux/minmax.h:99:49: note: in definition of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0098634Z    99 |         __auto_type ux = (x); __auto_type uy = (y);     \
+2026-08-02T04:10:43.0099167Z       |                                                 ^
+2026-08-02T04:10:43.0099827Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0100554Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0101073Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0101730Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0102443Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0102930Z       |                   ^~~
+2026-08-02T04:10:43.0564047Z In file included from <command-line>:
+2026-08-02T04:10:43.0565747Z ./include/linux/compiler-gcc.h:42:45: error: '__UNIQUE_ID_x_534' undeclared (first use in this function)
+2026-08-02T04:10:43.0567210Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0567967Z       |                                             ^~~~~~~~~~~~
+2026-08-02T04:10:43.0568775Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.0569648Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.0570240Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.0570949Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.0571929Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.0572651Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0573354Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.0574293Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.0575252Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0575993Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.0576797Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0577357Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0577994Z ./include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+2026-08-02T04:10:43.0578822Z    56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+2026-08-02T04:10:43.0579426Z       |                           ^~~~~~~~~~~~~~
+2026-08-02T04:10:43.0580085Z ./include/linux/minmax.h:82:10: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.0580822Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.0581326Z       |          ^~~~~~~~~~
+2026-08-02T04:10:43.0582208Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.0583010Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0583591Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.0584291Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0585431Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0586071Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0586729Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.0587463Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.0587945Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.0588600Z ./include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.0589532Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0590274Z       |                             ^~~~~~~
+2026-08-02T04:10:43.0590971Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.0591707Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.0592199Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.0592897Z ./include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.0593837Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0594589Z       |                                     ^~~~~~~
+2026-08-02T04:10:43.0595629Z ./include/linux/minmax.h:105:38: note: in expansion of macro '__UNIQUE_ID'
+2026-08-02T04:10:43.0596553Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0597224Z       |                                      ^~~~~~~~~~~
+2026-08-02T04:10:43.0597912Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0599022Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0599566Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0600227Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0600945Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0601452Z       |                   ^~~
+2026-08-02T04:10:43.0609470Z ./include/linux/compiler-gcc.h:42:45: note: each undeclared identifier is reported only once for each function it appears in
+2026-08-02T04:10:43.0610756Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0611550Z       |                                             ^~~~~~~~~~~~
+2026-08-02T04:10:43.0612387Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.0613308Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.0613924Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.0614695Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.0616337Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.0617057Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0617728Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.0618624Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.0619319Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0620008Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.0620760Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0621310Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0621938Z ./include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+2026-08-02T04:10:43.0622990Z    56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+2026-08-02T04:10:43.0623565Z       |                           ^~~~~~~~~~~~~~
+2026-08-02T04:10:43.0624222Z ./include/linux/minmax.h:82:10: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.0625164Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.0625655Z       |          ^~~~~~~~~~
+2026-08-02T04:10:43.0626244Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.0627012Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0627578Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.0628257Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0629147Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0629790Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0630448Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.0631221Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.0631740Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.0632413Z ./include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.0633342Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0634084Z       |                             ^~~~~~~
+2026-08-02T04:10:43.0634792Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.0635871Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.0636336Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.0636991Z ./include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.0637941Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.0638668Z       |                                     ^~~~~~~
+2026-08-02T04:10:43.0639617Z ./include/linux/minmax.h:105:38: note: in expansion of macro '__UNIQUE_ID'
+2026-08-02T04:10:43.0640494Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0641174Z       |                                      ^~~~~~~~~~~
+2026-08-02T04:10:43.0641863Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0642616Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0643149Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0643829Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0644571Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0645328Z       |                   ^~~
+2026-08-02T04:10:43.0656706Z /tmp/bcache-kmod/bcache/request.c:439:27: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0657683Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0658228Z       |                           ^~
+2026-08-02T04:10:43.0659005Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.0659915Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.0660505Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.0661245Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.0662243Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.0662963Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0663642Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.0664538Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.0665481Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0666466Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.0667269Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0667833Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0668463Z ./include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+2026-08-02T04:10:43.0669329Z    79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+2026-08-02T04:10:43.0669986Z       |                           ^~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0670651Z ./include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+2026-08-02T04:10:43.0671413Z    54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+2026-08-02T04:10:43.0671994Z       |                                    ^~~~~~~~~~~
+2026-08-02T04:10:43.0672685Z ./include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+2026-08-02T04:10:43.0673502Z    57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+2026-08-02T04:10:43.0674084Z       |         ^~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0674682Z ./include/linux/minmax.h:82:10: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.0676227Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.0676786Z       |          ^~~~~~~~~~
+2026-08-02T04:10:43.0677381Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.0678143Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0678714Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.0679393Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0680242Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0680868Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0681497Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0682275Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0683102Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0683800Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0684560Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0685498Z       |                   ^~~
+2026-08-02T04:10:43.0696391Z /tmp/bcache-kmod/bcache/request.c:439:27: error: 'struct task_struct' has no member named 'sequential_io'
+2026-08-02T04:10:43.0697541Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0698210Z       |                           ^~
+2026-08-02T04:10:43.0699069Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.0700086Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.0700800Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.0701644Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.0702855Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.0703720Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0704501Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.0706198Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.0707061Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0707920Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.0708879Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0709560Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0710292Z ./include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+2026-08-02T04:10:43.0711263Z    79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+2026-08-02T04:10:43.0712327Z       |                           ^~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0713125Z ./include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+2026-08-02T04:10:43.0714003Z    54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+2026-08-02T04:10:43.0714687Z       |                                    ^~~~~~~~~~~
+2026-08-02T04:10:43.0715821Z ./include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+2026-08-02T04:10:43.0716644Z    57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+2026-08-02T04:10:43.0717210Z       |         ^~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0717826Z ./include/linux/minmax.h:82:10: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.0718524Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.0719017Z       |          ^~~~~~~~~~
+2026-08-02T04:10:43.0719596Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.0720363Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.0720957Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.0721690Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.0722555Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.0723198Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.0723839Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.0724598Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.0725376Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.0726076Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.0726857Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.0727380Z       |                   ^~~
+2026-08-02T04:10:43.0958844Z   CC [M]  /tmp/bcache-kmod/bcache/sysfs.o
+2026-08-02T04:10:43.1207123Z ./include/linux/compiler-gcc.h:42:45: error: '__UNIQUE_ID_y_535' undeclared (first use in this function)
+2026-08-02T04:10:43.1208836Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.1209640Z       |                                             ^~~~~~~~~~~~
+2026-08-02T04:10:43.1210479Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.1211401Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.1211992Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.1212756Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.1213776Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.1214504Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1215436Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.1216367Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.1217099Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1217827Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.1218615Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1219184Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1219805Z ./include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+2026-08-02T04:10:43.1220602Z    56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+2026-08-02T04:10:43.1221199Z       |                           ^~~~~~~~~~~~~~
+2026-08-02T04:10:43.1221861Z ./include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.1222544Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.1223049Z       |                             ^~~~~~~~~~
+2026-08-02T04:10:43.1223695Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.1224747Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1226263Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.1226954Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.1227828Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.1228466Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1229131Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.1229869Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.1230342Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.1230993Z ./include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.1231919Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.1232623Z       |                             ^~~~~~~
+2026-08-02T04:10:43.1233336Z ././include/linux/compiler_types.h:77:22: note: in expansion of macro '___PASTE'
+2026-08-02T04:10:43.1234057Z    77 | #define __PASTE(a,b) ___PASTE(a,b)
+2026-08-02T04:10:43.1234533Z       |                      ^~~~~~~~
+2026-08-02T04:10:43.1235688Z ./include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+2026-08-02T04:10:43.1236661Z    42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+2026-08-02T04:10:43.1237403Z       |                                     ^~~~~~~
+2026-08-02T04:10:43.1238083Z ./include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+2026-08-02T04:10:43.1238910Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.1239589Z       |                                                       ^~~~~~~~~~~
+2026-08-02T04:10:43.1240324Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.1241094Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.1241940Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.1242635Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.1243381Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.1243889Z       |                   ^~~
+2026-08-02T04:10:43.1257664Z /tmp/bcache-kmod/bcache/request.c:440:27: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:43.1258836Z   440 |                       task->sequential_io_avg) >> 9;
+2026-08-02T04:10:43.1259517Z       |                           ^~
+2026-08-02T04:10:43.1260394Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.1261477Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.1262213Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.1263094Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.1264277Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.1265427Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1266239Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.1267304Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.1268161Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1269012Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.1269952Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1270640Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1271388Z ./include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+2026-08-02T04:10:43.1272427Z    79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+2026-08-02T04:10:43.1273528Z       |                           ^~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1274313Z ./include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+2026-08-02T04:10:43.1275403Z    54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+2026-08-02T04:10:43.1276131Z       |                                    ^~~~~~~~~~~
+2026-08-02T04:10:43.1276945Z ./include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+2026-08-02T04:10:43.1277835Z    57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+2026-08-02T04:10:43.1278474Z       |         ^~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1279153Z ./include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.1279929Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.1280554Z       |                             ^~~~~~~~~~
+2026-08-02T04:10:43.1281311Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.1282184Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1282855Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.1283661Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.1285178Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.1285947Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1286671Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.1287550Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.1288198Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.1288965Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.1289812Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.1290405Z       |                   ^~~
+2026-08-02T04:10:43.1304352Z /tmp/bcache-kmod/bcache/request.c:440:27: error: 'struct task_struct' has no member named 'sequential_io_avg'
+2026-08-02T04:10:43.1305871Z   440 |                       task->sequential_io_avg) >> 9;
+2026-08-02T04:10:43.1306608Z       |                           ^~
+2026-08-02T04:10:43.1307489Z ././include/linux/compiler_types.h:444:23: note: in definition of macro '__compiletime_assert'
+2026-08-02T04:10:43.1308582Z   444 |                 if (!(condition))                                       \
+2026-08-02T04:10:43.1309309Z       |                       ^~~~~~~~~
+2026-08-02T04:10:43.1310164Z ././include/linux/compiler_types.h:464:9: note: in expansion of macro '_compiletime_assert'
+2026-08-02T04:10:43.1311294Z   464 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+2026-08-02T04:10:43.1312096Z       |         ^~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1312861Z ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+2026-08-02T04:10:43.1313862Z    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+2026-08-02T04:10:43.1314703Z       |                                     ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1315923Z ./include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+2026-08-02T04:10:43.1316732Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1317294Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1317949Z ./include/linux/minmax.h:79:27: note: in expansion of macro 'statically_true'
+2026-08-02T04:10:43.1318821Z    79 | #define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
+2026-08-02T04:10:43.1319468Z       |                           ^~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1320157Z ./include/linux/minmax.h:54:36: note: in expansion of macro '__is_nonneg'
+2026-08-02T04:10:43.1320912Z    54 | #define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
+2026-08-02T04:10:43.1321476Z       |                                    ^~~~~~~~~~~
+2026-08-02T04:10:43.1322149Z ./include/linux/minmax.h:57:9: note: in expansion of macro '__signed_type_use'
+2026-08-02T04:10:43.1323214Z    57 |         __signed_type_use(x,ux):__unsigned_type_use(x,ux))
+2026-08-02T04:10:43.1323795Z       |         ^~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1324427Z ./include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+2026-08-02T04:10:43.1325707Z    82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+2026-08-02T04:10:43.1326259Z       |                             ^~~~~~~~~~
+2026-08-02T04:10:43.1326944Z ./include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+2026-08-02T04:10:43.1327737Z   100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+2026-08-02T04:10:43.1328332Z       |                           ^~~~~~~~~~
+2026-08-02T04:10:43.1329019Z ./include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+2026-08-02T04:10:43.1329857Z   105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+2026-08-02T04:10:43.1330465Z       |         ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.1331123Z ./include/linux/minmax.h:136:25: note: in expansion of macro '__careful_cmp'
+2026-08-02T04:10:43.1331912Z   136 | #define max(x, y)       __careful_cmp(max, x, y)
+2026-08-02T04:10:43.1332463Z       |                         ^~~~~~~~~~~~~
+2026-08-02T04:10:43.1333160Z /tmp/bcache-kmod/bcache/request.c:439:19: note: in expansion of macro 'max'
+2026-08-02T04:10:43.1333909Z   439 |         sectors = max(task->sequential_io,
+2026-08-02T04:10:43.1334420Z       |                   ^~~
+2026-08-02T04:10:43.1673639Z make[2]: *** [scripts/Makefile.build:250: /tmp/bcache-kmod/bcache/request.o] Error 1
+2026-08-02T04:10:43.1681572Z make[2]: *** Waiting for unfinished jobs....
+2026-08-02T04:10:43.2511385Z /tmp/bcache-kmod/bcache/super.c: In function 'bcache_device_init':
+2026-08-02T04:10:43.2521497Z /tmp/bcache-kmod/bcache/super.c:948:9: error: 'q' undeclared (first use in this function)
+2026-08-02T04:10:43.2522749Z   948 |         q = d->disk->queue;
+2026-08-02T04:10:43.2523718Z       |         ^
+2026-08-02T04:10:43.2524812Z /tmp/bcache-kmod/bcache/super.c:948:9: note: each undeclared identifier is reported only once for each function it appears in
+2026-08-02T04:10:43.2840657Z /tmp/bcache-kmod/bcache/super.c:953:9: error: implicit declaration of function 'blk_queue_max_discard_sectors'; did you mean 'bdev_max_discard_sectors'? [-Werror=implicit-function-declaration]
+2026-08-02T04:10:43.2842289Z   953 |         blk_queue_max_discard_sectors(q, UINT_MAX);
+2026-08-02T04:10:43.2842885Z       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.2843403Z       |         bdev_max_discard_sectors
+2026-08-02T04:10:43.3024797Z /tmp/bcache-kmod/bcache/super.c:969:17: error: implicit declaration of function 'blk_queue_logical_block_size'; did you mean 'queue_logical_block_size'? [-Werror=implicit-function-declaration]
+2026-08-02T04:10:43.3026807Z   969 |                 blk_queue_logical_block_size(q, bdev_logical_block_size(cached_bdev));
+2026-08-02T04:10:43.3027763Z       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3028395Z       |                 queue_logical_block_size
+2026-08-02T04:10:43.3260284Z /tmp/bcache-kmod/bcache/super.c:972:28: error: 'QUEUE_FLAG_NONROT' undeclared (first use in this function); did you mean 'QUEUE_FLAG_NOMERGES'?
+2026-08-02T04:10:43.3262407Z   972 |         blk_queue_flag_set(QUEUE_FLAG_NONROT, d->disk->queue);
+2026-08-02T04:10:43.3263547Z       |                            ^~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3264332Z       |                            QUEUE_FLAG_NOMERGES
+2026-08-02T04:10:43.3265559Z /tmp/bcache-kmod/bcache/super.c:974:9: error: too many arguments to function 'blk_queue_write_cache'
+2026-08-02T04:10:43.3266477Z   974 |         blk_queue_write_cache(q, true, true);
+2026-08-02T04:10:43.3267008Z       |         ^~~~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3267512Z In file included from /tmp/bcache-kmod/bcache/util.h:6,
+2026-08-02T04:10:43.3268134Z                  from /tmp/bcache-kmod/bcache/bset.h:9,
+2026-08-02T04:10:43.3268739Z                  from /tmp/bcache-kmod/bcache/bcache.h:193,
+2026-08-02T04:10:43.3269829Z                  from /tmp/bcache-kmod/bcache/super.c:10:
+2026-08-02T04:10:43.3270476Z ./include/linux/blkdev.h:1439:20: note: declared here
+2026-08-02T04:10:43.3271211Z  1439 | static inline bool blk_queue_write_cache(struct request_queue *q)
+2026-08-02T04:10:43.3271899Z       |                    ^~~~~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3378571Z /tmp/bcache-kmod/bcache/super.c: In function 'cached_dev_free':
+2026-08-02T04:10:43.3381590Z /tmp/bcache-kmod/bcache/super.c:1370:17: error: implicit declaration of function 'blkdev_put'; did you mean 'bkey_put'? [-Werror=implicit-function-declaration]
+2026-08-02T04:10:43.3383196Z  1370 |                 blkdev_put(dc->bdev, bcache_kobj);
+2026-08-02T04:10:43.3383924Z       |                 ^~~~~~~~~~
+2026-08-02T04:10:43.3384413Z       |                 bkey_put
+2026-08-02T04:10:43.3535051Z /tmp/bcache-kmod/bcache/super.c: In function 'cached_dev_init':
+2026-08-02T04:10:43.3538965Z /tmp/bcache-kmod/bcache/super.c:1428:9: error: implicit declaration of function 'blk_queue_io_opt'; did you mean 'blk_queue_io_stat'? [-Werror=implicit-function-declaration]
+2026-08-02T04:10:43.3540803Z  1428 |         blk_queue_io_opt(dc->disk.disk->queue,
+2026-08-02T04:10:43.3541598Z       |         ^~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3542081Z       |         blk_queue_io_stat
+2026-08-02T04:10:43.3929254Z /tmp/bcache-kmod/bcache/super.c: In function 'register_bcache':
+2026-08-02T04:10:43.3931351Z /tmp/bcache-kmod/bcache/super.c:2558:16: error: implicit declaration of function 'blkdev_get_by_path' [-Werror=implicit-function-declaration]
+2026-08-02T04:10:43.3933042Z  2558 |         bdev = blkdev_get_by_path(strim(path), BLK_OPEN_READ | BLK_OPEN_WRITE,
+2026-08-02T04:10:43.3934044Z       |                ^~~~~~~~~~~~~~~~~~
+2026-08-02T04:10:43.3935701Z /tmp/bcache-kmod/bcache/super.c:2558:14: warning: assignment to 'struct block_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+2026-08-02T04:10:43.3937316Z  2558 |         bdev = blkdev_get_by_path(strim(path), BLK_OPEN_READ | BLK_OPEN_WRITE,
+2026-08-02T04:10:43.3938517Z       |              ^
+2026-08-02T04:10:43.4185656Z cc1: some warnings being treated as errors
+2026-08-02T04:10:43.4208736Z make[2]: *** [scripts/Makefile.build:250: /tmp/bcache-kmod/bcache/super.o] Error 1
+2026-08-02T04:10:43.8240180Z make[1]: *** [scripts/Makefile.build:480: /tmp/bcache-kmod/bcache] Error 2
+2026-08-02T04:10:43.8242429Z make: *** [Makefile:1968: /tmp/bcache-kmod] Error 2
+2026-08-02T04:10:43.8243174Z make: Leaving directory '/usr/src/kernels/5.14.0-687.30.1.el9_8.x86_64'
+2026-08-02T04:10:43.8284692Z ##[error]Process completed with exit code 2.
