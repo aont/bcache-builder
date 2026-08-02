@@ -40,7 +40,8 @@ jobs:
         run: |
           set -euo pipefail
           dnf install -y dnf-plugins-core rocky-repos rpm-build gcc make \
-            elfutils-libelf-devel binutils findutils git kmod python3-devel
+            elfutils-libelf-devel binutils findutils git kmod python3-devel \
+            curl xz
           dnf config-manager --set-enabled crb
           dnf install -y system-sb-certs \
             "kernel-devel-$KREL" "kernel-core-$KREL"
@@ -73,7 +74,25 @@ jobs:
 
           BCACHE_MAKEFILE="$(find "$TOP/BUILD" -type f \
             -path '*/drivers/md/bcache/Makefile' -print -quit)"
+          if [[ -z "$BCACHE_MAKEFILE" ]]; then
+            # Rocky 9.8 kernels no longer ship bcache in their source RPM.
+            # Use the code from the upstream 5.14 baseline while continuing to
+            # compile it against the exactly matching Rocky kernel-devel tree.
+            UPSTREAM_VERSION=5.14
+            UPSTREAM_SHA256=7e068b5e0d26a62b10e5320b25dce57588cbbc6f781c090442138c9c9c3271b2
+            UPSTREAM_ARCHIVE="/tmp/linux-$UPSTREAM_VERSION.tar.xz"
+            UPSTREAM_SOURCE="/tmp/linux-$UPSTREAM_VERSION"
+            echo "Rocky kernel source does not contain bcache; using Linux $UPSTREAM_VERSION sources"
+            curl --fail --location --retry 3 \
+              --output "$UPSTREAM_ARCHIVE" \
+              "https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$UPSTREAM_VERSION.tar.xz"
+            echo "$UPSTREAM_SHA256  $UPSTREAM_ARCHIVE" | sha256sum --check -
+            rm -rf "$UPSTREAM_SOURCE"
+            tar -C /tmp -xf "$UPSTREAM_ARCHIVE"
+            BCACHE_MAKEFILE="$UPSTREAM_SOURCE/drivers/md/bcache/Makefile"
+          fi
           test -n "$BCACHE_MAKEFILE"
+          test -f "$BCACHE_MAKEFILE"
           KSRC="${BCACHE_MAKEFILE%/drivers/md/bcache/Makefile}"
           for file in \
             drivers/md/bcache/Kconfig \

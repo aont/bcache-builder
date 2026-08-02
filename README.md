@@ -29,9 +29,11 @@ release.
 5. Download `bcache-<kernel-release>.ko` and its `.sha256` file from the
    release created by the workflow.
 
-The workflow obtains the exactly matching Rocky Linux source RPM, applies its
-distribution patches, builds against the matching `kernel-devel` tree, checks
-the resulting module's CRC64 reference and `vermagic`, and generates a SHA-256
+The workflow obtains the exactly matching Rocky Linux source RPM and applies its
+distribution patches. If a recent Rocky source RPM no longer contains BCACHE,
+the workflow falls back to checksum-verified upstream Linux 5.14 BCACHE sources.
+In both cases it builds against the matching `kernel-devel` tree, checks the
+resulting module's CRC64 reference and `vermagic`, and generates a SHA-256
 checksum.
 
 ## Manual build and installation
