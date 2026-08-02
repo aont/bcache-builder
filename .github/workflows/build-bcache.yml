@@ -79,10 +79,17 @@ jobs:
             drivers/md/bcache/Kconfig \
             drivers/md/bcache/Makefile \
             include/linux/crc64.h \
-            include/uapi/linux/bcache.h \
             include/trace/events/bcache.h; do
-            test -f "$KSRC/$file"
+            if [[ ! -f "$KSRC/$file" ]]; then
+              echo "Required kernel source file is missing: $KSRC/$file" >&2
+              exit 1
+            fi
           done
+          if [[ ! -f "$KSRC/drivers/md/bcache/bcache_ondisk.h" && \
+                ! -f "$KSRC/include/uapi/linux/bcache.h" ]]; then
+            echo "Missing bcache on-disk format header in $KSRC" >&2
+            exit 1
+          fi
           echo "ksrc=$KSRC" >> "$GITHUB_OUTPUT"
 
       - name: Build bcache.ko
@@ -96,7 +103,9 @@ jobs:
             "$WORK/include/trace/events"
           cp -a "$KSRC/drivers/md/bcache" "$WORK/"
           cp "$KSRC/include/linux/crc64.h" "$WORK/include/linux/"
-          cp "$KSRC/include/uapi/linux/bcache.h" "$WORK/include/uapi/linux/"
+          if [[ -f "$KSRC/include/uapi/linux/bcache.h" ]]; then
+            cp "$KSRC/include/uapi/linux/bcache.h" "$WORK/include/uapi/linux/"
+          fi
           cp "$KSRC/include/trace/events/bcache.h" "$WORK/include/trace/events/"
           cat > "$WORK/Kbuild" <<'EOF'
           obj-m += bcache/
